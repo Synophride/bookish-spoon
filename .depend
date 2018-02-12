@@ -1,0 +1,16 @@
+brouillons.cmo :
+brouillons.cmx :
+eval.cmo :
+eval.cmx :
+lexer.cmo : parser.cmi ast.cmi
+lexer.cmx : parser.cmx ast.cmi
+parser.cmo : ast.cmi parser.cmi
+parser.cmx : ast.cmi parser.cmi
+test.cmo :
+test.cmx :
+top.cmo : typage.cmo parser.cmi lexer.cmo ast.cmi
+top.cmx : typage.cmx parser.cmx lexer.cmx ast.cmi
+typage.cmo :
+typage.cmx :
+ast.cmi :
+parser.cmi : ast.cmi

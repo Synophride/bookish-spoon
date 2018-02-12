@@ -1,10 +1,7 @@
 (* Arbres de syntaxe abstraite *)
 
-(* Donne la position dans le fichier *)
-
 type location = Lexing.position * Lexing.position
 
-(* compose des expressions *)
 type ident = string
 
 type constant =
@@ -18,18 +15,17 @@ type unop =
   | Unot | Uminus | Uminus_f
 
 type binop = 
-  | Beq | Bneq | Blt | Ble | Bgt | Bge 
+  | Beq | Bneq | Blt | Ble | Bgt | Bge (* <<< TOUS CES OPERATEURS SONT POLYMORPHES ('a * 'a -> bool *)
   | Badd | Bsub | Bmul | Bdiv
   | Badd_f | Bsub_f | Bmul_f | Bdiv_f 
   | Band | Bor
 
-type is_rec =
-  bool
+type is_rec = bool
 
 type p_expr =
   { pexpr_desc: p_expr_desc;
     pexpr_loc: location; }
-    
+
 and p_expr_desc =
   | PE_cte of constant
   | PE_ident of ident
@@ -45,10 +41,8 @@ and p_expr_desc =
   | PE_cons of p_expr * p_expr
 
 and p_patt =
-  {
-    ppatt_desc: p_patt_desc;
-    ppatt_loc: location;
-  }
+  { ppatt_desc: p_patt_desc;
+    ppatt_loc: location; }
 
 and p_patt_desc =
   | PP_any
@@ -56,9 +50,8 @@ and p_patt_desc =
   | PP_tuple of p_patt list
 
 type p_def =
-  {
-    pdef_desc: is_rec * p_patt * p_expr;
-    pdef_loc: location;
-  }
+    { pdef_desc: is_rec * p_patt * p_expr;
+      pdef_loc: location; }
 
 type plets = p_def list
+
