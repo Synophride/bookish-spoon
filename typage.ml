@@ -38,48 +38,6 @@ let type_cte =
   | Cint(_) -> Integer
   | Cstring(_) -> String
 ;;
-
-let rec ist evt_rr_lst i_type =
-  match i_type with
-  | Unit
-  | Bool
-  | Integer
-  | Float
-  | String
-  | Char -> i_type
-  | Tuple(t_lst) -> let tlst = List.map (ist evt_rr_lst) t_lst in
-		    Tuple(tlst)
-  | List(t) -> let instd_t = ist evt_rr_lst t in
-	       List(instd_t)
-  | Fun(t_lst, ret) -> let tlst = List.map (ist evt_rr_lst) t_lst in
-		       let ret_t= ist evt_rr_lst ret in
-		       Fun( tlst, ret_t )
-  | Id(ident) ->
-     let rec find lst id =
-       match lst with
-       | [] -> raise Not_found
-       | (identificateur, ref_ref_none)::s
-	 ->
-	  if identificateur = id
-	  then ref_ref_none
-	  else find s id
-     in Var(find evt_rr_lst ident)
-  | Var(_) -> (raise (WTFexception("Instanciation lors du typage : Var(t option ref ref) inattendu") ))
-;;
-
-let rec instanciation g_type evt_refref_lst =
-  match g_type with
-  | T(x) -> 
-     ist evt_refref_lst x
-  | Forall(ident, g_type2)
-    -> let ref_ident = ref (ref None) in
-       instanciation g_type2 ( (ident, ref_ident) :: evt_refref_lst)
-;;
-
-let rec generalisation i_type lst = ()
-(* WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK *)
-;;
-
 (**
    Unification entre deux types t1 et t2.
    @param t1, t2 de type 't'. 
@@ -146,6 +104,55 @@ and unif_lst l1 l2 =
 ;;
 
 
+let rec ist evt_rr_lst i_type =
+  match i_type with
+  | Unit
+  | Bool
+  | Integer
+  | Float
+  | String
+  | Char -> i_type
+  | Tuple(t_lst) -> let tlst = List.map (ist evt_rr_lst) t_lst in
+		    Tuple(tlst)
+  | List(t) -> let instd_t = ist evt_rr_lst t in
+	       List(instd_t)
+  | Fun(t_lst, ret) -> let tlst = List.map (ist evt_rr_lst) t_lst in
+		       let ret_t= ist evt_rr_lst ret in
+		       Fun( tlst, ret_t )
+  | Id(ident) ->
+     let rec find lst id =
+       match lst with
+       | [] -> raise Not_found
+       | (identificateur, ref_ref_none)::s
+	 ->
+	  if identificateur = id
+	  then ref_ref_none
+	  else find s id
+     in Var(find evt_rr_lst ident)
+  | Var(_) -> (raise (WTFexception("Instanciation lors du typage : Var(t option ref ref) inattendu") ))
+;;
+
+let rec instanciation g_type evt_refref_lst =
+  match g_type with
+  | T(x) -> 
+     ist evt_refref_lst x
+  | Forall(ident, g_type2)
+    -> let ref_ident = ref (ref None) in
+       instanciation g_type2 ( (ident, ref_ident) :: evt_refref_lst)
+;;
+
+(* premier passage ou on met les identificateurs *)
+(* second  passage = mettre les Forall *)
+let generalisation i_type lst =
+  let premier_passage i_type lst =
+    match i_type with
+    | _ -> raise Not_implemented
+  in let second_passage = () in
+  ()
+;;
+
+
+
 (**
    Q : Rendre un type instancié ou généralisé ?
      -> a priori généralisé, mais il faut instancier au moment de l'unification.
@@ -156,32 +163,33 @@ and unif_lst l1 l2 =
    @param p_expr l'expression à typer
 **)
 let rec typage_w g_evt i_evt p_expr =
-  let (pexpr_desc, pexpr_loc) = (p_expr.pexpr_desc , p_expr.pexpr_loc) in
+  let pexpr_desc, pexpr_loc = p_expr.pexpr_desc , p_expt.pexpr_loc 
   try
-    typage_w_desc g_evt i_evt pexpr_desc
+    typage_w_desc g_evt i_evt pexpr_desc;
   with
   | Non_unifiable(type_attendu, type_vu) -> raise ( Bad_type(pexpr_loc, type_attendu, type_vu))     
 and typage_w_desc g_evt i_evt =
   function
   (* Note: Pour l'unif, instancier les types *)
-  | PE_cte(ct) -> T( type_cte ct ) 
+  | PE_cte(ct) -> T(type_cte ct)  
   | PE_unop(op, pexpr)
-    -> let type_pexpr = typage_w pexpr in
+    -> let g_type_pexpr = typage_w pexpr in
+       let type_pexpr   = instanciation g_type_pexpr
        (
 	 match op with
 	 | Unot -> (unification type_pexpr Bool;
 		    T(Bool))
 	 | Uminus -> (unification type_pexpr Integer;
-		      T(Integer))
+		      T(Integer)) 
 	 | Uminus_f -> (unification type_pexpr Float;
-			Float)
+			Float)) 
        )
   | PE_binop(op, pexpr1, pexpr2)
     -> let t1, t2 = (typage_w pexpr1, typage_w pexpr2) in
        (
 	 match op with
 	 | Beq | Bneq | Blt | Ble | Bgt | Bge ->
-					 (* NOTE : JETER LES TYPES FONCTIONNELS PENDANT L'EVAL *)
+	    (* NOTE : JETER LES TYPES FONCTIONNELS PENDANT L'EVAL *)
 	    (unification t1 t2;
 	     t1
 	    )
