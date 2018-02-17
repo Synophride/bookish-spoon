@@ -74,7 +74,8 @@ let rec unification t1 t2 =
 	unif_lst tl1 tl2;
       with
 	Non_unifiable_lst -> (raise ( Non_unifiable (t1, t2)))
-    )   
+    )
+     
   | List(t1), List(t2)
     -> unification t1 t2
 

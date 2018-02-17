@@ -1,3 +1,4 @@
+
 # Projet Mini-ML
 
 ##But : Construire un interpréteur Mini ml.
@@ -17,14 +18,15 @@ A faire :
 
 
 Fichiers demandés:
+*donnés :
+	* lexer.mll : le lexeur ocamllex (Donné)
+	* ast.mli : le(s) type(s) des arbres de syntaxe abstraite (Donné)
+	* parser.mly : le parseur ocamlyacc (Donné)
 
-* lexer.mll : le lexeur ocamllex (Donné)
-* ast.mli : le(s) type(s) des arbres de syntaxe abstraite (Donné)
-* parser.mly : le parseur ocamlyacc (Donné)
-* typing.ml : l’algorithme de typage
-* interp.ml : l’interpréteur
-* top.ml : le fichier principal
-
+* à faire
+	* typing.ml : l’algorithme de typage -> typage.ml
+      	* interp.ml : l’interpréteur
+  	* top.ml : le fichier principal
 
 ____________________
 
@@ -33,12 +35,11 @@ ____________________
 A pour but de typer une expression expr.
 
 TODO :
-
+* __Définition claire des types__
 * Tests unification
 * Paragraphe explicatif
 * Typage ( W )
 
 
-###__interp.ml__:
+### __interp.ml__ :
 Evalue une expression expr déjà typée. (? dans quel sens les déclarations sont-elles données ?)
-
