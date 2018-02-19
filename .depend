@@ -12,5 +12,7 @@ top.cmo : typage.cmo parser.cmi lexer.cmo ast.cmi
 top.cmx : typage.cmx parser.cmx lexer.cmx ast.cmi
 typage.cmo :
 typage.cmx :
+typing.cmo : ast.cmi
+typing.cmx : ast.cmi
 ast.cmi :
 parser.cmi : ast.cmi

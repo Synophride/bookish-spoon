@@ -1,35 +1,10 @@
-open Ast;;
-(* TODO:
-    - Tests pour 
-       * unification
-       * Instanciation
-       * Généralisation
-*)
+        OCaml version 4.02.3
 
-type ident = string
-;;
-
-type location = int;;
-
-(* Pour l'instant, une liste de couples 
-(nom_de_la_var : ident , type: types) 
-   -> Relativement dégueulasse du point de vue algorithmique, m'enfin à la limite on s'en fout pour l'instant
-   -> Pê on pourrait utiliser une hashmap (voire devrait) 
-   -> Note : C'est un environnement général. 
-*)
-let environnement = ref []
-;;
-
-let add_to_evt x typ =
-  ()
-;;
-
-let remove_from_evt x typ =
-  ()
-;;
-
-
-type t =
+type ident = string;;
+# type ident = string
+# type location = int;;
+type location = int
+# type t =
   | Unit
   | Bool
   | Integer
@@ -40,43 +15,38 @@ type t =
   | List of t
   | Fun of (t list) (* Respectivement types des arguments en entrée, type de la sortie *)
   | Id of ident           (* Uniquement pour les types généraux *)
-  | Var of t option ref ref (* Uniquement lors du typage (pas dans les types généralisés) *)
-;;
-
-(** schémas **)
-type scm =
+  | Var of t option ref ref;;
+                      type t =
+    Unit
+  | Bool
+  | Integer
+  | Float
+  | String
+  | Char
+  | Tuple of t list
+  | List of t
+  | Fun of t list
+  | Id of ident
+  | Var of t option ref ref
+# type scm =
     T of t
-  | Forall of ident * scm
-;;
-
-type types =
+  | Forall of ident * scm;;
+    type scm = T of t | Forall of ident * scm
+# type types =
     Typ of t
-  | S of scm
-;;
-
-(* Endroit de l'erreur, type attendu, type vu *)
-
-exception Bad_type of location * t * t;;
-exception Non_unifiable of t * t;;
-exception Non_unifiable_lst;;
-exception Not_found;;
-exception WTFexception of string;;
-
-(* ********************************************
- *
- * UNIFICATION
- *
- **********************************************)
-
-(**
-   Unification entre deux types t1 et t2.
-   @param t1, t2 de type 't'. 
-   @return unit
-   @raise Non_unifiable (t1, t2) si l'unification est impossible. Les valeurs de l'exception sont celles passées en entrée.
-   @version 0.1
-   **** A TESTER ****
-**)
-let rec unification t1 t2 =
+  | S of scm;;
+    type types = Typ of t | S of scm
+# exception Bad_type of location * t * t;;
+exception Bad_type of location * t * t
+# exception Non_unifiable of t * t;;
+exception Non_unifiable of t * t
+# exception Non_unifiable_lst;;
+exception Non_unifiable_lst
+# exception Not_found;;
+exception Not_found
+# exception WTFexception of string;;
+exception WTFexception of string
+# let rec unification t1 t2 =
   match t1, t2 with
   (* 1 : Cas triviaux *) 
   | Bool, Bool
@@ -115,6 +85,7 @@ let rec unification t1 t2 =
     | None, Some(t2) -> let op_ref2 = !op_ref_ref2 in
 			op_ref_ref1 := op_ref2
   )
+
   | _ , Var(op_ref_ref2) ->(
     match !(!op_ref_ref2) with
     | None -> !op_ref_ref2 := Some(t1)
@@ -128,18 +99,10 @@ and unif_lst l1 l2 =
   | x :: s , y :: t -> (unification x y;
 			unif_lst s t)
   | ([], []) -> ()
-  | _ -> raise (Non_unifiable_lst)     
-;;
-
-
-
-(* *******************************************************************
- ***
- *** INSTANCIATION / GENERALISATION
- *** 
- ******************************************************************** *)
-
-let rec ist evt_rr_lst i_type =
+  | _ -> raise (Non_unifiable_lst);;
+                                                                                                          val unification : t -> t -> unit = <fun>
+val unif_lst : t list -> t list -> unit = <fun>
+# let rec ist evt_rr_lst i_type =
   match i_type with
   | Unit | Bool | Integer | Float | String | Char
     -> i_type
@@ -161,44 +124,29 @@ let rec ist evt_rr_lst i_type =
 	  else find s id
      in Var( find evt_rr_lst ident )
   | Var(_) -> (
-    raise (WTFexception("Instanciation lors du typage : Var(t option ref ref) inattendu")))
-;;
-
-(* écrit. à tester *)
-(** @param g_type de tupe scm
-*)
-let rec instanciation g_type evt_refref_lst =
+    raise (WTFexception("Instanciation lors du typage : Var(t option ref ref) inattendu")));;
+                                            val ist : (ident * t option ref ref) list -> t -> t = <fun>
+# let rec instanciation g_type evt_refref_lst =
   match g_type with
   | T(x)
     -> ist evt_refref_lst x
   | Forall(ident, g_type2)
     -> let ref_ident = ref (ref None) in
-       instanciation g_type2 ( (ident, ref_ident) :: evt_refref_lst)
-;;
-
-(* *******************
- * TODO 
- ******************* *)
-
-(* Note : je laisse ça là au cas ou, mais a priori ce sera inutile *)
-let incr_char char =
+       instanciation g_type2 ( (ident, ref_ident) :: evt_refref_lst);;
+            val instanciation : scm -> (ident * t option ref ref) list -> t = <fun>
+# let incr_char char =
   let i_char = int_of_char char in
   let new_i_char = i_char + 1 in
   let new_char = char_of_int new_i_char in
   if(new_char < 'a') then raise (WTFexception( "'a' censé pas être là" ))
   else if (new_char > 'z') then 'a'
-  else new_char
-;;
-
-let next_str =
+  else new_char;;
+            val incr_char : char -> char = <fun>
+# let next_str =
   let str = ref "a" in
-  (fun () -> !str) 
-;;
-
-(* Type de type t 
-   Renvoie une valeur de type scm
-*)
-let generalisation type_t =
+  (fun () -> !str);;
+    val next_str : unit -> string = <fun>
+# let generalisation type_t =
   (* remplace les ref ref None par des ref ref Some(id) + Renvoi de la liste des identificateurs *)
   (* Contient une liste de (ident) *)
   let ref_lst = ref [] in 
@@ -231,6 +179,7 @@ let generalisation type_t =
     )		       
     | Id(ident) -> raise (WTFexception ("Generalisation : trouvé un identificateur "))
   in
+
   let rec second_passage semi_i_type =
     match semi_i_type with
     | Unit
@@ -254,44 +203,19 @@ let generalisation type_t =
   in
   
   (******************************************************************************)
+
   let third_passage quart_i_type lst_id =
-    let f id acc  =
-      ( Forall(id, acc) ) in
-    (List.fold_right (f)  (lst_id)  ( T(quart_i_type) ) ) 
-      
+    let f acc id = Forall(id, acc) in
+    List.fold_right
+      f
+      lst_id
+      T(quart_i_type) (* accumulateur *) 
+    	 
   in
-  third_passage (second_passage (first_passage type_t) ) ( !ref_lst )
-;;
-
-
-
-(* *******************************************************************************
- * 
- * ALGO DE TYPAGE
- * 
- ********************************************************************************)
-
-let typage expr evt =
-  let rec w_pexpr expr evt =
-    let (p_desc, p_loc) = (expr.pexpr_desc, expr.pexpr_loc) in
-    try
-      w_pexpr_desc pdesc evt
-    with
-      Non_unifiable(attendu, vu) -> raise ( Bad_type(attendu, vu, pexpr_loc) );
-  and w_pexpr_desc expr evt=
-    match expr with
-    | Constant(c) -> (
-      match c with
-       | Cunit -> Typ(Unit)
-       | Cbool -> Typ(Bool)
-       | Cint  -> Typ(Integer)
-       | Cfloat ->Typ(Float)
-       | Cstring->Typ(String) 
-    )
-    | Unop(c)
-	  
-  in
-  ()
-;;
-
-      
+  third_passage (second_passage (first_passage type_t) ) ( !ref_lst );;
+                                                                                                                                    Characters 1691-1692:
+Error: This expression has type scm -> ident -> scm
+       but an expression was expected of type 
+	   scm -> ('a -> 'b) -> 'a -> 'b
+       Type ident = string is not compatible with type 'a -> 'b 
+# 

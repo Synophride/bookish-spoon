@@ -3,7 +3,8 @@ open Lexing
 open Lexer
 open Parser
 open Ast
-open Typage
+open Typing
+;;
 
 let evt = ref 0;;
 (* ou p_def list * types list * values list *)
@@ -21,7 +22,8 @@ let rec top () =
     try
       (* dl : de type plets = liste de déclarations au toplevel = pdefs list *)
       let dl = Parser.lets Lexer.token lb in (* parser: pdef list *)
-      ()
+      let ld = ( (), dl) in
+      fst ld
     (* pdef =
        desc=(
        isrec, -> true si c'est une fonction récursive
