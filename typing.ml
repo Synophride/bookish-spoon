@@ -1,15 +1,15 @@
 open Ast;;
 (* TODO:
-    - Tests pour 
+    - Unification 
+   
        * unification
        * Instanciation
        * Généralisation
 *)
+type location = int*int;;
 
 type ident = string
 ;;
-
-type location = int;;
 
 (* Pour l'instant, une liste de couples 
 (nom_de_la_var : ident , type: types) 
@@ -17,18 +17,6 @@ type location = int;;
    -> Pê on pourrait utiliser une hashmap (voire devrait) 
    -> Note : C'est un environnement général. 
 *)
-let environnement = ref []
-;;
-
-let add_to_evt x typ =
-  ()
-;;
-
-let remove_from_evt x typ =
-  ()
-;;
-
-
 type t =
   | Unit
   | Bool
@@ -38,9 +26,14 @@ type t =
   | Char
   | Tuple of t list
   | List of t
-  | Fun of (t list) (* Respectivement types des arguments en entrée, type de la sortie *)
-  | Id of ident           (* Uniquement pour les types généraux *)
-  | Var of t option ref ref (* Uniquement lors du typage (pas dans les types généralisés) *)
+  | Fun of (t list)
+  | Id of ident (* Uniquement pour les types généraux *)
+  | Var of vartype (* Uniquement dans des types instanciés (pas dans les types généralisés) *)
+and vartype = {
+  ident : ident;
+    (* Q: Comment 'unifier' deux identificateurs ? *)
+    mutable typ of t option
+  }
 ;;
 
 (** schémas **)
@@ -51,16 +44,53 @@ type scm =
 
 type types =
     Typ of t
-  | S of scm
+  | S of scm (* note : utilisé seulement dans les let *)
 ;;
 
-(* Endroit de l'erreur, type attendu, type vu *)
+type i_evt =
+  (ident * t) list
+;;
 
+type g_evt =
+  (ident * scm) list
+;;
+
+type environnement =
+  {ins_evt : i_evt;
+   gen_evt : g_evt }
+;;
+
+(* *******************************************
+ * 
+ * EXCEPTIONS
+ * 
+ * ***************************************** *)
+
+(* Endroit de l'erreur, type attendu, type vu *)
 exception Bad_type of location * t * t;;
 exception Non_unifiable of t * t;;
 exception Non_unifiable_lst;;
 exception Not_found;;
 exception WTFexception of string;;
+
+(* *********************************************
+ *
+ * FONCTIONS LIEES A L'EVT
+ * 
+ * ********************************************)
+ 
+let find_in_evt ident evt =
+  (* 1 - Recherche dans l'environnement des trucs instanciés *)
+  let inst_evt = evt.inst_evt in
+  try
+    let i_elt = List.find (fun (lst_ident, i_type) -> lst_ident = ident) (inst_evt) in
+    i_elt 
+  with Not_Found
+    -> let g_evt = List.find(fun (lst_ident, g_type) -> lst_ident = ident) (evt.gen_evt) in
+       instanciation g_evt
+;;							      
+
+
 
 (* ********************************************
  *
@@ -84,7 +114,8 @@ let rec unification t1 t2 =
   | Integer, Integer
   | Float, Float
   | String, String
-  | Char, Char -> ()
+  | Char, Char
+    -> ()
 
   (* 2 : Cas presque triviaux *)
   | Tuple(tl1), Tuple(tl2)
@@ -99,7 +130,7 @@ let rec unification t1 t2 =
     -> unification t1 t2
 
   | Fun(l1), Fun(l2) 
-    -> ( unif_lst l1 l2;
+    -> (unif_lst l1 l2;
     )
 
   (* cas comportant des variables de type *)
@@ -149,7 +180,7 @@ let rec ist evt_rr_lst i_type =
   | List(t) -> let instd_t = ist evt_rr_lst t in
 	       List(instd_t)
   | Fun(t_lst) -> let tlst = List.map (ist evt_rr_lst) t_lst in
-		    Fun(tlst)
+		  Fun(tlst)
   | Id(ident) ->
      let rec find lst id =
        match lst with
@@ -198,6 +229,8 @@ let next_str =
 (* Type de type t 
    Renvoie une valeur de type scm
 *)
+
+(* refaire cette fonction *)
 let generalisation type_t =
   (* remplace les ref ref None par des ref ref Some(id) + Renvoi de la liste des identificateurs *)
   (* Contient une liste de (ident) *)
@@ -272,6 +305,9 @@ let generalisation type_t =
  ********************************************************************************)
 
 let typage expr evt =
+  let finder x evt_lst =
+    List.exists ((=) x) evt_lst
+  in
   let rec w_pexpr expr evt =
     let (p_desc, p_loc) = (expr.pexpr_desc, expr.pexpr_loc) in
     try
@@ -280,7 +316,7 @@ let typage expr evt =
       Non_unifiable(attendu, vu) -> raise ( Bad_type(attendu, vu, pexpr_loc) );
   and w_pexpr_desc expr evt=
     match expr with
-    | Constant(c) -> (
+    | PE_cte(c) -> (
       match c with
        | Cunit -> Typ(Unit)
        | Cbool -> Typ(Bool)
@@ -288,7 +324,7 @@ let typage expr evt =
        | Cfloat ->Typ(Float)
        | Cstring->Typ(String) 
     )
-    | Unop(c)
+    | PE_ident(id) -> finder
 	  
   in
   ()
