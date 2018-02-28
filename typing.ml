@@ -1,11 +1,8 @@
 open Ast;;
-(* TODO:
-    - Unification 
-   
-       * unification
-       * Instanciation
-       * Généralisation
-*)
+open Types;;
+
+
+
 type location = int*int;;
 
 type ident = string
@@ -16,24 +13,11 @@ type ident = string
    -> Relativement dégueulasse du point de vue algorithmique, m'enfin à la limite on s'en fout pour l'instant
    -> Pê on pourrait utiliser une hashmap (voire devrait) 
    -> Note : C'est un environnement général. 
-*)
-type t =
-  | Unit
-  | Bool
-  | Integer
-  | Float
-  | String
-  | Char
-  | Tuple of t list
-  | List of t
-  | Fun of (t list)
-  | Id of ident (* Uniquement pour les types généraux *)
-  | Var of vartype (* Uniquement dans des types instanciés (pas dans les types généralisés) *)
-and vartype = {
+*)vartype = {
   ident : ident;
-    (* Q: Comment 'unifier' deux identificateurs ? *)
-    mutable typ of t option
-  }
+  mutable typ of t option;
+(* None : n'importe quoi *)
+}
 ;;
 
 (** schémas **)
@@ -41,56 +25,6 @@ type scm =
     T of t
   | Forall of ident * scm
 ;;
-
-type types =
-    Typ of t
-  | S of scm (* note : utilisé seulement dans les let *)
-;;
-
-type i_evt =
-  (ident * t) list
-;;
-
-type g_evt =
-  (ident * scm) list
-;;
-
-type environnement =
-  {ins_evt : i_evt;
-   gen_evt : g_evt }
-;;
-
-(* *******************************************
- * 
- * EXCEPTIONS
- * 
- * ***************************************** *)
-
-(* Endroit de l'erreur, type attendu, type vu *)
-exception Bad_type of location * t * t;;
-exception Non_unifiable of t * t;;
-exception Non_unifiable_lst;;
-exception Not_found;;
-exception WTFexception of string;;
-
-(* *********************************************
- *
- * FONCTIONS LIEES A L'EVT
- * 
- * ********************************************)
- 
-let find_in_evt ident evt =
-  (* 1 - Recherche dans l'environnement des trucs instanciés *)
-  let inst_evt = evt.inst_evt in
-  try
-    let i_elt = List.find (fun (lst_ident, i_type) -> lst_ident = ident) (inst_evt) in
-    i_elt 
-  with Not_Found
-    -> let g_evt = List.find(fun (lst_ident, g_type) -> lst_ident = ident) (evt.gen_evt) in
-       instanciation g_evt
-;;							      
-
-
 
 (* ********************************************
  *
@@ -106,8 +40,9 @@ let find_in_evt ident evt =
    @version 0.1
    **** A TESTER ****
 **)
-let rec unification t1 t2 =
-  match t1, t2 with
+
+let rec unif t1 t2=
+    match t1, t2 with
   (* 1 : Cas triviaux *) 
   | Bool, Bool
   | Unit, Unit
@@ -121,49 +56,24 @@ let rec unification t1 t2 =
   | Tuple(tl1), Tuple(tl2)
     -> (
       try
-	unif_lst tl1 tl2;
-      with
-	Non_unifiable_lst -> (raise ( Non_unifiable (t1, t2)))
+	List.iter2 (fun e1 e2 -> unification e1 e2) tl1 tl2
+      with Invalid_argument -> raise ( Non_unifiable(t1, t2) );
     )
-     
+
   | List(t1), List(t2)
     -> unification t1 t2
 
   | Fun(l1), Fun(l2) 
-    -> (unif_lst l1 l2;
-    )
+    -> List.iter2 (fun e1 e2 -> unification e1 e2) l1 l2
 
-  (* cas comportant des variables de type *)
-  (* TODO : Petit paragraphe pour expliquer ce truc là *)
-  | Var(op_ref_ref1), Var(op_ref_ref2) -> (
-    let t_op1, t_op2 = ( ! !op_ref_ref1, ! !op_ref_ref2 ) in
-    match t_op1, t_op2 with
-    | None, None -> let op_ref2 = !op_ref_ref2 in
-		    op_ref_ref1 := op_ref2
-    | Some(t1) ,Some(t2) -> unification t1 t2
-    | Some(t1), None -> let op_ref1 = !op_ref_ref1 in (* référence vers la valeur Some(t1) *) 
-			op_ref_ref2 := op_ref1
-    | None, Some(t2) -> let op_ref2 = !op_ref_ref2 in
-			op_ref_ref1 := op_ref2
-  )
-  | _ , Var(op_ref_ref2) ->(
-    match !(!op_ref_ref2) with
-    | None -> !op_ref_ref2 := Some(t1)
-    | Some(t) -> unification t1 t
-  )
-  | Var(op_ref_ref1), _ -> unification t2 t1
-  | _ -> raise ( Non_unifiable (t1, t2) )
-(* Fonction utilitaire pour l'unification entre liste (Pê qu'il y a un itérateur pour ça d'ailleurs) *)
-and unif_lst l1 l2 =
-  match l1, l2 with
-  | x :: s , y :: t -> (unification x y;
-			unif_lst s t)
-  | ([], []) -> ()
-  | _ -> raise (Non_unifiable_lst)     
-;;
-
-
-
+  | Var(vt_ref1), Var(vt_ref2) ->
+       let typ1, typ2 = (!vr_ref1).typ, (!vr_ref2).typ in
+       
+     
+       
+  | Var(vt_ref), autre_type
+  | autre_type, Var(vt_ref)
+    -> 
 (* *******************************************************************
  ***
  *** INSTANCIATION / GENERALISATION
