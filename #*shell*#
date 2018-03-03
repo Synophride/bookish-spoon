@@ -1,0 +1,85 @@
+synophride@EL:~/Documents/Projet_PFA$ git pull origin master
+From https://github.com/Synophride/bookish-spoon
+ * branch            master     -> FETCH_HEAD
+Already up-to-date.
+synophride@EL:~/Documents/Projet_PFA$ git add . && git commit -m "séparation des modules" && git push origin master
+[master bb753ab] séparation des modules
+ Committer: John Doe <synophride@EL.MONO>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 27 files changed, 112 insertions(+), 13965 deletions(-)
+ create mode 100644 *shell*
+ create mode 120000 .#*shell*
+ delete mode 100644 ast.cmi
+ delete mode 100644 config.log
+ create mode 100644 environnement.ml
+ delete mode 100644 lexer.annot
+ delete mode 100644 lexer.cmi
+ delete mode 100644 lexer.cmx
+ delete mode 100644 lexer.ml
+ delete mode 100644 lexer.o
+ delete mode 100644 parser.annot
+ delete mode 100644 parser.cmi
+ delete mode 100644 parser.cmx
+ delete mode 100644 parser.ml
+ delete mode 100644 parser.mli
+ delete mode 100644 parser.o
+ delete mode 100644 parser.output
+ delete mode 100755 top
+ delete mode 100644 top.annot
+ delete mode 100644 top.cmi
+ delete mode 100644 top.cmx
+ delete mode 100644 top.o
+ create mode 100644 types.ml
+ delete mode 100644 typing.cmi
+ delete mode 100644 typing.cmx
+ delete mode 100644 typing.o
+Username for 'https://github.com': Synophride
+Password for 'https://Synophride@github.com': Trololol1
+
+Counting objects: 7, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (7/7), 1.70 KiB | 0 bytes/s, done.
+Total 7 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.        
+To https://github.com/Synophride/bookish-spoon.git
+   f105bd7..bb753ab  master -> master
+synophride@EL:~/Documents/Projet_PFA$ ls
+a.out             eval.ml           *scratch*
+ast.mli           lexer.mll         *shell*
+brouillons.ml     Makefile          test.ml
+_build            Makefile.in       top.ml
+config.status     *ocaml-toplevel*  typage.fichier_inutile
+configure         parser.mly        types.ml
+environnement.ml  Readme.md         typing.ml
+synophride@EL:~/Documents/Projet_PFA$ 
+synophride@EL:~/Documents/Projet_PFA$ 
+synophride@EL:~/Documents/Projet_PFA$ 
+synophride@EL:~/Documents/Projet_PFA$ 
+synophride@EL:~/Documents/Projet_PFA$ 
+synophride@EL:~/Documents/Projet_PFA$ 
+synophride@EL:~/Documents/Projet_PFA$ 
+synophride@EL:~/Documents/Projet_PFA$ 
+synophride@EL:~/Documents/Projet_PFA$ 
+synophride@EL:~/Documents/Projet_PFA$ 
+synophride@EL:~/Documents/Projet_PFA$ ls
+a.out             eval.ml           *scratch*
+ast.mli           lexer.mll         *shell*
+brouillons.ml     Makefile          test.ml
+_build            Makefile.in       top.ml
+config.status     *ocaml-toplevel*  typage.fichier_inutile
+configure         parser.mly        types.ml
+environnement.ml  Readme.md         typing.ml
+synophride@EL:~/Documents/Projet_PFA$ sdn
+synophride@EL:~/Documents/Projet_PFA$ 

@@ -5,6 +5,8 @@
  *********************)
 open Ast
 ;;
+
+
 type t =
   | Unit
   | Bool
@@ -18,7 +20,5 @@ type t =
   | Id of int      
 ;;
 
-
 exception Bad_type of location * t * t;;
 exception WTFexception of string;;
-
