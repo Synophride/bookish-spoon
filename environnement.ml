@@ -28,7 +28,8 @@
  * 
  * ***)
 
-
+open Ast;;
+open Types;;
 
 (* ****************
  * TYPES 
@@ -63,7 +64,7 @@ type environnement =
  * EXCEPTIONS
  * ****************)
 
-exception Non_unifiable of t * t;;
+exception Non_unifiable of typ * typ;;
 
 (* ********************
  * FONCTIONS "PRIVEES"
@@ -80,6 +81,10 @@ let instanciation scm =
   ist scm []
 ;;
 
+(** 
+    @param typ le 'typ' (instancié donc) à généraliser  
+    @return le scm généralisant la
+**)
 let gnt typ =
   (* *** 1. ***
    * on part d'un type instancié (de type typ), on veut faire en sorte de
@@ -143,11 +148,18 @@ let gnt typ =
   put_forall lst_of_id ( T(new_t) )
 ;;
 
-(** NOTE : COPIER LA LISTE DANS LE VARTYPE **)
+let rec copy_list_of_vartyp vartyp_l =
+  ()
+;;
+
+
+(* NOTE : COPIER LA LISTE DANS LE VARTYPE **)
+(* Q : peut-on bousiller les vartypes ? **)
 let generalisation  =
   function
-  | Typ(_) -> gnt v
-  | S(_) -> raise Illegal_argument("Généralisation d'un scm")
+  | Typ(v) -> let vt_lst, typ = v in
+	      ()
+  | S(_) -> raise (WTFexception("Généralisation d'un scm"))
 ;;
 
 
@@ -156,13 +168,18 @@ let generalisation  =
  * ********************)
 
 (**
-    Rend le type associé à l'identificateur 
-    @param ident l'indentificateur à associer 
+   Rend le type associé à l'identificateur 
+   On doit être assu
+   @param ident l'indentificateur à associer 
+   @return le type associé à l'identificateur
+   
 **)
 let find ident evt =
   ()
 ;;
-
+(** 
+    doit s'assurer qu'un seul couple ident/lst existe par environnement
+**)
 let add_or_replace ident typ =
   ()
 ;;

@@ -1,5 +1,0 @@
-synophride@EL:~/Documents/Projet_PFA$ git pull origin master
-From https://github.com/Synophride/bookish-spoon
- * branch            master     -> FETCH_HEAD
-Already up-to-date.
-synophride@EL:~/Documents/Projet_PFA$ git add . && git commit -m "création de 
