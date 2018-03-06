@@ -125,7 +125,8 @@ let gnt typ =
   (* *** 2.
    * Maintenant qu'on a fait en sorte que les identificateurs représentent bien les variables polymorphes,
    * on fait la liste des variables de types pour pouvoir mettre les Forall
-   *** *)
+   *
+   * ***)
   let get_lst_forall vartyp_lst =
     List.fold_left
       (fun acc elt ->
@@ -148,17 +149,13 @@ let gnt typ =
   put_forall lst_of_id ( T(new_t) )
 ;;
 
-let rec copy_list_of_vartyp vartyp_l =
-  ()
-;;
-
-
-(* NOTE : COPIER LA LISTE DANS LE VARTYPE **)
-(* Q : peut-on bousiller les vartypes ? **)
-let generalisation  =
+(* Q : peut-on bousiller les vartypes ? 
+   R : Généralisation une seule fois - dans le let: on peut bien bousiller les vartypes
+   * NOTE : Ne JAMAIS reutiliser les vartypes
+*)
+let generalisation =
   function
-  | Typ(v) -> let vt_lst, typ = v in
-	      ()
+  | Typ(v) -> v
   | S(_) -> raise (WTFexception("Généralisation d'un scm"))
 ;;
 
@@ -168,22 +165,41 @@ let generalisation  =
  * ********************)
 
 (**
-   Rend le type associé à l'identificateur 
-   On doit être assu
+   Rend le type (instancié) associé à l'identificateur 
    @param ident l'indentificateur à associer 
-   @return le type associé à l'identificateur
-   
+   @param evt l'environnement dans lequel rechercher
+   @return le type (instancié) associé à l'identificateur
 **)
 let find ident evt =
   ()
 ;;
+
 (** 
-    doit s'assurer qu'un seul couple ident/lst existe par environnement
+    Remplace l'identificateur dans l'environnement, par le type typ.
+
+    Q : Est_ce qu'on met un booléen qui dit s'il faut le généraliser ?
+
+    - On doit s'assurer qu'un seul couple ident/lst existe par environnement
+
+    @param ident l'identificateur représentant le type à remplacer 
+    @param typ le type qui sera associé à l'identificateur 
+
+    @return un environnement evt' , tel que evt' = evt + ident : typ 
 **)
-let add_or_replace ident typ =
+let add_or_replace ident typ evt=
   ()
 ;;
 
+(**
+   Unifie deux types. 
+   L'unification ne rend rien, elle est un effet de bord
+   Si la fonction renvoie unit, les deux fonctions sont bien unifiables (et unifiées, du coup)
+   Si les types sont pas unifiables, la fonctions lance une exception "Non_unifiable(t1, t2)
+   
+   @param t1 un type instancié
+   @param t2 un autre type instancié
+   @return unit
+**)
 let unification t1 t2 =
   ()
 ;;

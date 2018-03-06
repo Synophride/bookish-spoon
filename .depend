@@ -6,8 +6,6 @@ lexer.cmo : parser.cmi ast.cmi
 lexer.cmx : parser.cmx ast.cmi
 parser.cmo : ast.cmi parser.cmi
 parser.cmx : ast.cmi parser.cmi
-test.cmo :
-test.cmx :
 tests.cmo : typing.cmo types.cmo environnement.cmo ast.cmi
 tests.cmx : typing.cmx types.cmx environnement.cmx ast.cmi
 top.cmo : typing.cmo parser.cmi lexer.cmo ast.cmi
