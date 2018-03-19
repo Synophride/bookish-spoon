@@ -3,7 +3,7 @@
  * Version 0.0
  * 28/02
  **************)
-
+  
 (* Q: Comment définir l'environnement ? *)
 
 (* *** "Cahier de charges :"
@@ -63,13 +63,64 @@ type environnement =
 (* ****************
  * EXCEPTIONS
  * ****************)
-
 exception Non_unifiable of typ * typ;;
 
 (* ********************
  * FONCTIONS "PRIVEES"
  * ********************)
+let id_vt = ref 0
+;;
 
+let get_new_vartyp () =
+  let new_vt = {id = !id_vt; r_typ = ref None } in
+  (id_vt := !id_vt + 1;
+   new_vt)
+;;
+
+let copy_varlist varlst =
+  let rec cvl varlst acc =
+    match varlst with
+    | [] -> acc
+    | elt :: s ->
+       (* On regarde si la référence de l'identificateur a déjà été créée : 
+	  Si oui, on continue sur la suite de la liste, sinon on ajoute la référence *)
+       if ( List.exists
+	      (fun x ->
+		let x_id = x.id in
+		x_id = elt.id
+	      )
+	      acc
+       )
+       then
+	 cvl s acc
+       else
+	 (* 1. Création de la nouvelle référence -> de la vartype *)
+	 let new_ref_vartyp = ref None in
+	 let old_ref_vartyp = elt.r_typ in
+	 (* 2. Regarder dans le reste de la liste pour voir s'il y a des variables polymorphes liées à l'identificateur présent, si oui on les ajoute à l'identificateur *)
+	 (* Fold_left, testant le "==", retournant une liste *)
+	 let acc' =
+	   List.rev_append (
+	     List.fold_left
+	       (fun acc elt ->
+		 if elt.r_typ == old_ref_vartyp
+		 then
+		   ({id = elt.id; r_typ = new_ref_vartyp} :: acc)
+		 else
+		   acc
+	       )
+	       []
+	       varlst
+	   )
+	     acc
+	 in
+	 cvl varlst acc' 
+  in cvl varlst []
+;;
+
+(** 
+
+**)
 let instanciation scm =
   let rec ist scm existing_vartypes_lst =
     match scm with
@@ -81,11 +132,12 @@ let instanciation scm =
   ist scm []
 ;;
 
-(** 
+(**
+    Generalise un type passé en paramètre
     @param typ le 'typ' (instancié donc) à généraliser  
-    @return le scm généralisant la
+    @return le scm généralisant le paramètre 
 **)
-let gnt typ =
+let generalisation typ =
   (* *** 1. ***
    * on part d'un type instancié (de type typ), on veut faire en sorte de
    * relier deux vartypes pointant vers le même ref None
@@ -102,6 +154,8 @@ let gnt typ =
     | Char -> t
 
     | Fun(t_lst) 
+      -> Fun(List.map (gen vart_l) t_lst)
+     
     | Tuple(t_lst)
       -> Tuple(List.map (gen vart_l) t_lst)
        
@@ -149,16 +203,6 @@ let gnt typ =
   put_forall lst_of_id ( T(new_t) )
 ;;
 
-(* Q : peut-on bousiller les vartypes ? 
-   R : Généralisation une seule fois - dans le let: on peut bien bousiller les vartypes
-   * NOTE : Ne JAMAIS reutiliser les vartypes
-*)
-let generalisation =
-  function
-  | Typ(v) -> v
-  | S(_) -> raise (WTFexception("Généralisation d'un scm"))
-;;
-
 
 (* ********************
  * FONCTIONS PUBLIQUES
@@ -171,37 +215,82 @@ let generalisation =
    @return le type (instancié) associé à l'identificateur
 **)
 let find ident evt =
-  ()
-;;
-
-(** 
-    Remplace l'identificateur dans l'environnement, par le type typ.
-
-    Q : Est_ce qu'on met un booléen qui dit s'il faut le généraliser ?
-
-    - On doit s'assurer qu'un seul couple ident/lst existe par environnement
-
-    @param ident l'identificateur représentant le type à remplacer 
-    @param typ le type qui sera associé à l'identificateur 
-
-    @return un environnement evt' , tel que evt' = evt + ident : typ 
-**)
-let add_or_replace ident typ evt=
-  ()
+  let ret_type = List.find (fun (x, _) -> x = ident ) evt in
+  match ret_type with
+  | Typ(t) -> t
+  | Scm(s) -> instanciation s
 ;;
 
 (**
-   Unifie deux types. 
+   Remplace l'identificateur dans l'environnement, par le type typ.
+   
+   Q : Est_ce qu'on met un booléen qui dit s'il faut le généraliser ?
+
+   - On doit s'assurer qu'un seul couple ident/lst existe par environnement
+
+   @param evt l'environnement auquel rajouter le couple identificateur*type
+   @param typ le type qui sera associé à l'identificateur 
+   @param generalize booléen indiquant s'il faut généraliser
+   @return un environnement evt' , tel que evt' = evt + ident : typ 
+**)
+let add_or_replace evt ident typ generalize =
+  if generalize
+  then (ident, generalisation typ) :: evt
+  else (ident, typ) :: evt
+;;
+
+(**
+   Unifie deux types
    L'unification ne rend rien, elle est un effet de bord
-   Si la fonction renvoie unit, les deux fonctions sont bien unifiables (et unifiées, du coup)
-   Si les types sont pas unifiables, la fonctions lance une exception "Non_unifiable(t1, t2)
+   Si la fonction renvoie unit, les deux types sont bien unifiables (et unifiées, du coup)
+   Si les types sont pas unifiables, la fonction lance une exception "Non_unifiable(t1, t2)" 
    
    @param t1 un type instancié
    @param t2 un autre type instancié
    @return unit
 **)
-let unification t1 t2 =
-  ()
+let unification typ1 typ2 =
+  
+  let rec unf var_list t1 t2
+    match t1, t2 with (* peut-on utiliser le = ? *) 
+    | Unit, Unit
+    | Bool, Bool
+    | Integer, Integer
+    | Char, Char
+    | String, String
+    | Float, Float -> t1
+
+    | Tuple(t_lst1),Tuple(t_lst2) -> Tuple(List.map2 (fun e1 e2 -> unf e1 e2 ))
+    | Fun(t_lst1), Fun(t_lst2) 
+      -> List.iter2 (unf)  t_lst1 t_lst2) 
+
+    | List(t), List(t2) -> unf (vt1, t1) (vt2, t2)
+
+    | Id(i1), Id(i2)
+      -> let vt1, vt2 = (List.find (fun x -> x.id = i1) vt1,
+		       List.find (fun x -> x.id = i2) vt2)
+	 in (* penser à penser à acheter du savon et du café *)
+	 (
+	   match (!vt1.r_typ), (!vt2.r_typ) with
+	   | None, None
+	     -> vt1.r_typ <- vt2.r_typ;
+	   | None, Some(truc)
+	     -> vt1.r_typ <- vt2.r_typ;
+	   | Some(truc), None
+	     -> vt2.r_typ <- vt1.r_typ;
+	   | Some(truc1), Some(truc2)
+	     ->
+	      ( unf (vt1, truc1) (vt2, truc2);
+		vt2.r_typ <- vt1.r_typ
+	      )
+	 )
+    | Id(i1), _
+      ->  let vl = List.find (fun x -> x.id = i1) vt1 in
+	  vl.r_typ <- t2
+    | _ -> raise ( Non_unifiable(typ1, typ2) )
+ 
+  and unf_lst vt1 vt2 e1 e2 =
+    unf (vt1, e1) (vt2, e2)
 ;;
 
 

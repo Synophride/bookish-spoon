@@ -1,15 +1,15 @@
-open Ast
-open Types
-open Environnement
-open Typing
-;;
+open Ast;;
+open Types;;
+open Environnement;;
+open Typing;;
+
 
 let rec scm_to_string =
   function
   | Forall(_,t) -> scm_to_string t
   | T(t) -> str_of_t (fun x -> "'" ^ string_of_int x) t
 ;;
-
+ 
 let rec typ_to_string vart_lst =
   str_of_t
     (fun x ->
@@ -35,10 +35,19 @@ let typ_a =
 ;;
 
 let typ_fun_a_b_a =
-    [{id = 0; r_typ = ref None}; {id = 1; r_typ = ref None}],
-  Fun([Id(0); Id(1); Id(0)])
+  [{id = 0; r_typ = ref None}; {id = 1; r_typ = ref None}],
+  Fun(
+    [Id(0); Id(1); Id(0)]
+  )
 ;;
 
+let typ_fun_a_b_c_a_a =
+  [{id = 0; r_typ = ref None}; {id = 1; r_typ = ref None}; {id=2; r_typ = ref None}],
+  Fun(
+    [Id(0); Id(1); Id(2); Id(0); Id(0)]
+  )
+;;
+  
 let typ_a_b =   
   (
    [{id = 0; r_typ = ref None}; {id = 1; r_typ = ref None}],  
