@@ -1,8 +1,8 @@
-(* ************
+(* *****************
  * ENVIRONNEMENT.ML
  * Version 0.0
  * 28/02
- **************)
+ ******************)
   
 (* Q: Comment définir l'environnement ? *)
 
@@ -60,6 +60,11 @@ type environnement =
   (ident * types) list (* Pour l'instant, par une liste, ce qui est dégueulasse du point de vue algo, mais...*)
 ;;
 
+
+type subst =
+  {old_id : int; new_id : int}
+;;
+
 (* ****************
  * EXCEPTIONS
  * ****************)
@@ -68,15 +73,21 @@ exception Non_unifiable of typ * typ;;
 (* ********************
  * FONCTIONS "PRIVEES"
  * ********************)
-let id_vt = ref 0
+
+let get_sequence () =
+  let a = ref 0 in
+  let seq () =
+    let b = !a in
+    (a := !a + 1;
+     b)
+  in seq
 ;;
 
-let get_new_vartyp () =
-  let new_vt = {id = !id_vt; r_typ = ref None } in
-  (id_vt := !id_vt + 1;
-   new_vt)
+let new_id =
+  get_sequence ()
 ;;
 
+(* on laisse cette fonction là *)
 let copy_varlist varlst =
   let rec cvl varlst acc =
     match varlst with
@@ -84,12 +95,13 @@ let copy_varlist varlst =
     | elt :: s ->
        (* On regarde si la référence de l'identificateur a déjà été créée : 
 	  Si oui, on continue sur la suite de la liste, sinon on ajoute la référence *)
-       if ( List.exists
-	      (fun x ->
-		let x_id = x.id in
-		x_id = elt.id
-	      )
-	      acc
+       if (
+	 List.exists
+	   (fun x ->
+	     let x_id = x.id in
+	     x_id = elt.id
+	   )
+	   acc
        )
        then
 	 cvl s acc
@@ -118,19 +130,35 @@ let copy_varlist varlst =
   in cvl varlst []
 ;;
 
-(** 
 
+
+(** 
+    ok.
 **)
 let instanciation scm =
-  let rec ist scm existing_vartypes_lst =
+  let rec get_all_vartyp_and_subst vartyp_lst subst_list scm =
     match scm with
-    | T(t) -> Typ(existing_vartypes_lst, t)
-    | Forall(id, f_scm)
-      -> let added_vartyp = {id; r_typ = ref None} in
-	 ist f_scm (added_vartyp :: existing_vartypes_lst)
+    | T(t) -> (vartyp_lst, subst_list, t)
+    | Forall(id, f_scm) 
+      -> let subst = {old_id = id; new_id = new_id() } in
+	 let new_vartyp = {id = subst.new_id; r_typ = ref None} in
+	 get_all_vartyp_and_subst (new_vartyp :: vartyp_lst) (sust :: subst_list) f_scm
   in
-  ist scm []
+  let rec substitute  subst_list typ =
+    match typ with
+    | Id(id) ->
+       let new_subst = List.find (fun x -> x.old_id = id) subst_list in
+       Id( new_subst.new_id )
+    | List(typ) -> List( substitute subst_list typ)
+    | Tuple(t_lst) -> Tuple( List.map  (substitute subst_list) t_lst )
+    | Fun(t_lst) -> Fun( List.map  (substitute subst_list) t_lst)
+    | _ -> typ (* pas d'identificateurs *) 
+  in
+  let (new_vartype_list, subst_list, t) = get_all_vart_and_subst [] [] scm in
+  let new_type = substitute subst_list t in
+  (new_vartype_list, new_type)
 ;;
+
 
 (**
     Generalise un type passé en paramètre
@@ -221,6 +249,7 @@ let find ident evt =
   | Scm(s) -> instanciation s
 ;;
 
+
 (**
    Remplace l'identificateur dans l'environnement, par le type typ.
    
@@ -239,175 +268,81 @@ let add_or_replace evt ident typ generalize =
   else (ident, typ) :: evt
 ;;
 
+
+let get_id ident evt =
+  let get_type =
+    List.find (fun (x, y) -> ident = x) evt in
+(* la liste de vartyp ne contient pas deux_mêmes vartyp *)
+;;
+
 (**
-   Unifie deux types
-   L'unification ne rend rien, elle est un effet de bord
-   Si la fonction renvoie unit, les deux types sont bien unifiables (et unifiées, du coup)
-   Si les types sont pas unifiables, la fonction lance une exception "Non_unifiable(t1, t2)" 
+   Unifie deux types.
+   Renvoie le type unifiant typ1 et typ2
+   Si les types sont pas unifiables, la fonction lance une exception "Non_unifiable(t1, t2)", ou t1 et t2 sont de type t.
    
    @param t1 un type instancié
    @param t2 un autre type instancié
    @return unit
-**)
+***)
 let unification typ1 typ2 =
-  
-  let rec unf var_list t1 t2
-    match t1, t2 with (* peut-on utiliser le = ? *) 
+  let (vt_l1, t1), (vt_l2, t2) = typ1, typ2 in
+  let vartyp_list = vt_l1 @ vt_l2 in (* Pour l'instant on le fait de manière bourrine*)  
+  (* 
+     Ne rend rien 
+     Dans unf, on s'occupe uniquement des types, pas des variables de type 
+     ** note : Vérifier les variables libres. **
+  *)
+  let rec unf t1 t2 =
+    match (t1, t2) with (* peut-on utiliser le = ? *) 
+    (* 1. : cas triviaux *)
     | Unit, Unit
     | Bool, Bool
     | Integer, Integer
     | Char, Char
     | String, String
-    | Float, Float -> t1
+    | Float, Float
+      -> ()
 
-    | Tuple(t_lst1),Tuple(t_lst2) -> Tuple(List.map2 (fun e1 e2 -> unf e1 e2 ))
+    | Tuple(t_lst1),Tuple(t_lst2)
     | Fun(t_lst1), Fun(t_lst2) 
-      -> List.iter2 (unf)  t_lst1 t_lst2) 
-
-    | List(t), List(t2) -> unf (vt1, t1) (vt2, t2)
+      -> (List.iter2 (unf) t_lst1 t_lst2) 
+       
+    | List(t), List(t2)
+      -> unf (t1) (t2)
 
     | Id(i1), Id(i2)
-      -> let vt1, vt2 = (List.find (fun x -> x.id = i1) vt1,
-		       List.find (fun x -> x.id = i2) vt2)
-	 in (* penser à penser à acheter du savon et du café *)
-	 (
-	   match (!vt1.r_typ), (!vt2.r_typ) with
-	   | None, None
-	     -> vt1.r_typ <- vt2.r_typ;
-	   | None, Some(truc)
-	     -> vt1.r_typ <- vt2.r_typ;
-	   | Some(truc), None
-	     -> vt2.r_typ <- vt1.r_typ;
-	   | Some(truc1), Some(truc2)
-	     ->
-	      ( unf (vt1, truc1) (vt2, truc2);
-		vt2.r_typ <- vt1.r_typ
-	      )
-	 )
+      ->
+       let vt1, vt2 = (List.find (fun x -> x.id = i1) vartyp_list,
+		       List.find (fun x -> x.id = i2) vartyp_list)
+       in (* penser à penser à acheter du savon et du café *)
+       (
+	 match (!vt1.r_typ), (!vt2.r_typ) with
+	 | None, None (* on fait pointer les deux vartypes vers la même référence *)
+	   -> vt1.r_typ <- vt2.r_typ;
+	     
+	 | None, Some(truc)
+	   -> vt1.r_typ <- vt2.r_typ;
+	 | Some(truc), None
+	   -> vt2.r_typ <- vt1.r_typ;
+	     
+	 | Some(type1), Some(type2)
+	   -> (* On pourrait pê tester les variables libres *)
+	    (
+	      unf type1 type2;
+	      vt1.r_typ <- vt2.r_typ;
+	      ()
+	    )
+       )
     | Id(i1), _
       ->  let vl = List.find (fun x -> x.id = i1) vt1 in
-	  vl.r_typ <- t2
+	  (unf (!(vl.r_typ)) t2;
+	   vl.r_typ <- t2)
+
+    | _, Id(i) -> unf t2 t1
+       
     | _ -> raise ( Non_unifiable(typ1, typ2) )
- 
-  and unf_lst vt1 vt2 e1 e2 =
-    unf (vt1, e1) (vt2, e2)
+  in
+  ( vartyp_list, t1 )
 ;;
 
 
-(* ******************
- * FONCTIONS "PUBLIQUES"
- * *****************)
-
-(* ************************* 
- *
- * FONCTIONS PRECENDENTES : probablement inutiles mais peuvent resservir 
- * 
- * ************************)
-(* 
-
-
-(* refaire cette fonction *)
-   let generalisation type_t =
-  (* remplace les ref ref None par des ref ref Some(id) + Renvoi de la liste des identificateurs *)
-  (* Contient une liste de (ident) *)
-   let ref_lst = ref [] in 
-
-   let rec first_passage t =
-   match t with
-   | Unit
-   | Bool
-   | Integer
-   | Float
-   | String
-   | Char -> t
-   
-   | List(t) -> List(first_passage t)
-   | Tuple(t_lst)  -> Tuple(List.map first_passage t_lst)
-   | Fun(t_lst) -> Fun(List.map first_passage t_lst)
-   
-    (* TODO : vérifier que le raisonnement est bon + test *) 
-   | Var(ref_ref_none) -> let i = ! ! ref_ref_none in (
-   match i with
-   | None ->
-   let new_id = next_str () in
-   (
-   ref_lst := new_id :: (!ref_lst);
-   (!ref_ref_none) := Some( Id(new_id) ) ;
-   t
-   )
-   | Some(t) ->
-   Var(ref (ref ( Some(first_passage t))))
-   )		       
-   | Id(ident) -> raise (WTFexception ("Generalisation : trouvé un identificateur "))
-   in
-   let rec second_passage semi_i_type =
-   match semi_i_type with
-   | Unit
-   | Bool
-   | Integer
-   | Float
-   | String
-   | Char -> semi_i_type
-
-   | List(t) -> List(second_passage t)
-   | Tuple(t_lst) -> Tuple(List.map second_passage t_lst)
-   | Fun(t_lst) -> Fun(List.map second_passage t_lst)
-   | Id(ident) -> Id(ident)
-   | Var(t_op_rr)
-   ->
-   (
-   match (! (!t_op_rr)) with
-   | None -> raise ( WTFexception("Généralisation - Il reste des ref ref None après le premier passage") );
-   | Some(typ) -> second_passage (typ)
-   )
-   in
-   
-   (******************************************************************************)
-   let third_passage quart_i_type lst_id =
-   let f id acc  =
-   ( Forall(id, acc) ) in
-   (List.fold_right (f)  (lst_id)  ( T(quart_i_type) ) ) 
-   
-   in
-   third_passage (second_passage (first_passage type_t) ) ( !ref_lst )
-   ;;
-
-
-   let rec ist evt_rr_lst i_type =
-   match i_type with
-   | Unit | Bool | Integer | Float | String | Char
-   -> i_type
-
-   | Tuple(t_lst) -> let tlst = List.map (ist evt_rr_lst) t_lst in
-   Tuple(tlst)
-   | List(t) -> let instd_t = ist evt_rr_lst t in
-   List(instd_t)
-   | Fun(t_lst) -> let tlst = List.map (ist evt_rr_lst) t_lst in
-   Fun(tlst)
-   | Id(ident) ->
-   let rec find lst id =
-   match lst with
-   | [] -> raise Not_found
-   | (identificateur, ref_ref_none)::s
-   ->
-   if identificateur = id
-   then ref_ref_none
-   else find s id
-   in Var( find evt_rr_lst ident )
-   | Var(_) -> (
-   raise (WTFexception("Instanciation lors du typage : Var(t option ref ref) inattendu")))
-   ;;
-
-   (* écrit. à tester *)
-   (** @param g_type de tupe scm
-*)
-
-   let rec instanciation g_type evt_refref_lst =
-   match g_type with
-   | T(x)
-   -> ist evt_refref_lst x
-   | Forall(ident, g_type2)
-   -> let ref_ident = ref (ref None) in
-   instanciation g_type2 ( (ident, ref_ident) :: evt_refref_lst)
-   ;;
-*)
