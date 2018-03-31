@@ -9,8 +9,10 @@ open Types;;
 open Environnement;;
 
 
-(* ******************
+(* *****************
+ *
  * EXCEPTIONS 
+ * 
  *******************)
 
 exception Bad_type of t * t * location;;
@@ -35,20 +37,22 @@ let typage_attendu_unop =
   | Uminus_f -> Float
 ;;
 
+
+  
 let typage_attendu_binop =
   function
   (* ces opérateurs sont polymorphes *)
   | Beq | Bneq | Blt | Ble | Bgt | Bge
-    -> () (* ??? *) 
+    -> None
  
   | Badd | Bsub | Bmul | Bdiv
-    -> Tuple([Integer; Integer])
-
+    -> Some(Tuple([Integer; Integer]))
+     
   | Badd_f | Bsub_f | Bmul_f | Bdiv_f 
-    -> Tuple([Float; Float])
+    -> Some(Tuple([Float; Float]))
      
   | Band | Bor
-    -> Tuple ([Bool; Bool])
+    -> Some(Tuple ([Bool; Bool]))
 ;;
 
 let typage plets =
@@ -61,10 +65,20 @@ let typage plets =
   and typage_pdesc pexpr_desc evt =
     match pexpr_desc with
     | PE_cte(c) -> typage_cte c
-    | PE_ident(i) -> let typ = (find i evt) (* référence vers la vartype ou type présent de la variable ? (ou genre subst_todo) *)
+    | PE_ident(i) -> find i evt
     | PE_unop(operateur, pexpr)
       -> let typ_unop = typage_attendu_unop operateur in
-	 
+	 unification 
 				   
-    | PE_binop 
+    | PE_binop(op, pexpr1, pexpr2)
+      ->
+       let typ1, typ2 = (typage_pexp pexpr1, typage_pexpr pexpr2) in
+       (
+	 match typage_attendu_binop with
+	 | None -> gen_typ unification typ1 typ2 
+	 | Some(typ_attendu) -> unification (unification typ1 typ2) typ_attendu
+       )
+    (* 1. Créer des variables de type pour le pattern *) 
+    | PE_fun(pattern, pexpr) -> 
+       
        
