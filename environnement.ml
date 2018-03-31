@@ -99,7 +99,7 @@ let get_sequence () =
 
 let next_val = get_sequence ()
 ;;
-
+(*
 (*
   on laisse cette fonction là 
   FIXME
@@ -142,7 +142,7 @@ let copy_varlist varlst =
 	 cvl varlst acc' 
   in cvl varlst []
 ;;
-
+*)
 
 (* ********************
  * FONCTIONS PUBLIQUES
@@ -192,7 +192,7 @@ and add_pattern_to_evt_d pattern evt =
 **)
 let find ident evt =
   let rec find_representant vt =
-    match vt.typ with
+    match vt.o_typ with
     | None -> vt
     | Some(Id(id)) -> if(id <> vt.id)
       then find_representant (List.find (fun f -> f.id = id) evt.evt_in)
@@ -202,17 +202,18 @@ let find ident evt =
   let (_, id) = List.find (fun (a, _) -> a = ident) (evt.evt_ex) in 
   let vartyp = List.find (fun vt -> vt.id = id) (evt.evt_in) in
   let representant = find_representant vartyp in
-  match represenant.o_type with
+  match representant.o_typ with
   | None -> Id(representant.id)
   | Some(truc) -> truc
 ;;
 
 let get_id ident evt =
-  let get_type =
-    List.find (fun (x, y) -> ident = x) evt in
-(* la liste de vartyp ne contient pas deux_mêmes vartyp *)
+  ()
 ;;
 
+(* la liste de vartyp ne contient pas deux_mêmes vartyp *)
+;;
+(*
 
 (* **************
  *
@@ -232,7 +233,8 @@ let get_id ident evt =
    (* FIXME *)
    Paramètres : Deux types + un environnement intérieur
                 Les types peuvent être Id(truc), auquel cas on se réfère au référent de la vartype.
- ***)
+***)
+
 let unification typ1 typ2 = 
   let (vt_l1, t1), (vt_l2, t2) = typ1, typ2 in
   let vartyp_list = vt_l1 @ vt_l2 in (* Pour l'instant on le fait de manière bourrine*)
@@ -391,3 +393,4 @@ let generalisation typ =
   let lst_of_id = get_lst_forall vart_l in
   put_forall lst_of_id ( T(new_t) )
 ;;
+*)

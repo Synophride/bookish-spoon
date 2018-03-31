@@ -38,13 +38,13 @@ let typage_attendu_unop =
 ;;
 
 
-  
+
 let typage_attendu_binop =
   function
   (* ces opérateurs sont polymorphes *)
   | Beq | Bneq | Blt | Ble | Bgt | Bge
     -> None
- 
+     
   | Badd | Bsub | Bmul | Bdiv
     -> Some(Tuple([Integer; Integer]))
      
@@ -67,9 +67,8 @@ let typage plets =
     | PE_cte(c) -> typage_cte c
     | PE_ident(i) -> find i evt
     | PE_unop(operateur, pexpr)
-      -> let typ_unop = typage_attendu_unop operateur in
-	 unification 
-				   
+      -> let typ_unop = typage_attendu_unop operateur in 
+	   
     | PE_binop(op, pexpr1, pexpr2)
       ->
        let typ1, typ2 = (typage_pexp pexpr1, typage_pexpr pexpr2) in
@@ -79,6 +78,5 @@ let typage plets =
 	 | Some(typ_attendu) -> unification (unification typ1 typ2) typ_attendu
        )
     (* 1. Créer des variables de type pour le pattern *) 
-    | PE_fun(pattern, pexpr) -> 
-       
-       
+    | _ -> failwith "not implemented"
+;;
