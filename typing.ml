@@ -55,26 +55,28 @@ let typage_attendu_binop =
     -> Some(Tuple ([Bool; Bool]))
 ;;
 
+
 let typage plets =
   let rec typage_pexp pexpr evt =
     try
       typage_pdesc (pexpr.pexpr_desc) evt
     with
-    | Non_unifiable(t1, t2) -> raise Bad_type(t1, t2, location)
+    | Non_unifiable(t1, t2) -> raise Bad_type(t1, t2, pexpr.pexpr_loc)
        
   and typage_pdesc pexpr_desc evt =
     match pexpr_desc with
     | PE_cte(c) -> typage_cte c
     | PE_ident(i) -> find i evt
     | PE_unop(operateur, pexpr)
-      -> let typ_unop = typage_attendu_unop operateur in 
-	   
+      -> let typ_unop = typage_attendu_unop operateur in
+	 let typ_expr = typage_pexp pexpr in
+	 unification typ_unop typ_expr
     | PE_binop(op, pexpr1, pexpr2)
       ->
        let typ1, typ2 = (typage_pexp pexpr1, typage_pexpr pexpr2) in
        (
 	 match typage_attendu_binop with
-	 | None -> gen_typ unification typ1 typ2 
+	 | None -> unification typ1 typ2 (* changer quand on a la généralisation *)
 	 | Some(typ_attendu) -> unification (unification typ1 typ2) typ_attendu
        )
     (* 1. Créer des variables de type pour le pattern *) 
