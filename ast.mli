@@ -30,12 +30,12 @@ and p_expr_desc =
   | PE_cte of constant
   | PE_ident of ident
   | PE_unop of unop * p_expr
-  | PE_binop of binop * p_expr * p_expr
+  | PE_binop of binop * p_expr * p_expr 
   | PE_if of p_expr * p_expr * p_expr
   | PE_app of p_expr * p_expr
   | PE_fun of p_patt * p_expr
   | PE_tuple of p_expr list
-  | PE_let of is_rec * p_patt * p_expr * p_expr
+  | PE_let of is_rec * p_patt * p_expr * p_expr (** ok **)
   | PE_match of p_expr * p_expr * (p_patt * p_patt * p_expr)
   | PE_nil 
   | PE_cons of p_expr * p_expr

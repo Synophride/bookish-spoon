@@ -1,0 +1,1938 @@
+"typing.ml" 21 288 292 "typing.ml" 21 288 302
+type(
+  Ast.constant -> Types.t
+)
+ident(
+  def typage_cte "typing.ml" 30 430 430 "typing.ml" 1 0 -1
+)
+"typing.ml" 23 316 320 "typing.ml" 23 316 325
+type(
+  Ast.constant
+)
+"typing.ml" 23 316 329 "typing.ml" 23 316 333
+type(
+  Types.t
+)
+"typing.ml" 24 334 343 "typing.ml" 24 334 346
+type(
+  bool
+)
+"typing.ml" 24 334 338 "typing.ml" 24 334 346
+type(
+  Ast.constant
+)
+"typing.ml" 24 334 350 "typing.ml" 24 334 354
+type(
+  Types.t
+)
+"typing.ml" 25 355 363 "typing.ml" 25 355 366
+type(
+  int
+)
+"typing.ml" 25 355 359 "typing.ml" 25 355 366
+type(
+  Ast.constant
+)
+"typing.ml" 25 355 370 "typing.ml" 25 355 377
+type(
+  Types.t
+)
+"typing.ml" 26 378 388 "typing.ml" 26 378 391
+type(
+  float
+)
+"typing.ml" 26 378 382 "typing.ml" 26 378 391
+type(
+  Ast.constant
+)
+"typing.ml" 26 378 395 "typing.ml" 26 378 400
+type(
+  Types.t
+)
+"typing.ml" 27 401 412 "typing.ml" 27 401 415
+type(
+  string
+)
+"typing.ml" 27 401 405 "typing.ml" 27 401 415
+type(
+  Ast.constant
+)
+"typing.ml" 27 401 419 "typing.ml" 27 401 425
+type(
+  Types.t
+)
+"typing.ml" 22 305 307 "typing.ml" 27 401 425
+type(
+  Ast.constant -> Types.t
+)
+"typing.ml" 30 430 434 "typing.ml" 30 430 453
+type(
+  Ast.unop -> Types.t
+)
+ident(
+  def typage_attendu_unop "typing.ml" 37 532 532 "typing.ml" 1 0 -1
+)
+"typing.ml" 32 467 471 "typing.ml" 32 467 475
+type(
+  Ast.unop
+)
+"typing.ml" 32 467 479 "typing.ml" 32 467 483
+type(
+  Types.t
+)
+"typing.ml" 33 484 488 "typing.ml" 33 484 494
+type(
+  Ast.unop
+)
+"typing.ml" 33 484 498 "typing.ml" 33 484 505
+type(
+  Types.t
+)
+"typing.ml" 34 506 510 "typing.ml" 34 506 518
+type(
+  Ast.unop
+)
+"typing.ml" 34 506 522 "typing.ml" 34 506 527
+type(
+  Types.t
+)
+"typing.ml" 31 456 458 "typing.ml" 34 506 527
+type(
+  Ast.unop -> Types.t
+)
+"typing.ml" 37 532 536 "typing.ml" 37 532 556
+type(
+  Ast.binop -> Types.t option
+)
+ident(
+  def typage_attendu_binop "typing.ml" 53 826 826 "typing.ml" 1 0 -1
+)
+"typing.ml" 40 611 615 "typing.ml" 40 611 618
+type(
+  Ast.binop
+)
+"typing.ml" 40 611 621 "typing.ml" 40 611 625
+type(
+  Ast.binop
+)
+"typing.ml" 40 611 615 "typing.ml" 40 611 625
+type(
+  Ast.binop
+)
+"typing.ml" 40 611 628 "typing.ml" 40 611 631
+type(
+  Ast.binop
+)
+"typing.ml" 40 611 615 "typing.ml" 40 611 631
+type(
+  Ast.binop
+)
+"typing.ml" 40 611 634 "typing.ml" 40 611 637
+type(
+  Ast.binop
+)
+"typing.ml" 40 611 615 "typing.ml" 40 611 637
+type(
+  Ast.binop
+)
+"typing.ml" 40 611 640 "typing.ml" 40 611 643
+type(
+  Ast.binop
+)
+"typing.ml" 40 611 615 "typing.ml" 40 611 643
+type(
+  Ast.binop
+)
+"typing.ml" 40 611 646 "typing.ml" 40 611 649
+type(
+  Ast.binop
+)
+"typing.ml" 40 611 615 "typing.ml" 40 611 649
+type(
+  Ast.binop
+)
+"typing.ml" 41 650 657 "typing.ml" 41 650 661
+type(
+  Types.t option
+)
+"typing.ml" 43 668 672 "typing.ml" 43 668 676
+type(
+  Ast.binop
+)
+"typing.ml" 43 668 679 "typing.ml" 43 668 683
+type(
+  Ast.binop
+)
+"typing.ml" 43 668 672 "typing.ml" 43 668 683
+type(
+  Ast.binop
+)
+"typing.ml" 43 668 686 "typing.ml" 43 668 690
+type(
+  Ast.binop
+)
+"typing.ml" 43 668 672 "typing.ml" 43 668 690
+type(
+  Ast.binop
+)
+"typing.ml" 43 668 693 "typing.ml" 43 668 697
+type(
+  Ast.binop
+)
+"typing.ml" 43 668 672 "typing.ml" 43 668 697
+type(
+  Ast.binop
+)
+"typing.ml" 44 698 709 "typing.ml" 44 698 718
+type(
+  Types.t
+)
+"typing.ml" 44 698 705 "typing.ml" 44 698 718
+type(
+  Types.t option
+)
+"typing.ml" 46 725 729 "typing.ml" 46 725 735
+type(
+  Ast.binop
+)
+"typing.ml" 46 725 738 "typing.ml" 46 725 744
+type(
+  Ast.binop
+)
+"typing.ml" 46 725 729 "typing.ml" 46 725 744
+type(
+  Ast.binop
+)
+"typing.ml" 46 725 747 "typing.ml" 46 725 753
+type(
+  Ast.binop
+)
+"typing.ml" 46 725 729 "typing.ml" 46 725 753
+type(
+  Ast.binop
+)
+"typing.ml" 46 725 756 "typing.ml" 46 725 762
+type(
+  Ast.binop
+)
+"typing.ml" 46 725 729 "typing.ml" 46 725 762
+type(
+  Ast.binop
+)
+"typing.ml" 47 764 775 "typing.ml" 47 764 782
+type(
+  Types.t
+)
+"typing.ml" 47 764 771 "typing.ml" 47 764 782
+type(
+  Types.t option
+)
+"typing.ml" 49 789 793 "typing.ml" 49 789 797
+type(
+  Ast.binop
+)
+"typing.ml" 49 789 800 "typing.ml" 49 789 803
+type(
+  Ast.binop
+)
+"typing.ml" 49 789 793 "typing.ml" 49 789 803
+type(
+  Ast.binop
+)
+"typing.ml" 50 804 815 "typing.ml" 50 804 821
+type(
+  Types.t
+)
+"typing.ml" 50 804 811 "typing.ml" 50 804 821
+type(
+  Types.t option
+)
+"typing.ml" 38 559 561 "typing.ml" 50 804 821
+type(
+  Ast.binop -> Types.t option
+)
+"typing.ml" 53 826 830 "typing.ml" 53 826 836
+type(
+  'a -> unit
+)
+ident(
+  def typage "typing.ml" 122 3076 3080 "typing.ml" 1 0 -1
+)
+"typing.ml" 53 826 837 "typing.ml" 53 826 842
+type(
+  'a
+)
+ident(
+  def plets "typing.ml" 54 845 847 "typing.ml" 122 3076 3080
+)
+"typing.ml" 54 845 855 "typing.ml" 54 845 866
+type(
+  Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  def typage_pexp "typing.ml" 54 845 847 "typing.ml" 122 3076 3080
+)
+"typing.ml" 54 845 867 "typing.ml" 54 845 872
+type(
+  Ast.p_expr
+)
+ident(
+  def pexpr "typing.ml" 54 845 873 "typing.ml" 59 969 1011
+)
+"typing.ml" 54 845 873 "typing.ml" 54 845 876
+type(
+  Environnement.environnement
+)
+ident(
+  def evt "typing.ml" 55 879 883 "typing.ml" 59 969 1011
+)
+"typing.ml" 56 887 893 "typing.ml" 56 887 905
+type(
+  Ast.p_expr_desc -> Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typage_pdesc "typing.ml" 60 1015 1021 "typing.ml" 60 1015 1033
+)
+"typing.ml" 56 887 907 "typing.ml" 56 887 912
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref pexpr "typing.ml" 54 845 867 "typing.ml" 54 845 872
+)
+"typing.ml" 56 887 906 "typing.ml" 56 887 924
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 56 887 925 "typing.ml" 56 887 928
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 54 845 873 "typing.ml" 54 845 876
+)
+"typing.ml" 56 887 893 "typing.ml" 56 887 928
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 58 938 958 "typing.ml" 58 938 960
+type(
+  Types.t
+)
+ident(
+  def t1 "typing.ml" 59 969 970 "typing.ml" 59 969 1011
+)
+"typing.ml" 58 938 962 "typing.ml" 58 938 964
+type(
+  Types.t
+)
+ident(
+  def t2 "typing.ml" 59 969 970 "typing.ml" 59 969 1011
+)
+"typing.ml" 58 938 944 "typing.ml" 58 938 965
+type(
+  exn
+)
+"typing.ml" 59 969 970 "typing.ml" 59 969 975
+type(
+  exn -> Types.t
+)
+ident(
+  ext_ref Pervasives.raise
+)
+"typing.ml" 59 969 986 "typing.ml" 59 969 988
+type(
+  Types.t
+)
+ident(
+  int_ref t1 "typing.ml" 58 938 958 "typing.ml" 58 938 960
+)
+"typing.ml" 59 969 990 "typing.ml" 59 969 992
+type(
+  Types.t
+)
+ident(
+  int_ref t2 "typing.ml" 58 938 962 "typing.ml" 58 938 964
+)
+"typing.ml" 59 969 994 "typing.ml" 59 969 999
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref pexpr "typing.ml" 54 845 867 "typing.ml" 54 845 872
+)
+"typing.ml" 59 969 994 "typing.ml" 59 969 1009
+type(
+  Ast.location
+)
+"typing.ml" 59 969 976 "typing.ml" 59 969 1011
+type(
+  exn
+)
+"typing.ml" 59 969 970 "typing.ml" 59 969 1011
+type(
+  Types.t
+)
+"typing.ml" 55 879 883 "typing.ml" 59 969 1011
+type(
+  Types.t
+)
+"typing.ml" 60 1015 1021 "typing.ml" 60 1015 1033
+type(
+  Ast.p_expr_desc -> Environnement.environnement -> Types.t
+)
+ident(
+  def typage_pdesc "typing.ml" 54 845 847 "typing.ml" 122 3076 3080
+)
+"typing.ml" 60 1015 1034 "typing.ml" 60 1015 1044
+type(
+  Ast.p_expr_desc
+)
+ident(
+  def pexpr_desc "typing.ml" 60 1015 1045 "typing.ml" 120 3025 3064
+)
+"typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+type(
+  Environnement.environnement
+)
+ident(
+  def evt "typing.ml" 61 1051 1055 "typing.ml" 120 3025 3064
+)
+"typing.ml" 61 1051 1061 "typing.ml" 61 1051 1071
+type(
+  Ast.p_expr_desc
+)
+ident(
+  int_ref pexpr_desc "typing.ml" 60 1015 1034 "typing.ml" 60 1015 1044
+)
+"typing.ml" 62 1077 1090 "typing.ml" 62 1077 1091
+ident(
+  def c "typing.ml" 62 1077 1096 "typing.ml" 62 1077 1108
+)
+"typing.ml" 62 1077 1089 "typing.ml" 62 1077 1092
+type(
+  Ast.constant
+)
+"typing.ml" 62 1077 1083 "typing.ml" 62 1077 1092
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 62 1077 1096 "typing.ml" 62 1077 1106
+type(
+  Ast.constant -> Types.t
+)
+ident(
+  int_ref typage_cte "typing.ml" 21 288 292 "typing.ml" 21 288 302
+)
+"typing.ml" 62 1077 1107 "typing.ml" 62 1077 1108
+type(
+  Ast.constant
+)
+ident(
+  int_ref c "typing.ml" 62 1077 1089 "typing.ml" 62 1077 1092
+)
+"typing.ml" 62 1077 1096 "typing.ml" 62 1077 1108
+call(
+  tail
+)
+type(
+  Types.t
+)
+"typing.ml" 63 1109 1124 "typing.ml" 63 1109 1125
+ident(
+  def i "typing.ml" 63 1109 1130 "typing.ml" 63 1109 1140
+)
+"typing.ml" 63 1109 1123 "typing.ml" 63 1109 1126
+type(
+  Ast.ident
+)
+"typing.ml" 63 1109 1115 "typing.ml" 63 1109 1126
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 63 1109 1130 "typing.ml" 63 1109 1134
+type(
+  Ast.ident -> Environnement.environnement -> Types.t
+)
+ident(
+  ext_ref Environnement.find
+)
+"typing.ml" 63 1109 1135 "typing.ml" 63 1109 1136
+type(
+  Ast.ident
+)
+ident(
+  int_ref i "typing.ml" 63 1109 1123 "typing.ml" 63 1109 1126
+)
+"typing.ml" 63 1109 1137 "typing.ml" 63 1109 1140
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 63 1109 1130 "typing.ml" 63 1109 1140
+call(
+  tail
+)
+type(
+  Types.t
+)
+"typing.ml" 64 1141 1155 "typing.ml" 64 1141 1164
+type(
+  Ast.unop
+)
+ident(
+  def operateur "typing.ml" 65 1173 1182 "typing.ml" 67 1268 1303
+)
+"typing.ml" 64 1141 1166 "typing.ml" 64 1141 1171
+type(
+  Ast.p_expr
+)
+ident(
+  def pexpr "typing.ml" 65 1173 1182 "typing.ml" 67 1268 1303
+)
+"typing.ml" 64 1141 1147 "typing.ml" 64 1141 1172
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 65 1173 1186 "typing.ml" 65 1173 1194
+type(
+  Types.t
+)
+ident(
+  def typ_unop "typing.ml" 66 1230 1232 "typing.ml" 67 1268 1303
+)
+"typing.ml" 65 1173 1197 "typing.ml" 65 1173 1216
+type(
+  Ast.unop -> Types.t
+)
+ident(
+  int_ref typage_attendu_unop "typing.ml" 30 430 434 "typing.ml" 30 430 453
+)
+"typing.ml" 65 1173 1217 "typing.ml" 65 1173 1226
+type(
+  Ast.unop
+)
+ident(
+  int_ref operateur "typing.ml" 64 1141 1155 "typing.ml" 64 1141 1164
+)
+"typing.ml" 65 1173 1197 "typing.ml" 65 1173 1226
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 66 1230 1236 "typing.ml" 66 1230 1244
+type(
+  Environnement.environnement -> Types.t
+)
+ident(
+  def typ_expr "typing.ml" 67 1268 1270 "typing.ml" 67 1268 1303
+)
+"typing.ml" 66 1230 1247 "typing.ml" 66 1230 1258
+type(
+  Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typage_pexp "typing.ml" 54 845 855 "typing.ml" 54 845 866
+)
+"typing.ml" 66 1230 1259 "typing.ml" 66 1230 1264
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref pexpr "typing.ml" 64 1141 1166 "typing.ml" 64 1141 1171
+)
+"typing.ml" 66 1230 1247 "typing.ml" 66 1230 1264
+call(
+  stack
+)
+type(
+  Environnement.environnement -> Types.t
+)
+"typing.ml" 67 1268 1270 "typing.ml" 67 1268 1281
+type(
+  Types.t ->
+  (Environnement.environnement -> Types.t) ->
+  Environnement.environnement -> Types.t
+)
+ident(
+  ext_ref Environnement.unification
+)
+"typing.ml" 67 1268 1282 "typing.ml" 67 1268 1290
+type(
+  Types.t
+)
+ident(
+  int_ref typ_unop "typing.ml" 65 1173 1186 "typing.ml" 65 1173 1194
+)
+"typing.ml" 67 1268 1291 "typing.ml" 67 1268 1299
+type(
+  Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typ_expr "typing.ml" 66 1230 1236 "typing.ml" 66 1230 1244
+)
+"typing.ml" 67 1268 1300 "typing.ml" 67 1268 1303
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 67 1268 1270 "typing.ml" 67 1268 1303
+call(
+  tail
+)
+type(
+  Types.t
+)
+"typing.ml" 66 1230 1232 "typing.ml" 67 1268 1303
+type(
+  Types.t
+)
+"typing.ml" 65 1173 1182 "typing.ml" 67 1268 1303
+type(
+  Types.t
+)
+"typing.ml" 68 1337 1352 "typing.ml" 68 1337 1354
+type(
+  Ast.binop
+)
+ident(
+  def op "typing.ml" 70 1381 1388 "typing.ml" 77 1707 1715
+)
+"typing.ml" 68 1337 1356 "typing.ml" 68 1337 1362
+type(
+  Ast.p_expr
+)
+ident(
+  def pexpr1 "typing.ml" 70 1381 1388 "typing.ml" 77 1707 1715
+)
+"typing.ml" 68 1337 1364 "typing.ml" 68 1337 1370
+type(
+  Ast.p_expr
+)
+ident(
+  def pexpr2 "typing.ml" 70 1381 1388 "typing.ml" 77 1707 1715
+)
+"typing.ml" 68 1337 1343 "typing.ml" 68 1337 1371
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 70 1381 1392 "typing.ml" 70 1381 1396
+type(
+  Environnement.environnement -> Types.t
+)
+ident(
+  def typ1 "typing.ml" 71 1449 1456 "typing.ml" 77 1707 1715
+)
+"typing.ml" 70 1381 1398 "typing.ml" 70 1381 1402
+type(
+  Environnement.environnement -> Types.t
+)
+ident(
+  def typ2 "typing.ml" 71 1449 1456 "typing.ml" 77 1707 1715
+)
+"typing.ml" 70 1381 1392 "typing.ml" 70 1381 1402
+type(
+  (Environnement.environnement -> Types.t) *
+  (Environnement.environnement -> Types.t)
+)
+"typing.ml" 70 1381 1406 "typing.ml" 70 1381 1417
+type(
+  Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typage_pexp "typing.ml" 54 845 855 "typing.ml" 54 845 866
+)
+"typing.ml" 70 1381 1418 "typing.ml" 70 1381 1424
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref pexpr1 "typing.ml" 68 1337 1356 "typing.ml" 68 1337 1362
+)
+"typing.ml" 70 1381 1406 "typing.ml" 70 1381 1424
+call(
+  stack
+)
+type(
+  Environnement.environnement -> Types.t
+)
+"typing.ml" 70 1381 1426 "typing.ml" 70 1381 1437
+type(
+  Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typage_pexp "typing.ml" 54 845 855 "typing.ml" 54 845 866
+)
+"typing.ml" 70 1381 1438 "typing.ml" 70 1381 1444
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref pexpr2 "typing.ml" 68 1337 1364 "typing.ml" 68 1337 1370
+)
+"typing.ml" 70 1381 1426 "typing.ml" 70 1381 1444
+call(
+  stack
+)
+type(
+  Environnement.environnement -> Types.t
+)
+"typing.ml" 70 1381 1405 "typing.ml" 70 1381 1445
+type(
+  (Environnement.environnement -> Types.t) *
+  (Environnement.environnement -> Types.t)
+)
+"typing.ml" 71 1449 1460 "typing.ml" 71 1449 1472
+type(
+  Types.t option
+)
+ident(
+  def type_attendu "typing.ml" 72 1502 1509 "typing.ml" 77 1707 1715
+)
+"typing.ml" 71 1449 1475 "typing.ml" 71 1449 1495
+type(
+  Ast.binop -> Types.t option
+)
+ident(
+  int_ref typage_attendu_binop "typing.ml" 37 532 536 "typing.ml" 37 532 556
+)
+"typing.ml" 71 1449 1496 "typing.ml" 71 1449 1498
+type(
+  Ast.binop
+)
+ident(
+  int_ref op "typing.ml" 68 1337 1352 "typing.ml" 68 1337 1354
+)
+"typing.ml" 71 1449 1475 "typing.ml" 71 1449 1498
+call(
+  stack
+)
+type(
+  Types.t option
+)
+"typing.ml" 73 1511 1519 "typing.ml" 73 1511 1531
+type(
+  Types.t option
+)
+ident(
+  int_ref type_attendu "typing.ml" 71 1449 1460 "typing.ml" 71 1449 1472
+)
+"typing.ml" 74 1537 1541 "typing.ml" 74 1537 1545
+type(
+  Types.t option
+)
+"typing.ml" 74 1537 1550 "typing.ml" 74 1537 1561
+type(
+  (Environnement.environnement -> Types.t) ->
+  (Environnement.environnement -> Types.t) ->
+  Environnement.environnement -> Types.t
+)
+ident(
+  ext_ref Environnement.unification
+)
+"typing.ml" 74 1537 1562 "typing.ml" 74 1537 1566
+type(
+  Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typ1 "typing.ml" 70 1381 1392 "typing.ml" 70 1381 1396
+)
+"typing.ml" 74 1537 1567 "typing.ml" 74 1537 1571
+type(
+  Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typ2 "typing.ml" 70 1381 1398 "typing.ml" 70 1381 1402
+)
+"typing.ml" 74 1537 1572 "typing.ml" 74 1537 1575
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 74 1537 1549 "typing.ml" 74 1537 1576
+call(
+  tail
+)
+type(
+  Types.t
+)
+"typing.ml" 75 1622 1631 "typing.ml" 75 1622 1642
+ident(
+  def typ_attendu "typing.ml" 76 1644 1651 "typing.ml" 76 1644 1706
+)
+"typing.ml" 75 1622 1630 "typing.ml" 75 1622 1643
+type(
+  Types.t
+)
+"typing.ml" 75 1622 1626 "typing.ml" 75 1622 1643
+type(
+  Types.t option
+)
+"typing.ml" 76 1644 1651 "typing.ml" 76 1644 1662
+type(
+  Types.t -> Types.t -> Environnement.environnement -> Types.t
+)
+ident(
+  ext_ref Environnement.unification
+)
+"typing.ml" 76 1644 1664 "typing.ml" 76 1644 1675
+type(
+  (Environnement.environnement -> Types.t) ->
+  (Environnement.environnement -> Types.t) ->
+  Environnement.environnement -> Types.t
+)
+ident(
+  ext_ref Environnement.unification
+)
+"typing.ml" 76 1644 1676 "typing.ml" 76 1644 1680
+type(
+  Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typ1 "typing.ml" 70 1381 1392 "typing.ml" 70 1381 1396
+)
+"typing.ml" 76 1644 1681 "typing.ml" 76 1644 1685
+type(
+  Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typ2 "typing.ml" 70 1381 1398 "typing.ml" 70 1381 1402
+)
+"typing.ml" 76 1644 1686 "typing.ml" 76 1644 1689
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 76 1644 1663 "typing.ml" 76 1644 1690
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 76 1644 1691 "typing.ml" 76 1644 1702
+type(
+  Types.t
+)
+ident(
+  int_ref typ_attendu "typing.ml" 75 1622 1630 "typing.ml" 75 1622 1643
+)
+"typing.ml" 76 1644 1703 "typing.ml" 76 1644 1706
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 76 1644 1651 "typing.ml" 76 1644 1706
+call(
+  tail
+)
+type(
+  Types.t
+)
+"typing.ml" 72 1502 1509 "typing.ml" 77 1707 1715
+type(
+  Types.t
+)
+"typing.ml" 71 1449 1456 "typing.ml" 77 1707 1715
+type(
+  Types.t
+)
+"typing.ml" 70 1381 1388 "typing.ml" 77 1707 1715
+type(
+  Types.t
+)
+"typing.ml" 80 1776 1791 "typing.ml" 80 1776 1800
+ident(
+  def pexp_list "typing.ml" 80 1776 1805 "typing.ml" 80 1776 1859
+)
+"typing.ml" 80 1776 1790 "typing.ml" 80 1776 1801
+type(
+  Ast.p_expr list
+)
+"typing.ml" 80 1776 1782 "typing.ml" 80 1776 1801
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 80 1776 1811 "typing.ml" 80 1776 1819
+type(
+  (Ast.p_expr -> Types.t) -> Ast.p_expr list -> Types.t list
+)
+ident(
+  ext_ref List.map
+)
+"typing.ml" 80 1776 1825 "typing.ml" 80 1776 1826
+type(
+  Ast.p_expr
+)
+ident(
+  def x "typing.ml" 80 1776 1830 "typing.ml" 80 1776 1847
+)
+"typing.ml" 80 1776 1830 "typing.ml" 80 1776 1841
+type(
+  Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typage_pexp "typing.ml" 54 845 855 "typing.ml" 54 845 866
+)
+"typing.ml" 80 1776 1842 "typing.ml" 80 1776 1843
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref x "typing.ml" 80 1776 1825 "typing.ml" 80 1776 1826
+)
+"typing.ml" 80 1776 1844 "typing.ml" 80 1776 1847
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 80 1776 1830 "typing.ml" 80 1776 1847
+call(
+  tail
+)
+type(
+  Types.t
+)
+"typing.ml" 80 1776 1820 "typing.ml" 80 1776 1848
+type(
+  Ast.p_expr -> Types.t
+)
+"typing.ml" 80 1776 1849 "typing.ml" 80 1776 1858
+type(
+  Ast.p_expr list
+)
+ident(
+  int_ref pexp_list "typing.ml" 80 1776 1790 "typing.ml" 80 1776 1801
+)
+"typing.ml" 80 1776 1810 "typing.ml" 80 1776 1859
+call(
+  stack
+)
+type(
+  Types.t list
+)
+"typing.ml" 80 1776 1805 "typing.ml" 80 1776 1859
+type(
+  Types.t
+)
+"typing.ml" 82 1861 1873 "typing.ml" 82 1861 1881
+type(
+  Ast.p_expr
+)
+ident(
+  def bool_exp "typing.ml" 83 1894 1901 "typing.ml" 85 1958 1966
+)
+"typing.ml" 82 1861 1883 "typing.ml" 82 1861 1885
+type(
+  Ast.p_expr
+)
+ident(
+  def e1 "typing.ml" 83 1894 1901 "typing.ml" 85 1958 1966
+)
+"typing.ml" 82 1861 1887 "typing.ml" 82 1861 1889
+type(
+  Ast.p_expr
+)
+ident(
+  def e2 "typing.ml" 83 1894 1901 "typing.ml" 85 1958 1966
+)
+"typing.ml" 82 1861 1867 "typing.ml" 82 1861 1890
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 83 1894 1903 "typing.ml" 83 1894 1914
+type(
+  Ast.p_expr -> Types.t -> Environnement.environnement -> Types.t
+)
+ident(
+  ext_ref Environnement.unification
+)
+"typing.ml" 83 1894 1915 "typing.ml" 83 1894 1923
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref bool_exp "typing.ml" 82 1861 1873 "typing.ml" 82 1861 1881
+)
+"typing.ml" 83 1894 1924 "typing.ml" 83 1894 1928
+type(
+  Types.t
+)
+"typing.ml" 83 1894 1929 "typing.ml" 83 1894 1932
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 83 1894 1903 "typing.ml" 83 1894 1932
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 84 1934 1936 "typing.ml" 84 1934 1947
+type(
+  Ast.p_expr -> Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  ext_ref Environnement.unification
+)
+"typing.ml" 84 1934 1948 "typing.ml" 84 1934 1950
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref e1 "typing.ml" 82 1861 1883 "typing.ml" 82 1861 1885
+)
+"typing.ml" 84 1934 1951 "typing.ml" 84 1934 1953
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref e2 "typing.ml" 82 1861 1887 "typing.ml" 82 1861 1889
+)
+"typing.ml" 84 1934 1954 "typing.ml" 84 1934 1957
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 84 1934 1936 "typing.ml" 84 1934 1957
+call(
+  tail
+)
+type(
+  Types.t
+)
+"typing.ml" 83 1894 1901 "typing.ml" 85 1958 1966
+type(
+  Types.t
+)
+"typing.ml" 87 1968 1981 "typing.ml" 87 1968 1988
+type(
+  Ast.p_patt
+)
+ident(
+  def pattern "typing.ml" 88 1996 2005 "typing.ml" 90 2109 2136
+)
+"typing.ml" 87 1968 1990 "typing.ml" 87 1968 1994
+type(
+  Ast.p_expr
+)
+ident(
+  def expr "typing.ml" 88 1996 2005 "typing.ml" 90 2109 2136
+)
+"typing.ml" 87 1968 1974 "typing.ml" 87 1968 1995
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 88 1996 2010 "typing.ml" 88 1996 2017
+type(
+  Types.t
+)
+ident(
+  def new_typ "typing.ml" 89 2064 2066 "typing.ml" 90 2109 2136
+)
+"typing.ml" 88 1996 2019 "typing.ml" 88 1996 2026
+type(
+  Environnement.environnement
+)
+ident(
+  def new_evt "typing.ml" 89 2064 2066 "typing.ml" 90 2109 2136
+)
+"typing.ml" 88 1996 2009 "typing.ml" 88 1996 2027
+type(
+  Types.t * Environnement.environnement
+)
+"typing.ml" 88 1996 2030 "typing.ml" 88 1996 2048
+type(
+  Environnement.environnement ->
+  Ast.p_patt -> Types.t * Environnement.environnement
+)
+ident(
+  ext_ref Environnement.add_pattern_to_evt
+)
+"typing.ml" 88 1996 2049 "typing.ml" 88 1996 2052
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 88 1996 2053 "typing.ml" 88 1996 2060
+type(
+  Ast.p_patt
+)
+ident(
+  int_ref pattern "typing.ml" 87 1968 1981 "typing.ml" 87 1968 1988
+)
+"typing.ml" 88 1996 2030 "typing.ml" 88 1996 2060
+call(
+  stack
+)
+type(
+  Types.t * Environnement.environnement
+)
+"typing.ml" 89 2064 2070 "typing.ml" 89 2064 2077
+type(
+  Types.t
+)
+ident(
+  def typ_exp "typing.ml" 90 2109 2111 "typing.ml" 90 2109 2136
+)
+"typing.ml" 89 2064 2080 "typing.ml" 89 2064 2091
+type(
+  Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typage_pexp "typing.ml" 54 845 855 "typing.ml" 54 845 866
+)
+"typing.ml" 89 2064 2092 "typing.ml" 89 2064 2096
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref expr "typing.ml" 87 1968 1990 "typing.ml" 87 1968 1994
+)
+"typing.ml" 89 2064 2097 "typing.ml" 89 2064 2104
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref new_evt "typing.ml" 88 1996 2019 "typing.ml" 88 1996 2026
+)
+"typing.ml" 89 2064 2080 "typing.ml" 89 2064 2104
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 90 2109 2115 "typing.ml" 90 2109 2122
+type(
+  Types.t
+)
+ident(
+  int_ref new_typ "typing.ml" 88 1996 2010 "typing.ml" 88 1996 2017
+)
+"typing.ml" 90 2109 2127 "typing.ml" 90 2109 2134
+type(
+  Types.t
+)
+ident(
+  int_ref typ_exp "typing.ml" 89 2064 2070 "typing.ml" 89 2064 2077
+)
+"typing.ml" 90 2109 2126 "typing.ml" 90 2109 2135
+type(
+  Types.t list
+)
+"typing.ml" 90 2109 2114 "typing.ml" 90 2109 2136
+type(
+  Types.t list
+)
+"typing.ml" 90 2109 2111 "typing.ml" 90 2109 2136
+type(
+  Types.t
+)
+"typing.ml" 89 2064 2066 "typing.ml" 90 2109 2136
+type(
+  Types.t
+)
+"typing.ml" 88 1996 2005 "typing.ml" 90 2109 2136
+type(
+  Types.t
+)
+"typing.ml" 92 2174 2187 "typing.ml" 92 2174 2191
+type(
+  Ast.p_expr
+)
+ident(
+  def exp1 "typing.ml" 93 2199 2208 "typing.ml" 104 2475 2482
+)
+"typing.ml" 92 2174 2193 "typing.ml" 92 2174 2197
+type(
+  Ast.p_expr
+)
+ident(
+  def exp2 "typing.ml" 93 2199 2208 "typing.ml" 104 2475 2482
+)
+"typing.ml" 92 2174 2180 "typing.ml" 92 2174 2198
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 94 2210 2215 "typing.ml" 94 2210 2217
+type(
+  Types.t
+)
+ident(
+  def t1 "typing.ml" 95 2270 2271 "typing.ml" 103 2437 2474
+)
+"typing.ml" 94 2210 2219 "typing.ml" 94 2210 2221
+type(
+  Types.t
+)
+ident(
+  def t2 "typing.ml" 95 2270 2271 "typing.ml" 103 2437 2474
+)
+"typing.ml" 94 2210 2215 "typing.ml" 94 2210 2221
+type(
+  Types.t * Types.t
+)
+"typing.ml" 94 2210 2224 "typing.ml" 94 2210 2235
+type(
+  Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typage_pexp "typing.ml" 54 845 855 "typing.ml" 54 845 866
+)
+"typing.ml" 94 2210 2236 "typing.ml" 94 2210 2240
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref exp1 "typing.ml" 92 2174 2187 "typing.ml" 92 2174 2191
+)
+"typing.ml" 94 2210 2241 "typing.ml" 94 2210 2244
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 94 2210 2224 "typing.ml" 94 2210 2244
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 94 2210 2246 "typing.ml" 94 2210 2257
+type(
+  Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typage_pexp "typing.ml" 54 845 855 "typing.ml" 54 845 866
+)
+"typing.ml" 94 2210 2258 "typing.ml" 94 2210 2262
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref exp2 "typing.ml" 92 2174 2193 "typing.ml" 92 2174 2197
+)
+"typing.ml" 94 2210 2263 "typing.ml" 94 2210 2266
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 94 2210 2246 "typing.ml" 94 2210 2266
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 94 2210 2224 "typing.ml" 94 2210 2266
+type(
+  Types.t * Types.t
+)
+"typing.ml" 95 2270 2277 "typing.ml" 95 2270 2279
+type(
+  Types.t
+)
+ident(
+  int_ref t1 "typing.ml" 94 2210 2215 "typing.ml" 94 2210 2217
+)
+"typing.ml" 96 2285 2292 "typing.ml" 96 2285 2293
+type(
+  Types.t
+)
+ident(
+  def x "typing.ml" 97 2303 2307 "typing.ml" 102 2431 2436
+)
+"typing.ml" 96 2285 2297 "typing.ml" 96 2285 2298
+type(
+  Types.t list
+)
+ident(
+  def s "typing.ml" 97 2303 2307 "typing.ml" 102 2431 2436
+)
+"typing.ml" 96 2285 2291 "typing.ml" 96 2285 2299
+type(
+  Types.t list
+)
+"typing.ml" 96 2285 2288 "typing.ml" 96 2285 2299
+type(
+  Types.t
+)
+"typing.ml" 97 2303 2308 "typing.ml" 97 2303 2319
+type(
+  Types.t -> Types.t -> Environnement.environnement -> Types.t
+)
+ident(
+  ext_ref Environnement.unification
+)
+"typing.ml" 97 2303 2320 "typing.ml" 97 2303 2321
+type(
+  Types.t
+)
+ident(
+  int_ref x "typing.ml" 96 2285 2292 "typing.ml" 96 2285 2293
+)
+"typing.ml" 97 2303 2322 "typing.ml" 97 2303 2324
+type(
+  Types.t
+)
+ident(
+  int_ref t2 "typing.ml" 94 2210 2219 "typing.ml" 94 2210 2221
+)
+"typing.ml" 97 2303 2325 "typing.ml" 97 2303 2328
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 97 2303 2308 "typing.ml" 97 2303 2328
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 98 2330 2341 "typing.ml" 98 2330 2342
+type(
+  Types.t list
+)
+ident(
+  int_ref s "typing.ml" 96 2285 2297 "typing.ml" 96 2285 2298
+)
+"typing.ml" 99 2348 2356 "typing.ml" 99 2348 2357
+type(
+  Types.t
+)
+ident(
+  def x "typing.ml" 99 2348 2362 "typing.ml" 99 2348 2363
+)
+"typing.ml" 99 2348 2355 "typing.ml" 99 2348 2358
+type(
+  Types.t list
+)
+"typing.ml" 99 2348 2362 "typing.ml" 99 2348 2363
+type(
+  Types.t
+)
+ident(
+  int_ref x "typing.ml" 99 2348 2356 "typing.ml" 99 2348 2357
+)
+"typing.ml" 100 2364 2371 "typing.ml" 100 2364 2372
+type(
+  Types.t
+)
+ident(
+  def x "typing.ml" 100 2364 2381 "typing.ml" 100 2364 2387
+)
+"typing.ml" 100 2364 2376 "typing.ml" 100 2364 2377
+type(
+  Types.t list
+)
+ident(
+  def l "typing.ml" 100 2364 2381 "typing.ml" 100 2364 2387
+)
+"typing.ml" 100 2364 2371 "typing.ml" 100 2364 2377
+type(
+  Types.t list
+)
+"typing.ml" 100 2364 2384 "typing.ml" 100 2364 2387
+type(
+  Types.t list
+)
+ident(
+  int_ref s "typing.ml" 96 2285 2297 "typing.ml" 96 2285 2298
+)
+"typing.ml" 100 2364 2381 "typing.ml" 100 2364 2387
+type(
+  Types.t
+)
+"typing.ml" 101 2388 2395 "typing.ml" 101 2388 2396
+type(
+  Types.t list
+)
+"typing.ml" 101 2388 2400 "typing.ml" 101 2388 2405
+type(
+  exn -> Types.t
+)
+ident(
+  ext_ref Pervasives.raise
+)
+"typing.ml" 101 2388 2421 "typing.ml" 101 2388 2423
+type(
+  Types.t
+)
+ident(
+  int_ref t1 "typing.ml" 94 2210 2215 "typing.ml" 94 2210 2217
+)
+"typing.ml" 101 2388 2425 "typing.ml" 101 2388 2427
+type(
+  Types.t
+)
+ident(
+  int_ref t2 "typing.ml" 94 2210 2219 "typing.ml" 94 2210 2221
+)
+"typing.ml" 101 2388 2406 "typing.ml" 101 2388 2429
+type(
+  exn
+)
+"typing.ml" 101 2388 2400 "typing.ml" 101 2388 2429
+type(
+  Types.t
+)
+"typing.ml" 98 2330 2335 "typing.ml" 101 2388 2429
+type(
+  Types.t
+)
+"typing.ml" 97 2303 2307 "typing.ml" 102 2431 2436
+type(
+  Types.t
+)
+"typing.ml" 103 2437 2440 "typing.ml" 103 2437 2441
+type(
+  Types.t
+)
+"typing.ml" 103 2437 2445 "typing.ml" 103 2437 2450
+type(
+  exn -> Types.t
+)
+ident(
+  ext_ref Pervasives.raise
+)
+"typing.ml" 103 2437 2466 "typing.ml" 103 2437 2468
+type(
+  Types.t
+)
+ident(
+  int_ref t1 "typing.ml" 94 2210 2215 "typing.ml" 94 2210 2217
+)
+"typing.ml" 103 2437 2470 "typing.ml" 103 2437 2472
+type(
+  Types.t
+)
+ident(
+  int_ref t2 "typing.ml" 94 2210 2219 "typing.ml" 94 2210 2221
+)
+"typing.ml" 103 2437 2451 "typing.ml" 103 2437 2474
+type(
+  exn
+)
+"typing.ml" 103 2437 2445 "typing.ml" 103 2437 2474
+type(
+  Types.t
+)
+"typing.ml" 95 2270 2271 "typing.ml" 103 2437 2474
+type(
+  Types.t
+)
+"typing.ml" 93 2199 2208 "typing.ml" 104 2475 2482
+type(
+  Types.t
+)
+"typing.ml" 105 2483 2496 "typing.ml" 105 2483 2502
+type(
+  Ast.is_rec
+)
+ident(
+  def is_rec "typing.ml" 106 2521 2530 "typing.ml" 109 2621 2639
+)
+"typing.ml" 105 2483 2504 "typing.ml" 105 2483 2511
+type(
+  Ast.p_patt
+)
+ident(
+  def pattern "typing.ml" 106 2521 2530 "typing.ml" 109 2621 2639
+)
+"typing.ml" 105 2483 2513 "typing.ml" 105 2483 2515
+type(
+  Ast.p_expr
+)
+ident(
+  def e1 "typing.ml" 106 2521 2530 "typing.ml" 109 2621 2639
+)
+"typing.ml" 105 2483 2517 "typing.ml" 105 2483 2519
+type(
+  Ast.p_expr
+)
+ident(
+  def e2 "typing.ml" 106 2521 2530 "typing.ml" 109 2621 2639
+)
+"typing.ml" 105 2483 2489 "typing.ml" 105 2483 2520
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 106 2521 2534 "typing.ml" 106 2521 2538
+type(
+  Environnement.environnement -> Types.t
+)
+ident(
+  def t_e1 "typing.ml" 108 2572 2574 "typing.ml" 109 2621 2639
+)
+"typing.ml" 106 2521 2541 "typing.ml" 106 2521 2552
+type(
+  Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typage_pexp "typing.ml" 54 845 855 "typing.ml" 54 845 866
+)
+"typing.ml" 106 2521 2553 "typing.ml" 106 2521 2555
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref e1 "typing.ml" 105 2483 2513 "typing.ml" 105 2483 2515
+)
+"typing.ml" 106 2521 2541 "typing.ml" 106 2521 2555
+call(
+  stack
+)
+type(
+  Environnement.environnement -> Types.t
+)
+"typing.ml" 108 2572 2578 "typing.ml" 108 2572 2579
+type(
+  Types.t
+)
+"typing.ml" 108 2572 2580 "typing.ml" 108 2572 2581
+type(
+  Environnement.environnement
+)
+ident(
+  def a "typing.ml" 109 2621 2623 "typing.ml" 109 2621 2639
+)
+"typing.ml" 108 2572 2578 "typing.ml" 108 2572 2581
+type(
+  Types.t * Environnement.environnement
+)
+"typing.ml" 108 2572 2584 "typing.ml" 108 2572 2598
+type(
+  Environnement.environnement ->
+  Ast.ident ->
+  (Environnement.environnement -> Types.t) ->
+  Types.t * Environnement.environnement
+)
+ident(
+  ext_ref Environnement.add_or_replace
+)
+"typing.ml" 108 2572 2599 "typing.ml" 108 2572 2602
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 108 2572 2603 "typing.ml" 108 2572 2612
+type(
+  Ast.ident
+)
+"typing.ml" 108 2572 2613 "typing.ml" 108 2572 2617
+type(
+  Environnement.environnement -> Types.t
+)
+ident(
+  int_ref t_e1 "typing.ml" 106 2521 2534 "typing.ml" 106 2521 2538
+)
+"typing.ml" 108 2572 2584 "typing.ml" 108 2572 2617
+call(
+  stack
+)
+type(
+  Types.t * Environnement.environnement
+)
+"typing.ml" 109 2621 2623 "typing.ml" 109 2621 2634
+type(
+  Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typage_pexp "typing.ml" 54 845 855 "typing.ml" 54 845 866
+)
+"typing.ml" 109 2621 2635 "typing.ml" 109 2621 2637
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref e2 "typing.ml" 105 2483 2517 "typing.ml" 105 2483 2519
+)
+"typing.ml" 109 2621 2638 "typing.ml" 109 2621 2639
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref a "typing.ml" 108 2572 2580 "typing.ml" 108 2572 2581
+)
+"typing.ml" 109 2621 2623 "typing.ml" 109 2621 2639
+call(
+  tail
+)
+type(
+  Types.t
+)
+"typing.ml" 108 2572 2574 "typing.ml" 109 2621 2639
+type(
+  Types.t
+)
+"typing.ml" 106 2521 2530 "typing.ml" 109 2621 2639
+type(
+  Types.t
+)
+"typing.ml" 112 2684 2690 "typing.ml" 112 2684 2696
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 112 2684 2709 "typing.ml" 112 2684 2717
+type(
+  unit -> int
+)
+ident(
+  ext_ref Environnement.next_val
+)
+"typing.ml" 112 2684 2718 "typing.ml" 112 2684 2720
+type(
+  unit
+)
+"typing.ml" 112 2684 2708 "typing.ml" 112 2684 2722
+call(
+  stack
+)
+type(
+  int
+)
+"typing.ml" 112 2684 2704 "typing.ml" 112 2684 2724
+type(
+  Types.t
+)
+"typing.ml" 112 2684 2700 "typing.ml" 112 2684 2724
+type(
+  Types.t
+)
+"typing.ml" 113 2725 2739 "typing.ml" 113 2725 2743
+type(
+  Ast.p_expr
+)
+ident(
+  def exp1 "typing.ml" 113 2725 2754 "typing.ml" 118 2945 2954
+)
+"typing.ml" 113 2725 2745 "typing.ml" 113 2725 2749
+type(
+  Ast.p_expr
+)
+ident(
+  def exp2 "typing.ml" 113 2725 2754 "typing.ml" 118 2945 2954
+)
+"typing.ml" 113 2725 2731 "typing.ml" 113 2725 2750
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 113 2725 2758 "typing.ml" 113 2725 2760
+type(
+  Types.t
+)
+ident(
+  def t1 "typing.ml" 114 2813 2821 "typing.ml" 118 2945 2954
+)
+"typing.ml" 113 2725 2762 "typing.ml" 113 2725 2764
+type(
+  Types.t
+)
+ident(
+  def t2 "typing.ml" 114 2813 2821 "typing.ml" 118 2945 2954
+)
+"typing.ml" 113 2725 2758 "typing.ml" 113 2725 2764
+type(
+  Types.t * Types.t
+)
+"typing.ml" 113 2725 2767 "typing.ml" 113 2725 2778
+type(
+  Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typage_pexp "typing.ml" 54 845 855 "typing.ml" 54 845 866
+)
+"typing.ml" 113 2725 2779 "typing.ml" 113 2725 2783
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref exp1 "typing.ml" 113 2725 2739 "typing.ml" 113 2725 2743
+)
+"typing.ml" 113 2725 2784 "typing.ml" 113 2725 2787
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 113 2725 2767 "typing.ml" 113 2725 2787
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 113 2725 2789 "typing.ml" 113 2725 2800
+type(
+  Ast.p_expr -> Environnement.environnement -> Types.t
+)
+ident(
+  int_ref typage_pexp "typing.ml" 54 845 855 "typing.ml" 54 845 866
+)
+"typing.ml" 113 2725 2801 "typing.ml" 113 2725 2805
+type(
+  Ast.p_expr
+)
+ident(
+  int_ref exp2 "typing.ml" 113 2725 2745 "typing.ml" 113 2725 2749
+)
+"typing.ml" 113 2725 2806 "typing.ml" 113 2725 2809
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 113 2725 2789 "typing.ml" 113 2725 2809
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 113 2725 2767 "typing.ml" 113 2725 2809
+type(
+  Types.t * Types.t
+)
+"typing.ml" 115 2823 2839 "typing.ml" 115 2823 2841
+type(
+  Types.t
+)
+ident(
+  int_ref t1 "typing.ml" 113 2725 2758 "typing.ml" 113 2725 2760
+)
+"typing.ml" 115 2823 2843 "typing.ml" 115 2823 2845
+type(
+  Types.t
+)
+ident(
+  int_ref t2 "typing.ml" 113 2725 2762 "typing.ml" 113 2725 2764
+)
+"typing.ml" 115 2823 2839 "typing.ml" 115 2823 2845
+type(
+  Types.t * Types.t
+)
+"typing.ml" 116 2851 2863 "typing.ml" 116 2851 2864
+type(
+  Types.t
+)
+"typing.ml" 116 2851 2871 "typing.ml" 116 2851 2872
+ident(
+  def t "typing.ml" 116 2851 2877 "typing.ml" 116 2851 2897
+)
+"typing.ml" 116 2851 2870 "typing.ml" 116 2851 2873
+type(
+  Types.t
+)
+"typing.ml" 116 2851 2866 "typing.ml" 116 2851 2873
+type(
+  Types.t
+)
+"typing.ml" 116 2851 2863 "typing.ml" 116 2851 2873
+type(
+  Types.t * Types.t
+)
+"typing.ml" 116 2851 2877 "typing.ml" 116 2851 2888
+type(
+  Types.t -> Types.t -> Environnement.environnement -> Types.t
+)
+ident(
+  ext_ref Environnement.unification
+)
+"typing.ml" 116 2851 2889 "typing.ml" 116 2851 2891
+type(
+  Types.t
+)
+ident(
+  int_ref t1 "typing.ml" 113 2725 2758 "typing.ml" 113 2725 2760
+)
+"typing.ml" 116 2851 2892 "typing.ml" 116 2851 2893
+type(
+  Types.t
+)
+ident(
+  int_ref t "typing.ml" 116 2851 2870 "typing.ml" 116 2851 2873
+)
+"typing.ml" 116 2851 2894 "typing.ml" 116 2851 2897
+type(
+  Environnement.environnement
+)
+ident(
+  int_ref evt "typing.ml" 60 1015 1045 "typing.ml" 60 1015 1048
+)
+"typing.ml" 116 2851 2877 "typing.ml" 116 2851 2897
+call(
+  tail
+)
+type(
+  Types.t
+)
+"typing.ml" 117 2898 2910 "typing.ml" 117 2898 2911
+type(
+  Types.t * Types.t
+)
+"typing.ml" 117 2898 2915 "typing.ml" 117 2898 2920
+type(
+  exn -> Types.t
+)
+ident(
+  ext_ref Pervasives.raise
+)
+"typing.ml" 117 2898 2936 "typing.ml" 117 2898 2938
+type(
+  Types.t
+)
+ident(
+  int_ref t1 "typing.ml" 113 2725 2758 "typing.ml" 113 2725 2760
+)
+"typing.ml" 117 2898 2940 "typing.ml" 117 2898 2942
+type(
+  Types.t
+)
+ident(
+  int_ref t2 "typing.ml" 113 2725 2762 "typing.ml" 113 2725 2764
+)
+"typing.ml" 117 2898 2921 "typing.ml" 117 2898 2944
+type(
+  exn
+)
+"typing.ml" 117 2898 2915 "typing.ml" 117 2898 2944
+type(
+  Types.t
+)
+"typing.ml" 114 2813 2821 "typing.ml" 118 2945 2954
+type(
+  Types.t
+)
+"typing.ml" 113 2725 2754 "typing.ml" 118 2945 2954
+type(
+  Types.t
+)
+"typing.ml" 119 2955 2970 "typing.ml" 119 2955 2974
+type(
+  Ast.p_expr
+)
+ident(
+  def exp1 "typing.ml" 119 2955 3013 "typing.ml" 119 2955 3024
+)
+"typing.ml" 119 2955 2976 "typing.ml" 119 2955 2980
+type(
+  Ast.p_expr
+)
+ident(
+  def exp2 "typing.ml" 119 2955 3013 "typing.ml" 119 2955 3024
+)
+"typing.ml" 119 2955 2983 "typing.ml" 119 2955 2991
+type(
+  Ast.p_patt
+)
+ident(
+  def pattern1 "typing.ml" 119 2955 3013 "typing.ml" 119 2955 3024
+)
+"typing.ml" 119 2955 2993 "typing.ml" 119 2955 3001
+type(
+  Ast.p_patt
+)
+ident(
+  def pattern2 "typing.ml" 119 2955 3013 "typing.ml" 119 2955 3024
+)
+"typing.ml" 119 2955 3003 "typing.ml" 119 2955 3007
+type(
+  Ast.p_expr
+)
+ident(
+  def exp3 "typing.ml" 119 2955 3013 "typing.ml" 119 2955 3024
+)
+"typing.ml" 119 2955 2982 "typing.ml" 119 2955 3008
+type(
+  Ast.p_patt * Ast.p_patt * Ast.p_expr
+)
+"typing.ml" 119 2955 2961 "typing.ml" 119 2955 3009
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 119 2955 3013 "typing.ml" 119 2955 3021
+type(
+  string -> Types.t
+)
+ident(
+  ext_ref Pervasives.failwith
+)
+"typing.ml" 119 2955 3022 "typing.ml" 119 2955 3024
+type(
+  string
+)
+"typing.ml" 119 2955 3013 "typing.ml" 119 2955 3024
+call(
+  tail
+)
+type(
+  Types.t
+)
+"typing.ml" 120 3025 3031 "typing.ml" 120 3025 3032
+type(
+  Ast.p_expr_desc
+)
+"typing.ml" 120 3025 3037 "typing.ml" 120 3025 3045
+type(
+  string -> Types.t
+)
+ident(
+  ext_ref Pervasives.failwith
+)
+"typing.ml" 120 3025 3046 "typing.ml" 120 3025 3063
+type(
+  string
+)
+"typing.ml" 120 3025 3036 "typing.ml" 120 3025 3064
+type(
+  Types.t
+)
+"typing.ml" 61 1051 1055 "typing.ml" 120 3025 3064
+type(
+  Types.t
+)
+"typing.ml" 122 3076 3078 "typing.ml" 122 3076 3080
+type(
+  unit
+)
+"typing.ml" 54 845 847 "typing.ml" 122 3076 3080
+type(
+  unit
+)

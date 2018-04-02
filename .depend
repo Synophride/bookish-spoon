@@ -1,18 +1,14 @@
 environnement.cmo : types.cmo ast.cmi
 environnement.cmx : types.cmx ast.cmi
-eval.cmo :
-eval.cmx :
 lexer.cmo : parser.cmi ast.cmi
 lexer.cmx : parser.cmx ast.cmi
 parser.cmo : ast.cmi parser.cmi
 parser.cmx : ast.cmi parser.cmi
-tests_evt.cmo : typing.cmo types.cmo environnement.cmo ast.cmi
-tests_evt.cmx : typing.cmx types.cmx environnement.cmx ast.cmi
 top.cmo : typing.cmo parser.cmi lexer.cmo ast.cmi
 top.cmx : typing.cmx parser.cmx lexer.cmx ast.cmi
 types.cmo : ast.cmi
 types.cmx : ast.cmi
-typing.cmo : types.cmo environnement.cmo ast.cmi
-typing.cmx : types.cmx environnement.cmx ast.cmi
+typing.cmo :
+typing.cmx :
 ast.cmi :
 parser.cmi : ast.cmi

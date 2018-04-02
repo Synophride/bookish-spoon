@@ -7,12 +7,11 @@
 (* Q: Comment définir l'environnement ? *)
 
 (* *** "Cahier de charges :"
-   
-   Variables de type : Une pseudo-structure union-find-like;
-   Chaque identifiant étant identifié par un chiffre;;
-   
-   ** ***)
-
+ *   
+ *  Variables de type : Une pseudo-structure union-find-like;
+ *  Chaque identifiant étant identifié par un chiffre;;
+ * 
+ ** ***)
 
 open Ast;;
 open Types;;
@@ -52,6 +51,7 @@ type environnement =
  * EXCEPTIONS
  * 
  * ****************)
+
 (* Pê on devrait changer de exception *)
 exception Non_unifiable of t * t;;
 
@@ -60,7 +60,33 @@ exception Non_unifiable of t * t;;
  * TODO FUNS 
  * 
  * ********************)
- 
+
+let void_evt =
+  {evt_in = []; evt_ex = []}
+;; 
+
+let get_id ident evt =
+  0
+;;
+
+(* ********************
+ * FONCTIONS "PRIVEES"
+ * ********************)
+
+let new_sequence () =
+  let a = ref 0 in
+  let seq () =
+    let b = !a in
+    (a := !a + 1;
+     b)
+  in seq
+;;
+
+let next_val =
+  new_sequence ()
+;;
+
+
 (**
    Remplace l'identificateur dans l'environnement, par le type typ.
    
@@ -76,35 +102,49 @@ exception Non_unifiable of t * t;;
    @param generalize booléen indiquant s'il faut généraliser
    @return un tuple (typ, environnement)
 **)
-let add_or_replace evt ident =
-  (* fixme² *)
-  (Id(0), {evt_in = []; evt_ex = []})
+let add_or_replace evt ident typ =
+  let new_id = next_val () in
+  let old_id = ref (-1) in
+  (* i. refaire la nouvelle liste *)
+  let (lst_ident_vt, was_seen) =
+    List.fold_left
+      (
+	fun (lst_rendue, was_seen) (idt, id) ->
+	  if ident = idt && (not was_seen) 
+	  then
+	    (old_id := id;
+	    (((ident, new_id) :: lst_rendue), true))
+	  else if ident = idt && (was_seen)
+	  then failwith "add_or_replace : deux fois le même ident dans la liste"
+	  else (lst_rendue, was_seen)
+      )
+      ([], false)
+      (evt.evt_ex)
+  in
+  let new_lst_ident_id =
+    if was_seen
+    then lst_ident_vt
+    else (ident, new_id) :: lst_ident_vt
+  in
+  let new_lst_in =
+    (* todo : véfifier que c'est le bon sens *)
+    List.fold_left
+      (
+	fun acc vartyp ->
+	if vartyp.id = (!old_id)
+	then acc
+	else vartyp :: acc
+      )
+      
+  (Id( -1), { evt_in = []; evt_ex = [] })
 ;;
 
-
-
-
-(* ********************
- * FONCTIONS "PRIVEES"
- * ********************)
-
-let get_sequence () =
-  let a = ref 0 in
-  let seq () =
-    let b = !a in
-    (a := !a + 1;
-     b)
-  in seq
-;;
-
-let next_val = get_sequence ()
-;;
 (*
 (*
   on laisse cette fonction là 
   FIXME
 *)
-let copy_varlist varlst =
+  let copy_varlist varlst =aaaaaa
   let rec cvl varlst acc =
     match varlst with
     | [] -> acc
@@ -138,7 +178,7 @@ let copy_varlist varlst =
 	     )
 	     acc
 	     varlst
-	 in
+  in
 	 cvl varlst acc' 
   in cvl varlst []
 ;;
@@ -148,36 +188,47 @@ let copy_varlist varlst =
  * FONCTIONS PUBLIQUES
  * ********************)
 
+(* fixme *)
+let get_typ_pattern patt =
+  let rec get_type_pattern pattern evt =
+    match pattern with
+    | PP_any -> Id(next_val () )
+    | PP_ident(str) -> Id(get_id str evt)
+    | PP_tuple(pattern_lst) -> Id (0)
+  in Id (0)
+;;
+  
 
 (* *** 
  * fixme
  * rend un couple (Type, nouvel_environnement) 
  * ***)
-let rec add_pattern_to_evt evt pattern = 
+let rec add_pattern_to_evt evt pattern =
   add_pattern_to_evt_d pattern.ppatt_desc evt
+
 and add_pattern_to_evt_d pattern evt =
+
   match pattern with
   | PP_any
     -> let new_val = next_val () in 
        ( Id(new_val),
 	 { evt_ex = evt.evt_ex;
 	   evt_in =({id = new_val; o_typ = None} :: evt.evt_in) })
-  (* i) trouver le nouvel environnement + la nouvelle variable de type
-   * ii)
-   *) 
+
   | PP_ident(ident)
-    -> let (typ_id, new_evt) = add_or_replace evt ident in
-       (typ_id, new_evt)
+    -> let new_val = next_val () in
+       (Id(new_val, add_or_replace ident evt (Id(new_val) )))
 
   | PP_tuple( ppatt_lst )
     ->
+     (* todo : vérifier que c'est dans le bon sens *)
      let (new_typ, new_evt) = List.fold_left
        (
 	 fun (acc_typ, acc_evt) pattern ->
 	   let (new_typ, new_evt) = add_pattern_to_evt acc_evt pattern in
 	   ( (new_typ :: acc_typ ) , new_evt) 
        )
-       ([], evt) 
+       ( [], evt ) 
        ppatt_lst
      in (Tuple(new_typ), new_evt)
 ;;
@@ -198,7 +249,7 @@ let find ident evt =
       then find_representant (List.find (fun f -> f.id = id) evt.evt_in)
       else vt
     | Some(t) -> vt
-  in	
+  in
   let (_, id) = List.find (fun (a, _) -> a = ident) (evt.evt_ex) in 
   let vartyp = List.find (fun vt -> vt.id = id) (evt.evt_in) in
   let representant = find_representant vartyp in
@@ -207,12 +258,14 @@ let find ident evt =
   | Some(truc) -> truc
 ;;
 
-let get_id ident evt =
-  ()
+let unification t1 t2 evt =
+  Unit
 ;;
 
+
+
 (* la liste de vartyp ne contient pas deux_mêmes vartyp *)
-;;
+
 (*
 
 (* **************
