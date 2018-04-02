@@ -113,7 +113,7 @@ let add_or_replace evt ident typ =
 	  if ident = idt && (not was_seen) 
 	  then
 	    (old_id := id;
-	    (((ident, new_id) :: lst_rendue), true))
+	     (((ident, new_id) :: lst_rendue), true))
 	  else if ident = idt && (was_seen)
 	  then failwith "add_or_replace : deux fois le même ident dans la liste"
 	  else (lst_rendue, was_seen)
@@ -126,27 +126,21 @@ let add_or_replace evt ident typ =
     then lst_ident_vt
     else (ident, new_id) :: lst_ident_vt
   in
-  let new_lst_in =
-    (* todo : véfifier que c'est le bon sens *)
-    List.fold_left
-      (
-	fun acc vartyp ->
-	if vartyp.id = (!old_id)
-	then acc
-	else vartyp :: acc
-      )
-      
-  (Id( -1), { evt_in = []; evt_ex = [] })
+  let new_lst_in = (* enlever la variable de type devenue inutile, y rajouter la nouvelle variable de type *)
+    {id = new_id; o_type = if typ = Id(-1) then None else Some(typ) } :: evt.evt_ex
+  in
+  { new_evt_in; new_evt_ex}
+  
 ;;
 
 (*
-(*
+  (*
   on laisse cette fonction là 
   FIXME
 *)
   let copy_varlist varlst =aaaaaa
   let rec cvl varlst acc =
-    match varlst with
+  match varlst with
     | [] -> acc
     | elt :: s ->
        (* On regarde si la référence de l'identificateur a déjà été créée : 
@@ -217,7 +211,7 @@ and add_pattern_to_evt_d pattern evt =
 
   | PP_ident(ident)
     -> let new_val = next_val () in
-       (Id(new_val, add_or_replace ident evt (Id(new_val) )))
+       (Id(new_val, add_or_replace ident evt ( Id(-1) )))
 
   | PP_tuple( ppatt_lst )
     ->
