@@ -8,7 +8,7 @@ top.cmo : typing.cmo parser.cmi lexer.cmo ast.cmi
 top.cmx : typing.cmx parser.cmx lexer.cmx ast.cmi
 types.cmo : ast.cmi
 types.cmx : ast.cmi
-typing.cmo :
-typing.cmx :
+typing.cmo : types.cmo environnement.cmo ast.cmi
+typing.cmx : types.cmx environnement.cmx ast.cmi
 ast.cmi :
 parser.cmi : ast.cmi

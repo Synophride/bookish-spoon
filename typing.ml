@@ -50,7 +50,9 @@ let typage_attendu_binop =
     -> Some(Bool)
 ;;
 
-let typage plets =
+
+let typage plets evt=
+
   let rec typage_pexp pexpr evt =
     try
       typage_pdesc (pexpr.pexpr_desc) evt
@@ -60,14 +62,19 @@ let typage plets =
   and typage_pdesc pexpr_desc evt =
     match pexpr_desc with
     | PE_cte(c) -> typage_cte c
-    | PE_ident(i) -> find i evt
+    | PE_ident(i) ->let vartyp = (find i evt) in
+		    (match vartyp.o_typ with
+		     | None -> Id( vartyp.id)
+		     | Some(t) -> t
+		    )
     | PE_unop(operateur, pexpr)
       -> let typ_unop = typage_attendu_unop operateur in
-	 let typ_expr = typage_pexp pexpr in
-	 unification typ_unop typ_expr evt (* on peut pê simplifier ça *)
+	 let typ_expr = typage_pexp pexpr evt in
+	 unification typ_unop typ_expr evt
+	   
     | PE_binop(op, pexpr1, pexpr2)
       ->
-       let typ1, typ2 = (typage_pexp pexpr1, typage_pexp pexpr2) in
+       let typ1, typ2 = (typage_pexp pexpr1 evt, typage_pexp pexpr2 evt) in
        let type_attendu = typage_attendu_binop op in
        (
 	 match type_attendu with
@@ -80,8 +87,13 @@ let typage plets =
     | PE_tuple(pexp_list) -> Tuple(List.map (fun x -> typage_pexp x evt) pexp_list)
 
     | PE_if(bool_exp, e1, e2) ->
-       ( unification bool_exp Bool evt;
-	 unification e1 e2 evt
+       ( let t1, t2, t3 =
+	   typage_pexp bool_exp evt,
+	   typage_pexp e1 evt,
+	   typage_pexp e2 evt 
+	 in
+	 unification t1 Bool evt;
+	 unification t2 t3 evt
        )
 
     | PE_fun(pattern, expr)
@@ -110,7 +122,7 @@ let typage plets =
 	    fixme
 	 *) 
 	 typage_pexp e2 evt
-
+	   
     (* reste à implémenter les listes *)
     | PE_nil -> List( Id(next_val () ) )
     | PE_cons(exp1, exp2) -> let t1, t2 = typage_pexp exp1 evt, typage_pexp exp2 evt in
@@ -122,5 +134,13 @@ let typage plets =
     | PE_match(exp1, exp2, (pattern1, pattern2, exp3)) -> failwith ""
     | _ -> (failwith "not implemented")      
   in
-  ()
+  let pdef = List.hd plets in
+  let {pdef_desc ; pdef_loc} = pdef in
+  let (isrec, pattern, exp) = pdef_desc in
+  typage_pexp exp evt
+;;
+
+let typing lets =
+  let evt = {evt_in = []; evt_ex = []} in  
+  Printf.printf "%s\n" (str_of_t (fun x -> " " ^ string_of_int x ^ " " )  (typage lets evt))
 ;;

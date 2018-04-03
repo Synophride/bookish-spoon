@@ -3,7 +3,6 @@ open Lexing
 open Lexer
 open Parser
 open Ast
-open Typing
 ;;
 
 let evt = ref 0;;
@@ -14,27 +13,22 @@ let () =
 
 (** Create a lexer buffer which reads from the given string **)
 let rec top () = 
-  let e = "" in (* TODO : mettre la fonction récupérant une entrée clavier *)
-  if e = "exit"
-  then ()
-  else    
-    let lb = Lexing.from_string e in (* Lexing *)
-    try
-      (* dl : de type plets = liste de déclarations au toplevel = pdefs list *)
-      let dl = Parser.lets Lexer.token lb in (* parser: pdef list *)
-      let ld = ( (), dl) in
-      fst ld
-    (* pdef =
-       desc=(
-       isrec, -> true si c'est une fonction récursive
-       identificateur, -> nom de la var/fonction -> Peut être défini dans un tuple
-       expression -> expression associée 
-       )
-       + location 
-    *)
+  while  1 = 1 do
+    try 
+      let e = read_line () in (* TODO : mettre la fonction récupérant une entrée clavier *)
+      if e = "exit"
+      then exit 0
+      else
+	let lb = Lexing.from_string e in
+	
+	(* dl : de type plets = liste de déclarations au toplevel = pdefs list *)
+	let dl = Parser.lets Lexer.token lb in (* parser: pdef list *)
+	let ld = ( (), dl) in
+	Typing.typing dl
     with
       Lexical_error s -> ()
     | Parsing.Parse_error -> ()
-    | _ -> () 
+  done;
+  
 ;;
 

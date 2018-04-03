@@ -106,7 +106,7 @@ let add_or_replace evt ident typ =
   let new_id = next_val () in
   let old_id = ref (-1) in
   (* i. refaire la nouvelle liste *)
-  let (lst_ident_vt, was_seen) =
+  let (lst_ident_id, was_seen) =
     List.fold_left
       (
 	fun (lst_rendue, was_seen) (idt, id) ->
@@ -123,14 +123,14 @@ let add_or_replace evt ident typ =
   in
   let new_lst_ident_id =
     if was_seen
-    then lst_ident_vt
-    else (ident, new_id) :: lst_ident_vt
+    then lst_ident_id
+    else (ident, new_id) :: lst_ident_id
   in
-  let new_lst_in = (* enlever la variable de type devenue inutile, y rajouter la nouvelle variable de type *)
-    {id = new_id; o_type = if typ = Id(-1) then None else Some(typ) } :: evt.evt_ex
+  let new_evt_in =
+    {id = new_id; o_typ = if typ = Id(-1) then None else Some(typ) } :: evt.evt_in
+
   in
-  { new_evt_in; new_evt_ex}
-  
+  (  Id(new_id), {evt_in =new_evt_in; evt_ex = new_lst_ident_id} ) 
 ;;
 
 (*
@@ -147,7 +147,7 @@ let add_or_replace evt ident typ =
 	  Si oui, on continue sur la suite de la liste, sinon on ajoute la référence *)
        if (
 	 List.exists
-	   (fun x ->
+  (fun x ->
 	     let x_id = x.id in
 	     x_id = elt.id
 	   )
@@ -173,9 +173,9 @@ let add_or_replace evt ident typ =
 	     acc
 	     varlst
   in
-	 cvl varlst acc' 
+  cvl varlst acc' 
   in cvl varlst []
-;;
+  ;;
 *)
 
 (* ********************
@@ -198,21 +198,18 @@ let get_typ_pattern patt =
  * rend un couple (Type, nouvel_environnement) 
  * ***)
 let rec add_pattern_to_evt evt pattern =
-  add_pattern_to_evt_d pattern.ppatt_desc evt
-
+  add_pattern_to_evt_d (pattern.ppatt_desc) evt
 and add_pattern_to_evt_d pattern evt =
-
   match pattern with
   | PP_any
     -> let new_val = next_val () in 
-       ( Id(new_val),
-	 { evt_ex = evt.evt_ex;
-	   evt_in =({id = new_val; o_typ = None} :: evt.evt_in) })
+       (Id(new_val),
+	{evt_ex = evt.evt_ex;
+	 evt_in =( {id = new_val; o_typ = None} :: evt.evt_in) })
 
   | PP_ident(ident)
-    -> let new_val = next_val () in
-       (Id(new_val, add_or_replace ident evt ( Id(-1) )))
-
+    -> (add_or_replace evt ident ( Id(-1) ) )
+  
   | PP_tuple( ppatt_lst )
     ->
      (* todo : vérifier que c'est dans le bon sens *)
@@ -232,8 +229,8 @@ and add_pattern_to_evt_d pattern evt =
    Rend le type (instancié) associé à l'identificateur 
    @param ident l'indentificateur à associer 
    @param evt l'environnement dans lequel rechercher
-   @return le type (instancié) associé à l'identificateur
-   FIXME
+   @return la variable de type représentant l'identificateur passé en paramètre
+   fixme
 **)
 let find ident evt =
   let rec find_representant vt =
@@ -247,13 +244,83 @@ let find ident evt =
   let (_, id) = List.find (fun (a, _) -> a = ident) (evt.evt_ex) in 
   let vartyp = List.find (fun vt -> vt.id = id) (evt.evt_in) in
   let representant = find_representant vartyp in
-  match representant.o_typ with
+  let a = match representant.o_typ with
   | None -> Id(representant.id)
   | Some(truc) -> truc
+  in  {id = 0; o_typ = None }
 ;;
 
-let unification t1 t2 evt =
-  Unit
+(* fixme
+   donne la variable de type représenant *)
+let find_representant id evt =
+  {id = 0; o_typ = Some(Id(0))}
+;;
+
+(* fixme *)
+let rec unification t1 t2 evt =
+  match t1, t2 with
+  | Unit, Unit
+  | Bool, Bool
+  | Integer, Integer
+  | Float, Float
+  | String, String
+  | Char, Char -> t1
+  | Tuple(t_list1), Tuple(t_list2)
+    ->
+     (
+       try
+	 Tuple(List.map2 (fun x y -> unification x y evt) t_list1 t_list2)
+       with
+	 Invalid_argument(a) -> raise (Non_unifiable (t1, t2));
+     )
+  | Fun(t_list1), Fun(t_list2) ->
+     (
+       try
+	 Fun(List.map2 (fun x y -> unification x y evt) t_list1 t_list2)
+       with
+       | (Invalid_argument(a)) -> raise (Non_unifiable (t1, t2));
+     )
+       
+  (* c'est là que ça va chier *)
+  | Id(id1), Id(id2) -> let representant1, representant2 =
+			  find_representant id1 evt, find_representant id2 evt in
+			(
+			  match representant1.o_typ, representant2.o_typ with
+			  | None, None ->
+			     if id1 < id2
+			     then (representant2.o_typ <- Some(Id(id1));
+				   Id(id1))
+			     else if id1 > id2 
+			     then (representant1.o_typ <- Some(Id(id2));
+				   Id(id2))
+			     else Id(id1)
+			  | Some(t1), None -> (* on sait que t1 pas un id(truc) car on part du principe que on a bien le bon *)
+			     if(id1 < id2)
+			     then (representant2.o_typ <- Some(Id(id1));
+				   t1)
+			     else if id2 < id1
+			     then (
+			       representant2.o_typ <- Some(t1);
+			       representant1.o_typ <- Some(Id(id2));
+			       t1
+			     )
+			     else failwith "typage : ";
+			    
+			  | None, Some(t2) ->
+			     if(id1 < id2)
+			     then (
+			       representant1.o_typ <- Some(t2);
+			       representant2.o_typ <- Some(Id(id1));
+			       t2
+			     )
+			     else if id2 < id1
+			     then (
+			       representant1.o_typ <- Some(Id(id2));
+			       t2
+			     ) else failwith ""
+			  | Some(t1), Some(t2) -> unification t1 t2 evt
+			)  
+  | _ -> raise (Non_unifiable(t1, t2))
 ;;
 
 
