@@ -64,8 +64,8 @@ let typage plets evt=
     | PE_cte(c) -> typage_cte c
     | PE_ident(i) ->let vartyp = (find i evt) in
 		    (match vartyp.o_typ with
-		     | None -> Id( vartyp.id)
-		     | Some(t) -> t
+		    | None -> Id( vartyp.id)
+		    | Some(t) -> t
 		    )
     | PE_unop(operateur, pexpr)
       -> let typ_unop = typage_attendu_unop operateur in
@@ -89,8 +89,8 @@ let typage plets evt=
     | PE_if(bool_exp, e1, e2) ->
        ( let t1, t2, t3 =
 	   typage_pexp bool_exp evt,
-	   typage_pexp e1 evt,
-	   typage_pexp e2 evt 
+	 typage_pexp e1 evt,
+	 typage_pexp e2 evt 
 	 in
 	 unification t1 Bool evt;
 	 unification t2 t3 evt
@@ -140,7 +140,7 @@ let typage plets evt=
   typage_pexp exp evt
 ;;
 
-let typing lets =
+let typaj lets =
   let evt = {evt_in = []; evt_ex = []} in  
   Printf.printf "%s\n" (str_of_t (fun x -> " " ^ string_of_int x ^ " " )  (typage lets evt))
 ;;

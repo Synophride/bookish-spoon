@@ -2,7 +2,8 @@
  * TYPES.ML
  * V 0.0
  * 28/02
- *********************)
+ * ********************)
+
 open Ast
 ;;
 
@@ -22,6 +23,7 @@ type t =
 
 exception Bad_type of location * t * t;;
 exception WTFexception of string;;
+
 
 let rec str_of_t wat_to_do_with_ids =
   function
