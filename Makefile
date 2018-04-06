@@ -22,15 +22,15 @@ BINDIR=${exec_prefix}/bin
 MANDIR=${prefix}/man
 
 # other variables set by ./configure
-OCAMLC   = ocamlc
-OCAMLOPT = ocamlopt
+OCAMLC   = ocamlc.opt
+OCAMLOPT = ocamlopt.opt
 OCAMLDEP = ocamldep
-OCAMLLEX = ocamllex
+OCAMLLEX = ocamllex.opt
 OCAMLYACC= ocamlyacc
 OCAMLLIB = /usr/lib/ocaml
 OCAMLBEST= opt
 OCAMLVERSION = 4.02.3
-OCAMLWEB = true
+OCAMLWEB = ocamlweb
 OCAMLWIN32 = no
 EXT = 
 

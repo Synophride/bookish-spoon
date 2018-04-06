@@ -1,5 +1,7 @@
 environnement.cmo : types.cmo ast.cmi
 environnement.cmx : types.cmx ast.cmi
+interpretation.cmo : ast.cmi
+interpretation.cmx : ast.cmi
 lexer.cmo : parser.cmi ast.cmi
 lexer.cmx : parser.cmx ast.cmi
 parser.cmo : ast.cmi parser.cmi
