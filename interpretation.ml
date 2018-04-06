@@ -244,6 +244,8 @@ let interpretation expression environnement =
 	 if (match v_bool with | Val_bool(v) -> v | _ -> failwith "") 
 	 then  inter e1 evt
 	 else  inter e2 evt
-    |_ -> failwith " "
+    | PE_app(fun_exp, e)
+    | _ -> failwith " "
+       
   in ()
 ;;
