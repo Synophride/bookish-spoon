@@ -52,7 +52,6 @@ let typage_attendu_binop =
 
 
 let typage plets evt=
-
   let rec typage_pexp pexpr evt =
     try
       typage_pdesc (pexpr.pexpr_desc) evt
@@ -63,10 +62,12 @@ let typage plets evt=
     match pexpr_desc with
     | PE_cte(c) -> typage_cte c
     | PE_ident(i) ->let vartyp = (find i evt) in
-		    (match vartyp.o_typ with
-		    | None -> Id( vartyp.id)
-		    | Some(t) -> t
+		    (
+		      match vartyp.o_typ with
+		      | None -> Id( vartyp.id)
+		      | Some(t) -> t
 		    )
+
     | PE_unop(operateur, pexpr)
       -> let typ_unop = typage_attendu_unop operateur in
 	 let typ_expr = typage_pexp pexpr evt in
@@ -100,7 +101,7 @@ let typage plets evt=
       -> let (new_typ, new_evt) = add_pattern_to_evt evt pattern in
 	 let typ_exp = typage_pexp expr new_evt in 
 	 Fun(new_typ :: [typ_exp]) (* pas forcément legit, à voir *)
-
+	   
     | PE_app(exp1, exp2)
       -> (
 	let t1, t2 = typage_pexp exp1 evt, typage_pexp exp2 evt in
@@ -114,6 +115,7 @@ let typage plets evt=
 	   )
 	| _ -> raise (Non_unifiable(t1, t2))
       )
+
     | PE_let(is_rec, pattern, e1, e2)
       -> let t_e1 = typage_pexp e1 in
 	 (* 

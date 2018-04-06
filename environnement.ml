@@ -318,8 +318,8 @@ let rec unification t1 t2 evt =
 			       representant1.o_typ <- Some(Id(id2));
 			       t2
 			     ) else failwith ""
-			  | Some(t1), Some(t2) -> unification t1 t2 evt
-			)  
+			  | Some(t1), Some(t2) -> unification t1 t2 evt (* il faudrait pê prendre en compte le cas ou t1 est dans t2, ou inversement *) 
+			)
   | _ -> raise (Non_unifiable(t1, t2))
 ;;
 
