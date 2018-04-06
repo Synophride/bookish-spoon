@@ -1,11 +1,10 @@
 open Ast;;
 
 type value =
-  | Value_unit 
+  | Val_unit 
   | Val_bool of bool
   | Val_int of int
   | Val_float of float
-  | Val_char of char
   | Val_str of string
   | Val_fun of p_patt * p_expr
   | Val_lst of value list
@@ -138,3 +137,113 @@ let application_subst expression_a_changer pattern expression =
       lst
 ;;
       
+(*****************************)
+
+let valuation_cte =
+  function
+  | Cunit -> Val_unit
+  | Cbool(b) -> Val_bool(b)
+  | Cint(i) -> Val_int(i)
+  | Cfloat(f) -> Val_float(f)
+  | Cstring(str) -> Val_str(str)
+;;
+
+let apply_unop op value =
+  match op with
+  | Unot -> (match value with 
+    | Val_bool(v) -> Val_bool(not v)
+    | _ -> failwith "apply unop : pas un booléen")
+  | Uminus -> (match value with
+    | Val_int(i) -> Val_int( -i )
+    | _ -> failwith "apply : mauvais typage")
+  | Uminus_f -> (match value with
+    | Val_float(i) -> Val_float( -.i )
+    | _ -> failwith "apply : mauvais typage")
+;;
+
+let apply_binop op v1 v2 =
+  match op with
+  | Beq -> Val_bool( v1 =  v2) (* on est assuré par le typage que v1 v2 de même type *)
+  | Bneq-> Val_bool( v1 <> v2)
+  | Blt -> Val_bool( v1 <  v2) 
+  | Ble -> Val_bool( v1 <= v2) 
+  | Bgt -> Val_bool( v1 >  v2) 
+  | Bge -> Val_bool( v1 >= v2) 
+
+  | Badd-> Val_int(
+    (match v1 with Val_int(i) -> i | _ -> failwith "appl binop : mauvais typage") +
+      (match v2 with Val_int(i) -> i | _ -> failwith "appl binop : mauvais typage")
+  )
+  | Bsub -> Val_int(
+    (match v1 with Val_int(i) -> i | _ -> failwith "appl binop : mauvais typage") -
+      (match v2 with Val_int(i) -> i | _ -> failwith "appl binop : mauvais typage")
+  )
+  | Bmul-> Val_int(
+    (match v1 with Val_int(i) -> i | _ -> failwith "appl binop : mauvais typage") *
+      (match v2 with Val_int(i) -> i | _ -> failwith "appl binop : mauvais typage")
+  )  
+  | Bdiv -> Val_int(
+    (match v1 with Val_int(i) -> i | _ -> failwith "appl binop : mauvais typage") /
+      (match v2 with Val_int(i) -> i | _ -> failwith "appl binop : mauvais typage")
+  )
+
+     
+  | Badd_f
+    -> Val_float(
+    (match v1 with Val_float(i) -> i | _ -> failwith "appl binop : mauvais typage") +.
+      (match v2 with Val_float(i) -> i | _ -> failwith "appl binop : mauvais typage")
+  )
+  | Bsub_f
+    -> Val_float(
+      (match v1 with Val_float(i) -> i | _ -> failwith "appl binop : mauvais typage") -.
+	(match v2 with Val_float(i) -> i | _ -> failwith "appl binop : mauvais typage")
+    )
+  | Bmul_f
+      -> Val_float(
+    (match v1 with Val_float(i) -> i | _ -> failwith "appl binop : mauvais typage") *.
+      (match v2 with Val_float(i) -> i | _ -> failwith "appl binop : mauvais typage")
+  )
+  | Bdiv_f 
+    -> Val_float(
+    (match v1 with Val_float(i) -> i | _ -> failwith "appl binop : mauvais typage") /.
+      (match v2 with Val_float(i) -> i | _ -> failwith "appl binop : mauvais typage")
+    )
+     
+  | Band ->
+     Val_bool(
+       (match v1 with Val_bool(b) -> b | _ -> failwith "apply binop : mauvais typage") &&	
+	 (match v2 with Val_bool(b) -> b | _ -> failwith "apply binop : mauvais typage")
+     )
+ 
+  | Bor ->
+     Val_bool(
+       (match v1 with Val_bool(b) -> b | _ -> failwith "apply binop : mauvais typage") || 
+	 (match v2 with Val_bool(b) -> b | _ -> failwith "apply binop : mauvais typage")
+     )
+;;
+
+
+(* censé attribuer une valeur avec un environnement donné *)
+let interpretation expression environnement =
+  let rec inter pexpr evt =
+    inter_desc (pexpr.pexpr_desc) environnement
+  and inter_desc pexp evt =
+    match pexp with
+    | PE_cte(c) -> valuation_cte c
+    | PE_ident(i) -> Str_map.find i evt
+    | PE_unop(op, exp)
+      -> let value = inter exp evt in
+	 apply_unop op value
+
+    | PE_binop(op, e1, e2)
+      -> let value_e1, value_e2 = inter e1 evt, inter e2 evt in
+	 apply_binop op value_e1 value_e2
+
+    | PE_if(bool_exp, e1, e2)
+      -> let v_bool = inter bool_exp evt in
+	 if (match v_bool with | Val_bool(v) -> v | _ -> failwith "") 
+	 then  inter e1 evt
+	 else  inter e2 evt
+    |_ -> failwith " "
+  in ()
+;;
