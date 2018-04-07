@@ -309,6 +309,7 @@ let interpretation expression environnement =
   in inter expression environnement
 ;;
 
+
 let rec str_pattern patt=
   match patt.ppatt_desc with 
   | PP_any -> "_"
@@ -321,6 +322,12 @@ let rec str_pattern patt=
      ) ^ " )"
 ;;
 
+let str_of_binop =
+  function
+  | _ -> " op "
+;;
+
+
 let rec str_expr expr =
   match expr.pexpr_desc with
   | PE_cte(c) ->
@@ -329,4 +336,35 @@ let rec str_expr expr =
      | Cbool(b) -> if b then "true" else "false"
      | Cint(i) -> string_of_int i
      | Cfloat(f) -> string_of_float f
-     | 
+     | Cstring(str) -> "\"" ^str^ "\""
+     )
+  | PE_ident(id) -> id
+  | PE_unop(op, expr) ->
+     (match op with | Unot -> "! "  | Uminus -> "é" | Uminus_f -> "~." )
+     ^ "expr "
+  | PE_binop(op, e1, e2) ->
+     "(" ^ (str_expr e1) ^ (str_of_binop op) ^ (str_expr e2) ^ ")"
+  | PE_if(b, th, els)
+    -> "if " ^ (str_expr b) ^ "\nthen " ^ (str_expr th) ^ "\nelse " ^ (str_expr els)
+  | PE_app(e1, e2) -> (str_expr e1) ^ " " ^ (str_expr e2)
+  | PE_fun(pattern, expr) -> "fun " ^ (str_pattern pattern) ^" -> " ^ (str_expr expr)
+  | PE_tuple(lst) -> "(" ^
+     (List.fold_left
+	(fun acc elt -> acc ^ "* " ^ str_expr elt)
+	""
+	lst
+     ) ^ " )"
+     
+  | PE_let(isrec, pattern, e1, e2)
+    ->
+     "let " ^ (if isrec then "rec " else "") ^ (str_pattern pattern) ^ (str_expr e1) ^ " in\n" ^ (str_expr e2)
+  | PE_match(exp1, retour1, (pattern_elt, pattern_suite, retour2)) ->
+     "match " ^ (str_expr exp1) ^ " with \n | [] -> " ^
+       (str_expr retour1) ^ " \n | " ^
+       (str_pattern pattern_elt) ^ " :: " ^ (str_pattern pattern_suite) ^ " -> " ^
+       (str_expr retour2)
+  |PE_nil -> "[]"
+  | PE_cons(expr_x, expr_s) -> (str_expr expr_x) ^ " :: " ^ (str_expr expr_s)
+
+;;
+       
