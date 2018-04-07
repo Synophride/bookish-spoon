@@ -35,8 +35,6 @@ and contains_pdesc pdesc pattern_contenu =
     -> List.exists (fun pattern -> contains pattern pattern_contenu) pattern_lst
 ;;
 
-
-
 (* element à substituer ?= pattern ? *) 
 let rec substitution pexp element_a_substituer element_remplacant =
   let new_pexprdesc = subs_pexprdesc (pexp.pexpr_desc) element_a_substituer element_remplacant in
@@ -118,9 +116,8 @@ let application_subst expression_a_changer pattern expression =
     | PP_any -> acc
     | PP_tuple( ppatt_list ) ->
        List.fold_left2
-
-	 (fun lst_evt_acc pattern exp
-	    -> (gas (pattern) exp lst_evt_acc))
+	 (fun lst_evt_acc pattern exp ->
+	   (gas (pattern) exp lst_evt_acc))
 	 acc
 	 ppatt_list
 	 (match exp.pexpr_desc with
@@ -136,8 +133,9 @@ let application_subst expression_a_changer pattern expression =
       expression_a_changer
       lst
 ;;
-      
-(*****************************)
+
+
+(**********************************)
 
 let valuation_cte =
   function
@@ -223,6 +221,11 @@ let apply_binop op v1 v2 =
 ;;
 
 
+let application_fun pattern_fun expr_fun value_exp =
+  application_subst expr_fun pattern_fun value_exp 
+;;
+
+(* str_map -> value *)
 (* censé attribuer une valeur avec un environnement donné *)
 let interpretation expression environnement =
   let rec inter pexpr evt =
@@ -244,8 +247,86 @@ let interpretation expression environnement =
 	 if (match v_bool with | Val_bool(v) -> v | _ -> failwith "") 
 	 then  inter e1 evt
 	 else  inter e2 evt
-    | PE_app(fun_exp, e)
-    | _ -> failwith " "
+
+	   
+
+    (* 6/10 legit *)
+    | PE_app(exp_fun, exp_val) ->
+       let value_fun = inter exp_fun evt in
+       let value = inter exp_val evt in (* a la valeur non-f *)
+       let pattern_fun, exp_fun = (
+	 match value_fun with
+	 | Val_fun(pattern, pexp) -> pattern, pexp
+	 | _ -> failwith ""
+       )
+       in
+       let new_expr = application_fun pattern_fun exp_fun exp_val in
+       inter new_expr evt
        
-  in ()
+    | PE_fun(param, exp) -> Val_fun(param, exp)
+
+    | PE_tuple(pexp_lst) -> Val_tuple( List.map (fun exp -> inter exp evt) pexp_lst)
+
+    | PE_let(isrec, pattern, e1, e2)
+      -> if isrec
+	then
+	  failwith "fonctions récusives non encore implémentées"
+	else
+	  let new_expr_e2 = application_subst e1 pattern e1 in
+	  inter new_expr_e2 evt
+
+    (* encore 60 % legit *)
+    | PE_match(expr, rendu1, (e_elt, e_suite, r2))
+      ->
+       if (expr.pexpr_desc = PE_nil) (* ie si la liste est vide *)
+       then inter rendu1 evt
+       else
+	 let value_lst = inter expr evt in 
+	 let exp_elt, exp_suite =
+	   (match expr.pexpr_desc with
+	   | PE_cons(e1, e2) -> e1, e2
+	   | _ -> failwith "match avec pas une liste"
+	   ) in
+	 let substituted_expr =
+	   application_subst r2 e_elt exp_elt in
+	 let substituted_expr'=
+	   application_subst substituted_expr e_suite exp_suite in
+	 inter substituted_expr' evt
+	   
+
+    | PE_nil -> Val_lst( [] )
+    | PE_cons(x, s) ->
+       let interp_x, interp_s =
+	 inter x evt, inter s evt in
+       let val_lst_s =
+	 (match interp_s with
+	 | Val_lst (vallst) -> vallst
+	 | _ -> failwith ""
+	 ) in
+       Val_lst(interp_x :: val_lst_s)
+	 
+    | _ -> failwith "no implrementera"    
+  in inter expression environnement
 ;;
+
+let rec str_pattern patt=
+  match patt.ppatt_desc with 
+  | PP_any -> "_"
+  | PP_ident(str) -> str
+  | PP_tuple(pattlst) -> "( " ^
+     (List.fold_left
+	(fun acc elt -> acc ^ " * " ^ str_pattern elt)
+	""
+	pattlst
+     ) ^ " )"
+;;
+
+let rec str_expr expr =
+  match expr.pexpr_desc with
+  | PE_cte(c) ->
+     (match c with
+     | Cunit -> "()"
+     | Cbool(b) -> if b then "true" else "false"
+     | Cint(i) -> string_of_int i
+     | Cfloat(f) -> string_of_float f
+     | 

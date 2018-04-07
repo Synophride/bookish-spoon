@@ -328,12 +328,12 @@ let rec unification t1 t2 evt =
 (* la liste de vartyp ne contient pas deux_mêmes vartyp *)
 
 (*
-
+  
 (* **************
- *
- * To see later 
- *
- * **************)
+  *
+  * To see later 
+  *
+  * **************)
 
 (**
    Unifie deux types.
@@ -342,7 +342,7 @@ let rec unification t1 t2 evt =
    
    @param t1 un type instancié
    @param t2 un autre type instancié
-   @return unit
+  @return unit
    
    (* FIXME *)
    Paramètres : Deux types + un environnement intérieur
