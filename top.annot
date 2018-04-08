@@ -1,0 +1,369 @@
+"top.ml" 9 103 107 "top.ml" 9 103 116
+type(
+  string list
+)
+ident(
+  def file_test "top.ml" 12 167 167 "top.ml" 1 0 -1
+)
+"top.ml" 9 103 120 "top.ml" 9 103 132
+type(
+  string
+)
+"top.ml" 9 103 135 "top.ml" 9 103 147
+type(
+  string
+)
+"top.ml" 9 103 149 "top.ml" 9 103 161
+type(
+  string
+)
+"top.ml" 9 103 119 "top.ml" 9 103 162
+type(
+  string list
+)
+"top.ml" 12 167 171 "top.ml" 12 167 191
+type(
+  in_channel list
+)
+ident(
+  def file_descriptor_test "top.ml" 15 227 227 "top.ml" 1 0 -1
+)
+"top.ml" 12 167 194 "top.ml" 12 167 202
+type(
+  (string -> in_channel) -> string list -> in_channel list
+)
+ident(
+  ext_ref List.map
+)
+"top.ml" 12 167 203 "top.ml" 12 167 212
+type(
+  string -> in_channel
+)
+ident(
+  ext_ref Pervasives.open_in
+)
+"top.ml" 12 167 213 "top.ml" 12 167 222
+type(
+  string list
+)
+ident(
+  int_ref file_test "top.ml" 9 103 107 "top.ml" 9 103 116
+)
+"top.ml" 12 167 194 "top.ml" 12 167 222
+call(
+  stack
+)
+type(
+  in_channel list
+)
+"top.ml" 15 227 231 "top.ml" 15 227 234
+type(
+  int ref
+)
+ident(
+  def evt "top.ml" 18 368 368 "top.ml" 1 0 -1
+)
+"top.ml" 15 227 237 "top.ml" 15 227 240
+type(
+  int -> int ref
+)
+ident(
+  ext_ref Pervasives.ref
+)
+"top.ml" 15 227 241 "top.ml" 15 227 242
+type(
+  int
+)
+"top.ml" 15 227 237 "top.ml" 15 227 242
+type(
+  int ref
+)
+"top.ml" 18 368 372 "top.ml" 18 368 374
+type(
+  unit
+)
+"top.ml" 19 377 379 "top.ml" 19 377 392
+type(
+  (unit, out_channel, unit) format -> unit
+)
+ident(
+  ext_ref Printf.printf
+)
+"top.ml" 19 377 393 "top.ml" 19 377 420
+type(
+  (unit, out_channel, unit) format
+)
+"top.ml" 19 377 379 "top.ml" 19 377 420
+call(
+  stack
+)
+type(
+  unit
+)
+"top.ml" 22 490 498 "top.ml" 22 490 501
+type(
+  unit -> unit
+)
+ident(
+  def top "top.ml" 22 490 490 "top.ml" 1 0 -1
+)
+"top.ml" 22 490 502 "top.ml" 22 490 504
+type(
+  unit
+)
+"top.ml" 23 508 517 "top.ml" 23 508 518
+type(
+  int
+)
+"top.ml" 23 508 519 "top.ml" 23 508 520
+type(
+  int -> int -> bool
+)
+ident(
+  ext_ref Pervasives.( = )
+)
+"top.ml" 23 508 521 "top.ml" 23 508 522
+type(
+  int
+)
+"top.ml" 23 508 517 "top.ml" 23 508 522
+type(
+  bool
+)
+"top.ml" 25 534 540 "top.ml" 25 534 549
+type(
+  (in_channel -> unit) -> in_channel list -> unit
+)
+ident(
+  ext_ref List.iter
+)
+"top.ml" 26 550 556 "top.ml" 26 550 557
+type(
+  in_channel
+)
+ident(
+  def e "top.ml" 27 561 564 "top.ml" 30 717 795
+)
+"top.ml" 27 561 568 "top.ml" 27 561 570
+type(
+  Lexing.lexbuf
+)
+ident(
+  def lb "top.ml" 28 598 601 "top.ml" 30 717 795
+)
+"top.ml" 27 561 573 "top.ml" 27 561 592
+type(
+  in_channel -> Lexing.lexbuf
+)
+ident(
+  ext_ref Lexing.from_channel
+)
+"top.ml" 27 561 593 "top.ml" 27 561 594
+type(
+  in_channel
+)
+ident(
+  int_ref e "top.ml" 26 550 556 "top.ml" 26 550 557
+)
+"top.ml" 27 561 573 "top.ml" 27 561 594
+call(
+  stack
+)
+type(
+  Lexing.lexbuf
+)
+"top.ml" 28 598 605 "top.ml" 28 598 607
+type(
+  Ast.plets
+)
+ident(
+  def dl "top.ml" 29 664 674 "top.ml" 30 717 795
+)
+"top.ml" 28 598 610 "top.ml" 28 598 621
+type(
+  (Lexing.lexbuf -> Parser.token) -> Lexing.lexbuf -> Ast.plets
+)
+ident(
+  ext_ref Parser.lets
+)
+"top.ml" 28 598 622 "top.ml" 28 598 633
+type(
+  Lexing.lexbuf -> Parser.token
+)
+ident(
+  ext_ref Lexer.token
+)
+"top.ml" 28 598 634 "top.ml" 28 598 636
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lb "top.ml" 27 561 568 "top.ml" 27 561 570
+)
+"top.ml" 28 598 610 "top.ml" 28 598 636
+call(
+  stack
+)
+type(
+  Ast.plets
+)
+"top.ml" 29 664 678 "top.ml" 29 664 695
+type(
+  Interpretation.value list
+)
+ident(
+  def plets_interpreted "top.ml" 30 717 720 "top.ml" 30 717 795
+)
+"top.ml" 29 664 698 "top.ml" 29 664 710
+type(
+  Ast.plets -> Interpretation.value list
+)
+ident(
+  ext_ref Interpretation.plets_interp
+)
+"top.ml" 29 664 711 "top.ml" 29 664 713
+type(
+  Ast.plets
+)
+ident(
+  int_ref dl "top.ml" 28 598 605 "top.ml" 28 598 607
+)
+"top.ml" 29 664 698 "top.ml" 29 664 713
+call(
+  stack
+)
+type(
+  Interpretation.value list
+)
+"top.ml" 30 717 720 "top.ml" 30 717 729
+type(
+  (Interpretation.value -> unit) -> Interpretation.value list -> unit
+)
+ident(
+  ext_ref List.iter
+)
+"top.ml" 30 717 735 "top.ml" 30 717 736
+type(
+  Interpretation.value
+)
+ident(
+  def x "top.ml" 30 717 740 "top.ml" 30 717 776
+)
+"top.ml" 30 717 740 "top.ml" 30 717 753
+type(
+  (string -> unit, out_channel, unit) format -> string -> unit
+)
+ident(
+  ext_ref Printf.printf
+)
+"top.ml" 30 717 754 "top.ml" 30 717 760
+type(
+  (string -> unit, out_channel, unit) format
+)
+"top.ml" 30 717 762 "top.ml" 30 717 771
+type(
+  Interpretation.value -> string
+)
+ident(
+  ext_ref Interpretation.str_value
+)
+"top.ml" 30 717 772 "top.ml" 30 717 775
+type(
+  Interpretation.value
+)
+ident(
+  int_ref x "top.ml" 30 717 735 "top.ml" 30 717 736
+)
+"top.ml" 30 717 761 "top.ml" 30 717 776
+call(
+  stack
+)
+type(
+  string
+)
+"top.ml" 30 717 740 "top.ml" 30 717 776
+call(
+  tail
+)
+type(
+  unit
+)
+"top.ml" 30 717 730 "top.ml" 30 717 777
+type(
+  Interpretation.value -> unit
+)
+"top.ml" 30 717 778 "top.ml" 30 717 795
+type(
+  Interpretation.value list
+)
+ident(
+  int_ref plets_interpreted "top.ml" 29 664 678 "top.ml" 29 664 695
+)
+"top.ml" 30 717 720 "top.ml" 30 717 795
+call(
+  tail
+)
+type(
+  unit
+)
+"top.ml" 29 664 674 "top.ml" 30 717 795
+type(
+  unit
+)
+"top.ml" 28 598 601 "top.ml" 30 717 795
+type(
+  unit
+)
+"top.ml" 27 561 564 "top.ml" 30 717 795
+type(
+  unit
+)
+"top.ml" 26 550 551 "top.ml" 31 796 798
+type(
+  in_channel -> unit
+)
+"top.ml" 32 799 800 "top.ml" 32 799 823
+type(
+  in_channel list
+)
+ident(
+  int_ref file_descriptor_test "top.ml" 12 167 171 "top.ml" 12 167 191
+)
+"top.ml" 25 534 540 "top.ml" 32 799 823
+call(
+  stack
+)
+type(
+  unit
+)
+"top.ml" 34 833 853 "top.ml" 34 833 854
+type(
+  string
+)
+ident(
+  def s "top.ml" 34 833 858 "top.ml" 34 833 860
+)
+"top.ml" 34 833 839 "top.ml" 34 833 854
+type(
+  exn
+)
+"top.ml" 34 833 858 "top.ml" 34 833 860
+type(
+  unit
+)
+"top.ml" 35 861 867 "top.ml" 35 861 886
+type(
+  exn
+)
+"top.ml" 35 861 890 "top.ml" 35 861 892
+type(
+  unit
+)
+"top.ml" 24 526 530 "top.ml" 35 861 892
+type(
+  unit
+)
+"top.ml" 23 508 510 "top.ml" 36 893 900
+type(
+  unit
+)

@@ -310,6 +310,25 @@ let interpretation expression environnement =
 ;;
 
 
+let pdef_interp pdef =
+  let (isrec, pattern, expression) = pdef.pdef_desc in
+  interpretation expression (Str_map.empty )
+;;
+
+(* renvoie une liste de valeurs *)
+let plets_interp lets =
+  List.map (pdef_interp) lets
+;;
+
+
+
+
+
+
+
+(* **************** str shit ***********************)
+
+
 let rec str_pattern patt=
   match patt.ppatt_desc with 
   | PP_any -> "_"
@@ -365,6 +384,19 @@ let rec str_expr expr =
        (str_expr retour2)
   |PE_nil -> "[]"
   | PE_cons(expr_x, expr_s) -> (str_expr expr_x) ^ " :: " ^ (str_expr expr_s)
-
 ;;
        
+
+let rec str_value =
+  function
+  | Val_unit -> "()"
+  | Val_bool(b) -> if b then "true" else "false"
+  | Val_int(i) -> string_of_int i
+  | Val_float(f) -> string_of_float f
+  | Val_fun(pattern , pexpr) -> " fun " ^ (str_pattern pattern) ^ " -> " ^ (str_expr pexpr)
+  | Val_lst(val_lst)
+    -> " [" ^ (List.fold_left (fun acc elt -> acc ^ "; " ^ (str_value elt)) "" val_lst ) ^ "]"
+  | Val_tuple(val_lst)
+    -> " (" ^ (List.fold_left (fun acc elt -> acc ^", "^ (str_value elt)) "" val_lst) ^ ")"
+  | Val_str(str) -> "\"" ^ str ^"\"" 
+;;

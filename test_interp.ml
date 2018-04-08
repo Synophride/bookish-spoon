@@ -59,4 +59,3 @@ let test_contains () =
 (* ne fonctionne pas dans les deux sens *)
 ;;
 
-let test_subs_pexprdesc
