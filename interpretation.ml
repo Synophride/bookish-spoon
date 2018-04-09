@@ -83,7 +83,9 @@ and subs_pexprdesc pexpdesc element_a_substituer element_remplacant =
       then PE_let(false, x, substitution e1 element_a_substituer element_remplacant, e2)
       else if isrec
       then pexpdesc
-      else PE_let(false, x, substitution e2 element_a_substituer element_remplacant, substitution e2 element_a_substituer element_remplacant)
+      else PE_let(false, x,
+		  substitution e2 element_a_substituer element_remplacant,
+		  substitution e2 element_a_substituer element_remplacant)
 
   | PE_match(exp, rendu1, (pattern_elt, pattern_suite, rendu2)) ->
      PE_match(
@@ -272,7 +274,7 @@ let interpretation expression environnement =
 	then
 	  failwith "fonctions récusives non encore implémentées"
 	else
-	  let new_expr_e2 = application_subst e1 pattern e1 in
+	  let new_expr_e2 = application_subst e2 pattern e1 in
 	  inter new_expr_e2 evt
 
     (* encore 60 % legit *)

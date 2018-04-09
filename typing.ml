@@ -14,9 +14,88 @@ open Environnement;;
  * EXCEPTIONS 
  * 
  *******************)
-
 exception Bad_type of t * t * location;;
 
+
+
+type id = int ;;
+
+(* un module map str -> id
+   + id -> type
+*)
+module Str_map =
+  Map.Make(String)
+;; 
+
+module Int_map =
+  Map.Make(
+    struct
+      type t = int
+      let compare = compare
+    end
+  )
+;;
+
+type evt_ex =
+  id Str_map.t
+;;
+
+type evt_in =
+  t Int_map.t
+;;
+
+
+
+(*
+ * Gérer unification, généralisation des types, variables de type,
+ * Variables de type : utilisation de substitutions ?
+ *  substitution -> type evt_in 
+ *  
+ * 
+ * 
+*)
+
+
+
+
+
+
+
+(* ******* ************ *)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(******** ****************)
 (* Note : pê prendre en compte les questions de variables de types *)
 let typage_cte =
   function
