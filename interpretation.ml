@@ -19,8 +19,114 @@ type environnement =
   value Str_map.t
 ;;
 
-(* pê faire plus fin *)
-(* pê créer un type substitution *)
+
+
+
+(* **************** str shit ***********************)
+
+
+
+
+(** Affiche un pattern sous forme de Strign **)
+
+let rec str_pattern patt=
+  match patt.ppatt_desc with 
+  | PP_any -> "_"
+  | PP_ident(str) -> str
+  | PP_tuple(pattlst) -> "( " ^
+     (List.fold_left
+	(fun acc elt -> acc ^ " * " ^ str_pattern elt)
+	""
+	pattlst
+     ) ^ " )"
+;;
+
+(** Affiche un opérateur binaire sous forme de String 
+fixme
+**)
+let str_of_binop =
+  function
+  | _ -> " op "
+;;
+
+(** Affiche une expression sous forme de Strign **)
+let rec str_expr expr =
+  str_expr_desc expr.pexpr_desc
+and str_expr_desc expr = 
+  match expr with
+  | PE_cte(c) ->
+     (match c with
+     | Cunit -> "()"
+     | Cbool(b) -> if b then "true" else "false"
+     | Cint(i) -> string_of_int i
+     | Cfloat(f) -> string_of_float f
+     | Cstring(str) -> "\"" ^str^ "\""
+     )
+  | PE_ident(id) -> id
+  | PE_unop(op, expr) ->
+     (match op with | Unot -> "! "  | Uminus -> "é" | Uminus_f -> "~." )
+     ^ "expr "
+  | PE_binop(op, e1, e2) ->
+     "(" ^ (str_expr e1) ^ (str_of_binop op) ^ (str_expr e2) ^ ")"
+  | PE_if(b, th, els)
+    -> "if " ^ (str_expr b) ^ "\nthen " ^ (str_expr th) ^ "\nelse " ^ (str_expr els)
+  | PE_app(e1, e2) -> (str_expr e1) ^ " " ^ (str_expr e2)
+  | PE_fun(pattern, expr) -> "fun " ^ (str_pattern pattern) ^" -> " ^ (str_expr expr)
+  | PE_tuple(lst) -> "(" ^
+     (List.fold_left
+	(fun acc elt -> acc ^ "* " ^ str_expr elt)
+	""
+	lst
+     ) ^ " )"
+     
+  | PE_let(isrec, pattern, e1, e2)
+    ->
+     "let " ^ (if isrec then "rec " else "") ^ (str_pattern pattern) ^ (str_expr e1) ^ " in\n" ^ (str_expr e2)
+  | PE_match(exp1, retour1, (pattern_elt, pattern_suite, retour2)) ->
+     "match " ^ (str_expr exp1) ^ " with \n | [] -> " ^
+       (str_expr retour1) ^ " \n | " ^
+       (str_pattern pattern_elt) ^ " :: " ^ (str_pattern pattern_suite) ^ " -> " ^
+       (str_expr retour2)
+  |PE_nil -> "[]"
+  | PE_cons(expr_x, expr_s) -> (str_expr expr_x) ^ " :: " ^ (str_expr expr_s)
+;;
+       
+(**   rend la valeur sous forme de chaîne **)
+let rec str_value =
+  function
+  | Val_unit -> "()"
+  | Val_bool(b) -> if b then "true" else "false"
+  | Val_int(i) -> string_of_int i
+  | Val_float(f) -> string_of_float f
+  | Val_fun(pattern , pexpr) -> " fun " ^ (str_pattern pattern) ^ " -> " ^ (str_expr pexpr)
+  | Val_lst(val_lst)
+    -> " [" ^ (List.fold_left (fun acc elt -> acc ^ "; " ^ (str_value elt)) "" val_lst ) ^ "]"
+  | Val_tuple(val_lst)
+    -> " (" ^ (List.fold_left (fun acc elt -> acc ^", "^ (str_value elt)) "" val_lst) ^ ")"
+  | Val_str(str) -> "\"" ^ str ^"\"" 
+;;
+
+
+
+
+
+let print_evt str =
+  Str_map.iter (fun key value -> Printf.printf "( %s -> %s)" key (str_value value));
+  Printf.printf "\n"
+;;
+
+
+
+
+
+
+
+(** 
+    Fonction déterminant si pattern_contenu est contenu dans pattern_conteneur
+    @param pattern_contenu le pattern dont on teste s'il est contenu dans l'autre.
+    Pour l'instant, pattern_contenu forcément de la forme PP_ident(i)
+    @return booléen qui détermine si le pattern est contenu dans le pattern
+**)
 let rec contains pattern_conteneur pattern_contenu =
   contains_pdesc pattern_conteneur.ppatt_desc pattern_contenu
 and contains_pdesc pdesc pattern_contenu =
@@ -35,7 +141,16 @@ and contains_pdesc pdesc pattern_contenu =
     -> List.exists (fun pattern -> contains pattern pattern_contenu) pattern_lst
 ;;
 
-(* element à substituer ?= pattern ? *) 
+
+
+
+
+
+
+(**
+   Renvoie une nouvelle expression, dans laquelle on a substitué element_a_remplacer par element_remplacant, dans l'expression pexp
+   
+**)
 let rec substitution pexp element_a_substituer element_remplacant =
   let new_pexprdesc = subs_pexprdesc (pexp.pexpr_desc) element_a_substituer element_remplacant in
   {pexpr_loc = pexp.pexpr_loc; pexpr_desc = new_pexprdesc}
@@ -60,7 +175,7 @@ and subs_pexprdesc pexpdesc element_a_substituer element_remplacant =
        
   | PE_app (exp_fun, exp_val)
     -> PE_app( substitution exp_fun element_a_substituer element_remplacant,
-	       substitution exp_val element_a_substituer element_remplacant)
+               substitution exp_val element_a_substituer element_remplacant)
 
   | PE_if(bool_exp, e1, e2) 
     -> PE_if( 
@@ -81,6 +196,7 @@ and subs_pexprdesc pexpdesc element_a_substituer element_remplacant =
   | PE_let(isrec, x, e1, e2)
     -> if contains x element_a_substituer && not isrec 
       then PE_let(false, x, substitution e1 element_a_substituer element_remplacant, e2)
+
       else if isrec
       then pexpdesc
       else PE_let(false, x,
@@ -107,26 +223,34 @@ and subs_pexprdesc pexpdesc element_a_substituer element_remplacant =
   | _ -> failwith ""
 ;;
 
+(** 
+    Renvoie la liste des paires (identificateur, expression) associée à un pattern + une expression
+**)
+let rec gas  pattern exp acc =
+  gas_desc (pattern.ppatt_desc) exp acc
+and gas_desc pattern_desc exp acc =
+  match pattern_desc with
+  | PP_ident(i) -> (i, exp.pexpr_desc) :: acc
+  | PP_any -> acc
+  | PP_tuple( ppatt_list ) ->
+     List.fold_left2
+       (fun lst_evt_acc pattern exp ->
+	 (gas (pattern) exp lst_evt_acc))
+       acc
+       ppatt_list
+       (match exp.pexpr_desc with
+       | PE_tuple(tlist) -> tlist
 
+       |_ -> failwith "application subst : les types ne sont pas les mêmes")
+;;
+
+
+(** 
+    Applique une substitution, et ce sans restriction sur le pattern
+**)
 let application_subst expression_a_changer pattern expression =
   (* Associe une expr a un pattern *)
-  let rec gas  pattern exp acc =
-    gas_desc (pattern.ppatt_desc) exp acc
-  and gas_desc pattern_desc exp acc =
-    match pattern_desc with
-    | PP_ident(i) -> (i, exp.pexpr_desc) :: acc
-    | PP_any -> acc
-    | PP_tuple( ppatt_list ) ->
-       List.fold_left2
-	 (fun lst_evt_acc pattern exp ->
-	   (gas (pattern) exp lst_evt_acc))
-	 acc
-	 ppatt_list
-	 (match exp.pexpr_desc with
-	 | PE_tuple(tlist) -> tlist
 
-	 |_ -> failwith "application subst : les types ne sont pas les mêmes")
-  in
   let lst = gas pattern expression [] in
     List.fold_left
       (fun acc (ident, new_exp) -> substitution acc
@@ -139,6 +263,7 @@ let application_subst expression_a_changer pattern expression =
 
 (**********************************)
 
+(** Évalue la valeur d'une constante **)
 let valuation_cte =
   function
   | Cunit -> Val_unit
@@ -148,6 +273,7 @@ let valuation_cte =
   | Cstring(str) -> Val_str(str)
 ;;
 
+(** Evalue un opérateur unaire **)
 let apply_unop op value =
   match op with
   | Unot -> (match value with 
@@ -161,6 +287,7 @@ let apply_unop op value =
     | _ -> failwith "apply : mauvais typage")
 ;;
 
+(** Evalue une expression composée d'un opérateur binaire **)
 let apply_binop op v1 v2 =
   match op with
   | Beq -> Val_bool( v1 =  v2) (* on est assuré par le typage que v1 v2 de même type *)
@@ -222,20 +349,27 @@ let apply_binop op v1 v2 =
      )
 ;;
 
-
+(** Applique une fonction 
+    fun pattern->expr_fun à une valeur value_exp **)
 let application_fun pattern_fun expr_fun value_exp =
   application_subst expr_fun pattern_fun value_exp 
 ;;
 
 (* str_map -> value *)
 (* censé attribuer une valeur avec un environnement donné *)
+
+(** 
+    Interprète une expression en paramètre, en fonction de l'environnement passé en paramètre 
+**)
 let interpretation expression environnement =
   let rec inter pexpr evt =
-    inter_desc (pexpr.pexpr_desc) environnement
+    inter_desc (pexpr.pexpr_desc) evt
   and inter_desc pexp evt =
+    print_evt evt;
     match pexp with
     | PE_cte(c) -> valuation_cte c
-    | PE_ident(i) -> Str_map.find i evt
+    | PE_ident(i) -> (Printf.printf "recherche de la var %s\n" i;
+		      Str_map.find i evt)
     | PE_unop(op, exp)
       -> let value = inter exp evt in
 	 apply_unop op value
@@ -274,9 +408,23 @@ let interpretation expression environnement =
 	then
 	  failwith "fonctions récusives non encore implémentées"
 	else
-	  let new_expr_e2 = application_subst e2 pattern e1 in
-	  inter new_expr_e2 evt
+	  let id_exp_lst = gas pattern e1 [] in (
 
+	    List.iter (fun (ident, expr) -> Printf.printf "%s %s\n" ident (str_expr_desc expr)) id_exp_lst ;
+
+	    let evt_mis_a_jour =
+	      List.fold_left
+		(fun acc_evt (i,exp) ->
+		  let interpreted_exp = inter_desc exp evt in 
+		  Printf.printf "%s\n" (str_value interpreted_exp);
+		  print_evt acc_evt;
+		  Str_map.add (i) (interpreted_exp) acc_evt)
+		evt 
+		id_exp_lst
+	    in
+	    inter e2 evt_mis_a_jour
+	  )
+	      
     (* encore 60 % legit *)
     | PE_match(expr, rendu1, (e_elt, e_suite, r2))
       ->
@@ -297,6 +445,7 @@ let interpretation expression environnement =
 	   
 
     | PE_nil -> Val_lst( [] )
+
     | PE_cons(x, s) ->
        let interp_x, interp_s =
 	 inter x evt, inter s evt in
@@ -314,7 +463,7 @@ let interpretation expression environnement =
 
 let pdef_interp pdef =
   let (isrec, pattern, expression) = pdef.pdef_desc in
-  interpretation expression (Str_map.empty )
+  interpretation expression (Str_map.empty)
 ;;
 
 (* renvoie une liste de valeurs *)
@@ -327,78 +476,3 @@ let plets_interp lets =
 
 
 
-
-(* **************** str shit ***********************)
-
-
-let rec str_pattern patt=
-  match patt.ppatt_desc with 
-  | PP_any -> "_"
-  | PP_ident(str) -> str
-  | PP_tuple(pattlst) -> "( " ^
-     (List.fold_left
-	(fun acc elt -> acc ^ " * " ^ str_pattern elt)
-	""
-	pattlst
-     ) ^ " )"
-;;
-
-let str_of_binop =
-  function
-  | _ -> " op "
-;;
-
-
-let rec str_expr expr =
-  match expr.pexpr_desc with
-  | PE_cte(c) ->
-     (match c with
-     | Cunit -> "()"
-     | Cbool(b) -> if b then "true" else "false"
-     | Cint(i) -> string_of_int i
-     | Cfloat(f) -> string_of_float f
-     | Cstring(str) -> "\"" ^str^ "\""
-     )
-  | PE_ident(id) -> id
-  | PE_unop(op, expr) ->
-     (match op with | Unot -> "! "  | Uminus -> "é" | Uminus_f -> "~." )
-     ^ "expr "
-  | PE_binop(op, e1, e2) ->
-     "(" ^ (str_expr e1) ^ (str_of_binop op) ^ (str_expr e2) ^ ")"
-  | PE_if(b, th, els)
-    -> "if " ^ (str_expr b) ^ "\nthen " ^ (str_expr th) ^ "\nelse " ^ (str_expr els)
-  | PE_app(e1, e2) -> (str_expr e1) ^ " " ^ (str_expr e2)
-  | PE_fun(pattern, expr) -> "fun " ^ (str_pattern pattern) ^" -> " ^ (str_expr expr)
-  | PE_tuple(lst) -> "(" ^
-     (List.fold_left
-	(fun acc elt -> acc ^ "* " ^ str_expr elt)
-	""
-	lst
-     ) ^ " )"
-     
-  | PE_let(isrec, pattern, e1, e2)
-    ->
-     "let " ^ (if isrec then "rec " else "") ^ (str_pattern pattern) ^ (str_expr e1) ^ " in\n" ^ (str_expr e2)
-  | PE_match(exp1, retour1, (pattern_elt, pattern_suite, retour2)) ->
-     "match " ^ (str_expr exp1) ^ " with \n | [] -> " ^
-       (str_expr retour1) ^ " \n | " ^
-       (str_pattern pattern_elt) ^ " :: " ^ (str_pattern pattern_suite) ^ " -> " ^
-       (str_expr retour2)
-  |PE_nil -> "[]"
-  | PE_cons(expr_x, expr_s) -> (str_expr expr_x) ^ " :: " ^ (str_expr expr_s)
-;;
-       
-
-let rec str_value =
-  function
-  | Val_unit -> "()"
-  | Val_bool(b) -> if b then "true" else "false"
-  | Val_int(i) -> string_of_int i
-  | Val_float(f) -> string_of_float f
-  | Val_fun(pattern , pexpr) -> " fun " ^ (str_pattern pattern) ^ " -> " ^ (str_expr pexpr)
-  | Val_lst(val_lst)
-    -> " [" ^ (List.fold_left (fun acc elt -> acc ^ "; " ^ (str_value elt)) "" val_lst ) ^ "]"
-  | Val_tuple(val_lst)
-    -> " (" ^ (List.fold_left (fun acc elt -> acc ^", "^ (str_value elt)) "" val_lst) ^ ")"
-  | Val_str(str) -> "\"" ^ str ^"\"" 
-;;
