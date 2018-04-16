@@ -16,11 +16,15 @@ open Environnement;;
  *******************)
 exception Bad_type of t * t * location;;
 
+(* But : pouvoir changer des types a posteriori 
+   1. Fonction récupérant des substitutions + les renvoyant
+   2. Fonction donnant un type après unification 
+*)
 
+type id = int;;
 
-type id = int ;;
-
-(* un module map str -> id
+(* un module map 
+   + str -> id
    + id -> type
 *)
 module Str_map =
@@ -41,19 +45,19 @@ type evt_ex =
 ;;
 
 type evt_in =
-  t Int_map.t
+  Types.t Int_map.t
 ;;
 
-
-
-(*
- * Gérer unification, généralisation des types, variables de type,
- * Variables de type : utilisation de substitutions ?
- *  substitution -> type evt_in 
- *  
- * 
- * 
-*)
+(* **************
+ * Gérer unification,
+ * généralisation des types, 
+ * variables de type,
+ * Variables de type : utilisation de substitutions ou des types mutables ?
+ *  substitution : type evt_in -> type evt_in
+ *  mutable type evt_in ->  t option ref
+ *  + 
+ *  -> il faudra récupérer le bon environnement "au-dessus"
+ *************** *)
 
 
 

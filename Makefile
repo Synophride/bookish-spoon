@@ -22,10 +22,10 @@ BINDIR=${exec_prefix}/bin
 MANDIR=${prefix}/man
 
 # other variables set by ./configure
-OCAMLC   = ocamlc.opt
-OCAMLOPT = ocamlopt.opt
+OCAMLC   = ocamlc
+OCAMLOPT = ocamlopt
 OCAMLDEP = ocamldep
-OCAMLLEX = ocamllex.opt
+OCAMLLEX = ocamllex
 OCAMLYACC= ocamlyacc
 OCAMLLIB = /usr/lib/ocaml
 OCAMLBEST= opt
@@ -36,7 +36,7 @@ EXT =
 
 INCLUDES = 
 BFLAGS = -annot -g $(INCLUDES)
-OFLAGS = -annot -g $(INCLUDES)
+OFLAGS = -annot $(INCLUDES)
 
 # main target
 #############
@@ -59,7 +59,7 @@ all: $(EXE)
 CMO = 	parser.cmo \
 	lexer.cmo \
 	interpretation.cmo \
-	top.cmo	
+top.cmo
 
 CMX = $(CMO:.cmo=.cmx)
 
