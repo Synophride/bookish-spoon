@@ -12,7 +12,7 @@ top.cmo : types.cmo parser.cmi lexer.cmo interpretation.cmo
 top.cmx : types.cmx parser.cmx lexer.cmx interpretation.cmx
 types.cmo : ast.cmi
 types.cmx : ast.cmi
-typing.cmo : types.cmo environnement.cmo ast.cmi
-typing.cmx : types.cmx environnement.cmx ast.cmi
+typing.cmo :
+typing.cmx :
 ast.cmi :
 parser.cmi : ast.cmi

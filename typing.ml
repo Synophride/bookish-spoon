@@ -6,7 +6,6 @@
 
 open Ast;;
 open Types;;
-open Environnement;;
 
 
 (* *****************
@@ -15,11 +14,6 @@ open Environnement;;
  * 
  *******************)
 exception Bad_type of t * t * location;;
-
-(* But : pouvoir changer des types a posteriori 
-   1. Fonction récupérant des substitutions + les renvoyant
-   2. Fonction donnant un type après unification 
-*)
 
 type id = int;;
 
@@ -48,58 +42,29 @@ type evt_in =
   Types.t Int_map.t
 ;;
 
-(* **************
- * Gérer unification,
- * généralisation des types, 
- * variables de type,
- * Variables de type : utilisation de substitutions ou des types mutables ?
- *  substitution : type evt_in -> type evt_in
- *  mutable type evt_in ->  t option ref
- *  + 
- *  -> il faudra récupérer le bon environnement "au-dessus"
- *************** *)
+type substitution =
+  {elt_a_substituer : t; elt_substituant: t}
+;;
+
+(* liste de ces trucs pour
+   un système d'équations 
+   -> Premiere passe sur l'expression liant chaque 
+   ident à une vartyp
+   -> Seconde passe chiant toutes les équations
+   -> Troisième passe substituant toutes les équation s
+*)x
+
+let get_cpt () =
+  let a = ref 0 in
+  let nextval () =
+    let b = !a in (
+      a := !a + 1;
+      b)
+  in nextval
+;;
 
 
 
-
-
-
-
-(* ******* ************ *)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-(******** ****************)
 (* Note : pê prendre en compte les questions de variables de types *)
 let typage_cte =
   function
@@ -134,98 +99,227 @@ let typage_attendu_binop =
 ;;
 
 
-let typage plets evt=
-  let rec typage_pexp pexpr evt =
-    try
-      typage_pdesc (pexpr.pexpr_desc) evt
-    with
-      Non_unifiable(t1, t2) ->
-	raise (Bad_type(t1, t2, pexpr.pexpr_loc))	  
-  and typage_pdesc pexpr_desc evt =
-    match pexpr_desc with
-    | PE_cte(c) -> typage_cte c
-    | PE_ident(i) ->let vartyp = (find i evt) in
-		    (
-		      match vartyp.o_typ with
-		      | None -> Id( vartyp.id)
-		      | Some(t) -> t
-		    )
 
-    | PE_unop(operateur, pexpr)
-      -> let typ_unop = typage_attendu_unop operateur in
-	 let typ_expr = typage_pexp pexpr evt in
-	 unification typ_unop typ_expr evt
-	   
-    | PE_binop(op, pexpr1, pexpr2)
-      ->
-       let typ1, typ2 = (typage_pexp pexpr1 evt, typage_pexp pexpr2 evt) in
-       let type_attendu = typage_attendu_binop op in
-       (
-	 match type_attendu with
-	 | None -> (unification typ1 typ2 evt) (* changer quand on a la généralisation *)
-	 | Some(typ_attendu)
-	   -> unification (unification typ1 typ2 evt) typ_attendu evt
-       )
-    (* 1. Créer des variables de type pour le pattern *) 
+(* 
+ * On part d'un environnement + d'une liste d'équastions
+ * On veut construire un nouvel evt tel que, pour toute equation
+ *  de la forme (t1 ?= t2) , on ait (evt.get t1 = evt.get t2)
+ * ==> Unificateur le plus général de l'ensemble d'équations.
 
-    | PE_tuple(pexp_list) -> Tuple(List.map (fun x -> typage_pexp x evt) pexp_list)
+ * Lier une variable de type à chaque sous-expression : Map expr -> vartype
+ *
 
-    | PE_if(bool_exp, e1, e2) ->
-       ( let t1, t2, t3 =
-	   typage_pexp bool_exp evt,
-	 typage_pexp e1 evt,
-	 typage_pexp e2 evt 
-	 in
-	 unification t1 Bool evt;
-	 unification t2 t3 evt
-       )
+ * L'unificateur principal est une liste de substitutions à effectuer 
 
-    | PE_fun(pattern, expr)
-      -> let (new_typ, new_evt) = add_pattern_to_evt evt pattern in
-	 let typ_exp = typage_pexp expr new_evt in 
-	 Fun(new_typ :: [typ_exp]) (* pas forcément legit, à voir *)
-	   
-    | PE_app(exp1, exp2)
-      -> (
-	let t1, t2 = typage_pexp exp1 evt, typage_pexp exp2 evt in
-	match t1 with
-	| Fun(x :: s) ->
-	   (unification x t2 evt;
-	    match s with
-	    | [x] -> x
-	    | x :: l -> Fun(s)
-	    | _ -> raise (Non_unifiable(t1, t2)) 
-	   )
-	| _ -> raise (Non_unifiable(t1, t2))
-      )
+ * Pê deux types de vt : un pour les ident, l'autre pour les expressions
 
-    | PE_let(is_rec, pattern, e1, e2)
-      -> let t_e1 = typage_pexp e1 in
-	 (* 
-	    i) typer le pattern + ajouter les vartypes
-	    ii) unifier type du pettern + t_e1
-	    fixme
-	 *) 
-	 typage_pexp e2 evt
-	   
-    (* reste à implémenter les listes *)
-    | PE_nil -> List( Id(next_val () ) )
-    | PE_cons(exp1, exp2) -> let t1, t2 = typage_pexp exp1 evt, typage_pexp exp2 evt in
-			     (
-			       match t1, t2 with
-			       | _, List(t) -> unification t1 t evt
-			       | _ -> raise (Non_unifiable(t1, t2))
-			     )
-    | PE_match(exp1, exp2, (pattern1, pattern2, exp3)) -> failwith ""
-    | _ -> (failwith "not implemented")      
-  in
-  let pdef = List.hd plets in
-  let {pdef_desc ; pdef_loc} = pdef in
-  let (isrec, pattern, exp) = pdef_desc in
-  typage_pexp exp evt
+ * substitution : sur les variables libres uniquement 
+
+ *** unif ***
+ * idées de variables et de termes
+ * 
+ * On part d'un evt + une expression : 
+ * 
+ * ?0? "Convertir" l'expression expressive en une expression de types
+ * 
+ * A. Association de chaque sous-expression, et chaque variable à 
+ * une variable de type (renvoie un nouvel environnement)
+ * 
+ *  
+ * B. Construction du système d'équations, comme dit dans le poly.
+ * -> Renvoie une liste d'équations (var1 ?= var2)
+ * 
+ * 
+ * C. Unification 
+ * -> Renvoie la liste des substitutions la plus générale
+ * 
+ * D. Application des substitutions sur l'expression / l'expression typée
+ * -> ? Pendant l'unification ?
+ * 
+ *)
+
+let next_val = get_cpt ();;
+
+(* termes, variables de type *)
+
+module Exp =
+struct
+  type t = Ast.p_expr
+  let compare = compare
+end
 ;;
 
-let typaj lets =
-  let evt = {evt_in = []; evt_ex = []} in  
-  Printf.printf "%s\n" (str_of_t (fun x -> " " ^ string_of_int x ^ " " )  (typage lets evt))
+module Exp_evt = Map.Make(Exp);;
+
+type exp_to_vartyp = int Exp_evt.t;;
+
+let rec annotation_pattern pattern evt =
+  failwith ""
 ;;
+
+
+
+(**
+   Annote une expression, en associant une variable (un int) à chaque sous-expression de pexpr
+
+   @param pexpr 
+   l'expression à annoter
+   @param evt l'environnement 
+*)
+let rec annotation_pexp pexpr evt =
+  annotation_pdesc (pexpr.pexpr_desc) (Exp_evt.add pexpr (next_val()) evt)
+and annotation_pdesc pdesc evt =
+  match pdesc with
+    (* si on a déjà vu la même chose,  *)
+  | PE_cte(c) ->   evt
+  | PE_ident(i) -> evt
+  | PE_unop(op, pexp) -> annotation_pexp pexp evt
+     
+  | PE_binop(op, pexp1, pexp2)
+    -> let evt1 = annotation_pexp pexp1 evt in (* ii. ajout de la première expression dans l'evt *)
+       annotation_pexp pexp2 evt1 (* puis la seconde exp *)
+	 
+  | PE_if(expb, e1, e2)
+    -> let evt1 = annotation_pexp expb evt in 
+       let evt2 = annotation_pexp e1 evt1 in
+       annotation_pexp e2 evt2
+
+  | PE_app (exp_fun, exp_value)
+    -> let evt1 = annotation_pexp exp_fun evt in
+       annotation_pexp exp_value evt1 
+
+    (* typer le pattern ? *)
+  | PE_fun (pattern, expr) ->
+     let evt' = annotation_pattern pattern evt in
+     annotation_pexp expr evt'
+
+  | PE_tuple(exp_lst) ->
+     List.fold_left
+       (fun evt exp -> annotation_pexp exp evt)
+       evt
+       exp_lst
+
+  | PE_let(isrec, pattern, exp1, exp2)
+    -> let evt' = annotation_pattern pattern evt in
+       let evt_e1 = annotation_pexp exp1 evt' in
+       annotation_pexp exp2 evt_e1
+	 
+  | PE_match(exp0, exp_r1, (pattern, pattern', exp_r2) )
+    -> failwith "flemme"
+     
+  | PE_nil -> evt
+  | PE_cons(e1, e2)
+    -> let evt' = annotation_pexp e1 evt in
+       annotation_pexp e2 evt'
+;;
+
+type equation =
+  { old_typ : Types.t;
+    new_typ : Types.t}
+;;
+
+(* 
+ * Comment gérer les identificateurs ?
+ * a. deux types de vt ?
+ * b. Même type de vt ?
+ * Note : tous les appels récursifs ne sont pas faits
+ *)
+
+let rec ecriture_pdesc expr evt acc = 
+  match expr.pexpdesc with
+  | PE_cte(c)
+    -> let type_attendu = typage_cte c in
+       {old_typ = Id( Exp_evt.find expr evt); 
+	new_typ = type_attendu} :: acc
+
+  | PE_ident(i)
+    -> failwith "todo"
+
+  | PE_unop(op, exp)
+    -> let type_attendu = type_attendu_unop op in
+       let acc' = {old_typ = Id(Exp_evt.find expr evt);
+	new_typ = type_attendu_unop} ::
+	 {old_typ = Id(Exp_evt.find exp evt);
+	  new_typ = type_attendu_unop} :: acc
+       in ()
+  | PE_binop(op, exp1, exp2)
+    -> let type_attendu = type_attendu_binop op in
+       let acc' = match type_attendu with
+       (* I. Lier les deux types entre eux. 
+	* II.Lier l'expression avec un booléen
+	*)
+       | None ->
+	  {old_typ = Id(Exp_evt.find exp1 evt);
+	   new_typ = Id(Exp_evt.find exp2 evt)}
+	  :: { old_typ = Id(Exp_evt.find expr evt);
+	       new_typ = Bool}
+	  :: acc
+       | Some(type_attendu) ->
+	  { old_typ = Id(Exp_evt.find exp1 evt);
+	    new_typ = type_attendu}
+	  :: { old_typ = Id(Exp_evt.find exp2 evt);
+	       new_typ = type_attendu }
+	  :: { old_typ = Id(Exp_evt.find expr evt);
+	       new_typ = type_attendu}
+       in ()
+  | PE_if(bool_exp, e1, e2)
+    ->
+     let acc' =
+       {old_typ = Id(Exp_evt.find bool_exp evt);
+	new_typ = Bool}
+       :: {old_typ = Id(Exp_evt.find e1 evt);
+	   new_typ = Id(Exp_evt.find e2 evt)}
+       :: {old_typ = Id(Exp_evt.find e1 evt);
+	   new_typ = Id(Exp_evt.find expr evt)}
+       :: acc
+     in
+     ()
+       
+  | PE_app(efun, eval)
+    -> let acc' =
+	 { old_id = Id(Exp_evt.find efun evt);
+	   new_id = Fun([Id(Exp_evt.find expr evt); Id(Exp_evt.find eval evt)])
+	 } :: acc
+       in () 
+
+       
+
+  | PE_fun(pattern, exp)
+    -> failwith "todo"
+  | PE_tuple(explist)
+    -> failwith ""	
+  
+  | _ -> failwith ""
+;;
+
+
+let rec unification ens_equations evt = 
+  match liste_equations with
+  | [] -> expr
+  | x :: suite
+    ->
+     (match (x.old_id, x.new_id) with
+     | Id(old_), Id(new_)
+       -> 
+     )
+let () = ();;
+
+(* il faudrait créer une map id -> (variable de type/type) ? *)
+and substitution_evt type_a_remplacer_type
+
+
+
+
+
+
+
+
+
+
+
+(* ************************ 
+ *
+ * 
+ **************************)
+
+
