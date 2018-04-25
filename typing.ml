@@ -52,7 +52,7 @@ type substitution =
    ident à une vartyp
    -> Seconde passe chiant toutes les équations
    -> Troisième passe substituant toutes les équation s
-*)x
+*)
 
 let get_cpt () =
   let a = ref 0 in
@@ -138,7 +138,9 @@ let typage_attendu_binop =
  * 
  *)
 
-let next_val = get_cpt ();;
+let next_val =
+  get_cpt ()
+;;
 
 (* termes, variables de type *)
 
@@ -150,67 +152,97 @@ end
 ;;
 
 module Exp_evt = Map.Make(Exp);;
+module Ident_evt = Map.Make(String);;
 
-type exp_to_vartyp = int Exp_evt.t;;
+type id_to_int = int Ident_evt.t
+;;
 
-let rec annotation_pattern pattern evt =
-  failwith ""
+type exp_to_vartyp = int Exp_evt.t
 ;;
 
 
+let rec annotation_pattern pattern id_evt =
+  annotation_patt_desc pattern.ppatt_desc id_evt
+and annotation_patt_desc pattern id_evt =
+  match pattern with
+  | PP_any -> id_evt
+
+  | PP_ident(id)
+    -> Ident_evt.add (id) ( next_val () ) id_evt
+     
+  | PP_tuple(pattern_liste)
+    ->
+     List.fold_left
+       (fun acc elt ->
+	 annotation_pattern elt acc)
+       id_evt
+       pattern_liste
+;;
 
 (**
    Annote une expression, en associant une variable (un int) à chaque sous-expression de pexpr
-
+   
    @param pexpr 
    l'expression à annoter
    @param evt l'environnement 
 *)
-let rec annotation_pexp pexpr evt =
+let rec annotation_pexp pexpr evt id_evt =
   annotation_pdesc (pexpr.pexpr_desc) (Exp_evt.add pexpr (next_val()) evt)
-and annotation_pdesc pdesc evt =
+and annotation_pdesc pdesc evt id_evt =
   match pdesc with
-    (* si on a déjà vu la même chose,  *)
-  | PE_cte(c) ->   evt
-  | PE_ident(i) -> evt
-  | PE_unop(op, pexp) -> annotation_pexp pexp evt
+  (* si on a déjà vu la même chose,  *)
+  | PE_cte(c)
+    -> evt
+     
+  | PE_ident(i)
+    -> failwith "todo"
+     
+  | PE_unop(op, pexp)
+    -> annotation_pexp pexp evt id_evt 
      
   | PE_binop(op, pexp1, pexp2)
-    -> let evt1 = annotation_pexp pexp1 evt in (* ii. ajout de la première expression dans l'evt *)
-       annotation_pexp pexp2 evt1 (* puis la seconde exp *)
+    -> let evt1 = annotation_pexp pexp1 evt id_evt in (* ii. ajout de la première expression dans l'evt *)
+       annotation_pexp pexp2 evt1 id_evt (* puis la seconde exp *)
 	 
   | PE_if(expb, e1, e2)
-    -> let evt1 = annotation_pexp expb evt in 
-       let evt2 = annotation_pexp e1 evt1 in
-       annotation_pexp e2 evt2
-
+    -> let evt1 = annotation_pexp expb evt id_evt in 
+       let evt2 = annotation_pexp e1 evt1 id_evt in
+       annotation_pexp e2 evt2 id_evt 
+	 
   | PE_app (exp_fun, exp_value)
-    -> let evt1 = annotation_pexp exp_fun evt in
-       annotation_pexp exp_value evt1 
-
-    (* typer le pattern ? *)
-  | PE_fun (pattern, expr) ->
-     let evt' = annotation_pattern pattern evt in
-     annotation_pexp expr evt'
-
+    -> let evt1 = annotation_pexp exp_fun evt id_evt in
+       annotation_pexp exp_value evt1 id_evt
+	 
+  (* typer le pattern ? *)
+  | PE_fun (pattern, exp)
+    -> let evt_id' = annotation_pattern pattern id_evt in
+       let evt' = Exp_evt.add expr (next_val ()) evt in
+       annotation_pexp exp evt' evt_id'
+     
   | PE_tuple(exp_lst) ->
      List.fold_left
-       (fun evt exp -> annotation_pexp exp evt)
+       (fun evt exp -> annotation_pexp exp evt id_evt)
        evt
        exp_lst
 
   | PE_let(isrec, pattern, exp1, exp2)
-    -> let evt' = annotation_pattern pattern evt in
-       let evt_e1 = annotation_pexp exp1 evt' in
-       annotation_pexp exp2 evt_e1
-	 
+    -> if isrec
+      then failwith "mono"
+      else
+	let evt_id' = annotation_pattern pattern id_evt in
+	let evt'  = Exp_evt.add expr (next_val()) in
+	let evt'' = annotation_pexpr exp1 evt' id_evt' in
+	annotation_pexpr exp2 evt' id_evt'
+	
   | PE_match(exp0, exp_r1, (pattern, pattern', exp_r2) )
     -> failwith "flemme"
      
-  | PE_nil -> evt
+  | PE_nil
+    -> failwith "todo"
+     
   | PE_cons(e1, e2)
-    -> let evt' = annotation_pexp e1 evt in
-       annotation_pexp e2 evt'
+    -> let evt' = annotation_pexp e1 evt id_evt in
+       annotation_pexp e2 evt' id_evt 
 ;;
 
 type equation =
@@ -218,12 +250,12 @@ type equation =
     new_typ : Types.t}
 ;;
 
-(* 
+(* ******* 
  * Comment gérer les identificateurs ?
  * a. deux types de vt ?
  * b. Même type de vt ?
  * Note : tous les appels récursifs ne sont pas faits
- *)
+ ********)
 
 let rec ecriture_pdesc expr evt acc = 
   match expr.pexpdesc with
@@ -282,10 +314,9 @@ let rec ecriture_pdesc expr evt acc =
 	 } :: acc
        in () 
 
-       
-
   | PE_fun(pattern, exp)
-    -> failwith "todo"
+    -> 
+
   | PE_tuple(explist)
     -> failwith ""	
   
@@ -302,10 +333,11 @@ let rec unification ens_equations evt =
      | Id(old_), Id(new_)
        -> 
      )
-let () = ();;
 
 (* il faudrait créer une map id -> (variable de type/type) ? *)
-and substitution_evt type_a_remplacer_type
+and substitution_evt type_a_remplacer t_remplacant =
+  ()
+;;
 
 
 

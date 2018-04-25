@@ -91,7 +91,7 @@ and str_expr_desc expr =
   | PE_cons(expr_x, expr_s) -> (str_expr expr_x) ^ " :: " ^ (str_expr expr_s)
 ;;
        
-(**   rend la valeur sous forme de chaîne **)
+(**  rend la valeur sous forme de chaîne **)
 let rec str_value =
   function
   | Val_unit -> "()"
@@ -107,11 +107,8 @@ let rec str_value =
 ;;
 
 
-
-
-
 let print_evt str =
-  Str_map.iter (fun key value -> Printf.printf "( %s -> %s)" key (str_value value));
+  Str_map.iter (fun key value -> Printf.printf "( %s -> %s)" key (str_value value)) str;
   Printf.printf "\n"
 ;;
 
@@ -141,15 +138,8 @@ and contains_pdesc pdesc pattern_contenu =
     -> List.exists (fun pattern -> contains pattern pattern_contenu) pattern_lst
 ;;
 
-
-
-
-
-
-
 (**
    Renvoie une nouvelle expression, dans laquelle on a substitué element_a_remplacer par element_remplacant, dans l'expression pexp
-   
 **)
 let rec substitution pexp element_a_substituer element_remplacant =
   let new_pexprdesc = subs_pexprdesc (pexp.pexpr_desc) element_a_substituer element_remplacant in
@@ -240,7 +230,7 @@ and gas_desc pattern_desc exp acc =
        ppatt_list
        (match exp.pexpr_desc with
        | PE_tuple(tlist) -> tlist
-
+	  
        |_ -> failwith "application subst : les types ne sont pas les mêmes")
 ;;
 
@@ -460,15 +450,44 @@ let interpretation expression environnement =
   in inter expression environnement
 ;;
 
-
-let pdef_interp pdef =
-  let (isrec, pattern, expression) = pdef.pdef_desc in
-  interpretation expression (Str_map.empty)
+let rec association_pattern_value pattern valeur acc =
+  match pattern.ppatt_desc with
+    | PP_any -> acc
+    | PP_ident (id) -> (id, valeur) :: acc
+    | PP_tuple(pattern_list)
+      -> List.fold_left2
+       (fun acc elt1 elt2 -> 
+	 association_pattern_value elt1 elt2 acc
+       )
+       acc
+       pattern_list
+       (match valeur with
+       | Val_tuple(lst) -> lst
+       | _ -> failwith "" )
 ;;
 
+(* renvoie un nouvel environnement de str.map *)
+let pdef_interp pdef environnement =
+  let (isrec, pattern, expression) = pdef.pdef_desc in
+  let valeur = interpretation expression environnement in
+  let lst_subst = association_pattern_value pattern valeur [] in
+  (List.fold_left
+     (fun (acc) (k, value) -> (Str_map.add k value environnement))
+     environnement
+     lst_subst
+  ),
+  lst_subst
+;;
+
+
 (* renvoie une liste de valeurs *)
-let plets_interp lets =
-  List.map (pdef_interp) lets
+let plets_interp lets environnement = 
+  List.fold_left
+    (fun (acc_evt, acc_lst) decl ->
+      let (evt', lst_substs) = pdef_interp decl acc_evt in
+      (evt' , lst_substs @ acc_lst))
+    (environnement, [])
+    lets
 ;;
 
 
