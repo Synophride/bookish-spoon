@@ -296,7 +296,9 @@ let rec ecriture_equat expr evt acc id_evt =
 	  :: { old_typ = Id(Exp_evt.find expr evt);
 	       new_typ = Bool}
 	    :: acc in
-	  failwith "arrêt ici"
+	  let acc'' = ecriture_equat exp1 evt acc' id_evt in
+	  ecriture_equat exp2 evt acc'' id_evt
+	    
        | Some(type_attendu) ->
 	  { old_typ = Id(Exp_evt.find exp1 evt);
 	    new_typ = type_attendu}
@@ -307,7 +309,7 @@ let rec ecriture_equat expr evt acc id_evt =
        in
        let acc'' = ecriture_equat exp1 evt acc' id_evt in
        ecriture_equat exp2 evt acc'' id_evt 
-	    
+	 
   | PE_if(bool_exp, e1, e2)
     ->
      let acc' =
@@ -366,20 +368,97 @@ let rec ecriture_equat expr evt acc id_evt =
        in
        let acc'' = ecriture_equat e1 evt acc' id_evt' in
        ecriture_equat e2 evt acc'' id_evt'
-
+	 
   | PE_match(e1, r1, (p1, p2, r2))
     -> failwith "todo"
-  | PE_nil -> failwith "todo"
+
+  | PE_nil
+    -> failwith "todo"
 
   | PE_cons (e1, e2) ->
-     let acc' = {old_typ = Id(Exp_evt.find e2 evt);
-		 new_typ = List(Id(Exp_evt.find e1 evt))}
+     let acc' =
+        {old_typ = Id(Exp_evt.find e2 evt);
+         new_typ = List(Id(Exp_evt.find e1 evt))}
        :: {old_typ = Id(Exp_evt.find expr evt);
 	   new_typ = Id(Exp_evt.find e2   evt)}
        :: acc in
      let acc'' = ecriture_equat e1 evt acc' id_evt in
      ecriture_equat e2 evt acc'' id_evt 
-
+       
   | _ -> failwith ""
 ;;
 
+
+(* doit donner une liste de substitutions.  *)
+
+let rec substitution_in exptype id t =
+  match exptype with
+  | Unit
+  | Bool
+  | Integer
+  | Float
+  | String
+  | Char -> exptype
+     
+  | Tuple(t_list) -> Tuple(List.map (fun x -> substitution_in x id t) t_list)
+
+  | List(typ) -> List(substitution_in typ id t)
+
+  | Fun(t', t'') -> Fun(substitution_in t' id t, substitution_in t'' id t)
+
+  | Id(i) ->
+     if i = id
+     then t
+     else exptype   
+;;
+
+let substitution_lst equalist id t =
+  List.map
+    (fun equa -> let old_t, new_t = equa.old_typ, equa.new_typ in
+		 {old_typ = substitution_in old_t id t;
+		  new_typ = substitution_in new_t id t})
+    equalist
+;;
+
+(* renvoie une liste d'équations
+ * peut lancer not_found
+ *)
+let rec try_to_unif t1 t2 =
+  if (t1 = t2)
+  then []
+  else
+    match t1, t2 with
+    | Tuple(tl1), Tuple(tl2)
+      ->
+       List.fold_left2
+	 (fun acc elt1 elt2 -> (try_to_unif elt1 elt2) @ acc)
+	 []
+	 tl1
+	 tl2
+    | Fun(t1, t1'), Fun(t2, t2')
+      -> (try_to_unif t1 t2) @ (try_to_unif t1' t2')
+
+    | Id(a), t
+    | t, Id(a)
+      -> [{old_typ = Id(a);
+	   new_typ = t}]
+
+    | List(t), List(t') -> try_to_unif t t'
+
+    | _ -> failwith "todo : mettre une exception ici"
+;;
+
+let unification lst_equations =
+  let rec unif lst_eq acc =
+    match lst_eq with
+    | [] -> acc
+    | x :: s
+      ->
+       (
+	 match x.old_typ, x.new_typ with
+	 | Id(i), t 
+	 | t , Id(i)
+	   ->( substitution_lst s i t )
+	 | t1, t2 -> 
+       )
+;;
