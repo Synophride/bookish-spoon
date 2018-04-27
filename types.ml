@@ -24,7 +24,7 @@ type t =
 exception Bad_type of location * t * t;;
 exception WTFexception of string;;
 
-(*
+
 let rec str_of_t wat_to_do_with_ids =
   function
   | Unit -> "unit"
@@ -49,11 +49,11 @@ let rec str_of_t wat_to_do_with_ids =
     -> let head =  a in
        let suite = b in
        "( " ^  str_of_t wat_to_do_with_ids head ^
-       ^ " -> " ^ (str_of_t wat_to_do_with_ids suite)
+        " -> " ^ (str_of_t wat_to_do_with_ids suite)
        ^ " )"
   | List(t) ->
      str_of_t wat_to_do_with_ids t ^ " list"
   | Id(i) -> (wat_to_do_with_ids i)
 ;;
-*)
+
  

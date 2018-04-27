@@ -478,7 +478,11 @@ let unification lst_equations =
   in List.rev (unif lst_equations [])
 ;;
 
-let typage_pdef plet =
+
+
+(* environnement expr -> int ? *)
+(* ou environnement identificateur qu'il faudrait metre à jour *)
+let typage_pdef plet environnement =
   let (isrec, pattern, pexpr) = plet.pdef_desc in 
   let annotation_evt = annotation_pexp pexpr (Exp_evt.empty) in
   let equations = ecriture_equat pexpr annotation_evt [] (Str_map.empty)
@@ -491,14 +495,40 @@ let typage_plets plets =
 
 
 
+(* remplace type_a_substituer par type_substituant *)
+let rec subst_in_t t_expression (type_a_substituer) (type_substituant) =
+  if t_expression = type_a_substituer
+  then type_substituant
+  else
+    match t_expression with
+    | Unit 
+    | Bool
+    | Integer
+    | Float
+    | String
+    | Id(_)
+    | Char -> t_expression
+       
+    | Tuple( t_lst )
+      -> Tuple(
+	  List.map
+	    (fun x -> subst_in_t x type_a_substituer type_substituant)
+	    t_lst
+      )
+       
+    | List(t)
+      -> List(subst_in_t t type_a_substituer type_substituant)
+       
+    | Fun(t1, tr)
+	-> Fun(
+	  (subst_in_t t1 type_a_substituer type_substituant),
+	  (subst_in_t tr type_a_substituer type_substituant))
+;;
 
-
-
-
-
-
-
-
+let apply_sub sub exptyp_l =
+  let (a,b) = sub in
+  List.map (fun (y, x) -> (y, (subst_in_t x a b))) exptyp_l
+;;
 
 (* on a:
    - une liste de substitutions (int * type) list
@@ -516,7 +546,34 @@ let find_the_good_expr_type liste_substitutions environnement =
   let lst_expint = Exp_evt.bindings environnement in
   let lst_exptyp = List.map (fun (a, b) -> (a, Id(b))) lst_expint in
   let lst_sub_tt = List.map (fun (a,b) -> (Id(a), b)) liste_substitutions in
-  ()
+  let new_exptyp =
+    List.fold_left
+      (fun acc substitution ->
+	apply_sub substitution acc)
+      lst_exptyp
+      lst_sub_tt
+  in
+  new_exptyp
 ;;
-  
+
+(* reste à a. trouver le type de la bonne expr
+   + généralisation/instanciation *)
+
+(* environnement expr -> int ? *)
+(* ou environnement identificateur qu'il faudrait metre à jour *)
+let typage_pdef plet environnement =
+  let (isrec, pattern, pexpr) = plet.pdef_desc in 
+  let annotation_evt = annotation_pexp pexpr (Exp_evt.empty) in
+  let equations = ecriture_equat pexpr annotation_evt [] (Str_map.empty) in
+  let unified_eq = unification equations in 
+  let found = find_the_good_expr_type unified_eq annotation_evt in
+  let (_, t) = List.find (fun (exp, t) -> exp = pexpr) found in     
+  Printf.printf "%s\n"
+    (str_of_t
+       (fun id -> "'" ^ (string_of_int id)) t)
+;;
+
+let typage_plets plets =
+  List.map (fun plet -> typage_pdef plet) plets
+;;
 

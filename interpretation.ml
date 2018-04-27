@@ -20,8 +20,45 @@ type environnement =
 ;;
 
 
+let value_to_expr value location =
+  let rec v_exp value location= 
+    {pexpr_loc = location;
+     pexpr_desc = (v_expdesc value location) }
+  and v_expdesc value location =
+    match value with 
+    | Val_unit
+      -> PE_cte( Cunit )
+    | Val_bool( b )
+      -> PE_cte( Cbool(b) )
+    | Val_int(i)
+      -> PE_cte ( Cint(i) )
+    | Val_float(f)
+      -> PE_cte( Cfloat(f) )
+    | Val_str(s)
+      -> PE_cte( Cstring(s) )
+       
+    | Val_fun(p_patt , p_expr)
+      -> PE_fun(p_patt, p_expr)
 
-
+    | Val_lst(val_l)	
+      ->(match val_l with
+      | [] -> PE_nil
+      (* trouver l'expression correspondant à une liste *)
+      | x :: s -> PE_cons(v_exp x location,
+			{pexpr_loc = location; pexpr_desc =  List.fold_right
+			    (fun elt cons_expr ->
+			      PE_cons((v_exp elt location), {pexpr_loc = location;
+							     pexpr_desc = cons_expr})
+			    )
+			    s
+			    PE_nil})
+      
+      
+      )
+  | Val_tuple(val_l)
+    -> PE_tuple(List.map (fun x -> v_exp x location) val_l)
+	 in v_exp value location
+;;
 (* **************** str shit ***********************)
 
 
@@ -115,9 +152,6 @@ let print_evt str =
 
 
 
-
-
-
 (** 
     Fonction déterminant si pattern_contenu est contenu dans pattern_conteneur
     @param pattern_contenu le pattern dont on teste s'il est contenu dans l'autre.
@@ -185,14 +219,13 @@ and subs_pexprdesc pexpdesc element_a_substituer element_remplacant =
 
   | PE_let(isrec, x, e1, e2)
     -> if contains x element_a_substituer && not isrec 
-      then PE_let(false, x, substitution e1 element_a_substituer element_remplacant, e2)
-
-      else if isrec
-      then pexpdesc
-      else PE_let(false, x,
+       then PE_let(false, x, substitution e1 element_a_substituer element_remplacant, e2)
+       else if isrec
+       then pexpdesc
+       else PE_let(false, x,
 		  substitution e2 element_a_substituer element_remplacant,
 		  substitution e2 element_a_substituer element_remplacant)
-
+	
   | PE_match(exp, rendu1, (pattern_elt, pattern_suite, rendu2)) ->
      PE_match(
        substitution exp element_a_substituer element_remplacant,
@@ -355,11 +388,10 @@ let interpretation expression environnement =
   let rec inter pexpr evt =
     inter_desc (pexpr.pexpr_desc) evt
   and inter_desc pexp evt =
-    print_evt evt;
+    
     match pexp with
     | PE_cte(c) -> valuation_cte c
-    | PE_ident(i) -> (Printf.printf "recherche de la var %s\n" i;
-		      Str_map.find i evt)
+    | PE_ident(i) -> Str_map.find i evt
     | PE_unop(op, exp)
       -> let value = inter exp evt in
 	 apply_unop op value
@@ -374,8 +406,6 @@ let interpretation expression environnement =
 	 then  inter e1 evt
 	 else  inter e2 evt
 
-	   
-
     (* 6/10 legit *)
     | PE_app(exp_fun, exp_val) ->
        let value_fun = inter exp_fun evt in
@@ -388,8 +418,26 @@ let interpretation expression environnement =
        in
        let new_expr = application_fun pattern_fun exp_fun exp_val in
        inter new_expr evt
-       
-    | PE_fun(param, exp) -> Val_fun(param, exp)
+    (* substitution *)
+    | PE_fun(param, exp) ->
+       (* avec contains *)
+       let substitution_lst = Str_map.bindings evt in
+       let loc = param.ppatt_loc in
+       let nouvelle_expression =
+	 List.fold_left
+	   (fun p_exp (ident, value) ->
+	     let e = value_to_expr value loc in
+	     let pattern = ({ppatt_loc = loc;
+			     ppatt_desc = PP_ident(ident)})
+	     in
+	     if contains param pattern
+	     then p_exp
+	     else substitution p_exp pattern (e.pexpr_desc)
+	   )
+	   exp
+	   substitution_lst
+       in 
+	   Val_fun(param, nouvelle_expression)
 
     | PE_tuple(pexp_lst) -> Val_tuple( List.map (fun exp -> inter exp evt) pexp_lst)
 
@@ -493,7 +541,7 @@ let plets_interp lets environnement =
 
 
 
-
+(*  print_evt evt; *)
 
 
 

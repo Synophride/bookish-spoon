@@ -22,7 +22,8 @@ let rec top environnement =
     )
   with
   | Failure(_) | Not_found
-    -> (Printf.printf "fail \n"; top environnement)
+    -> (Printf.printf "fail \n";
+	top environnement)
 ;;
 
 Printf.printf "\t miniML version 0.1\n\n";

@@ -5826,7 +5826,7 @@ type(
   equation list -> (int * Types.t) list
 )
 ident(
-  def unification "typing.ml" 481 11270 11270 "typing.ml" 1 0 -1
+  def unification "typing.ml" 485 11373 11373 "typing.ml" 1 0 -1
 )
 "typing.ml" 454 10706 10722 "typing.ml" 454 10706 10735
 type(
@@ -6261,99 +6261,106 @@ type(
 type(
   (int * Types.t) list
 )
-"typing.ml" 481 11270 11274 "typing.ml" 481 11270 11285
+"typing.ml" 485 11373 11377 "typing.ml" 485 11373 11388
 type(
-  Ast.p_def -> (int * Types.t) list
+  Ast.p_def -> 'a -> (int * Types.t) list
 )
 ident(
-  def typage_pdef "typing.ml" 488 11513 11513 "typing.ml" 1 0 -1
+  def typage_pdef "typing.ml" 492 11630 11630 "typing.ml" 1 0 -1
 )
-"typing.ml" 481 11270 11286 "typing.ml" 481 11270 11290
+"typing.ml" 485 11373 11389 "typing.ml" 485 11373 11393
 type(
   Ast.p_def
 )
 ident(
-  def plet "typing.ml" 482 11293 11295 "typing.ml" 485 11481 11507
+  def plet "typing.ml" 485 11373 11394 "typing.ml" 489 11598 11624
 )
-"typing.ml" 482 11293 11300 "typing.ml" 482 11293 11305
+"typing.ml" 485 11373 11394 "typing.ml" 485 11373 11407
+type(
+  'a
+)
+ident(
+  def environnement "typing.ml" 486 11410 11412 "typing.ml" 489 11598 11624
+)
+"typing.ml" 486 11410 11417 "typing.ml" 486 11410 11422
 type(
   Ast.is_rec
 )
 ident(
-  def isrec "typing.ml" 483 11344 11346 "typing.ml" 485 11481 11507
+  def isrec "typing.ml" 487 11461 11463 "typing.ml" 489 11598 11624
 )
-"typing.ml" 482 11293 11307 "typing.ml" 482 11293 11314
+"typing.ml" 486 11410 11424 "typing.ml" 486 11410 11431
 type(
   Ast.p_patt
 )
 ident(
-  def pattern "typing.ml" 483 11344 11346 "typing.ml" 485 11481 11507
+  def pattern "typing.ml" 487 11461 11463 "typing.ml" 489 11598 11624
 )
-"typing.ml" 482 11293 11316 "typing.ml" 482 11293 11321
+"typing.ml" 486 11410 11433 "typing.ml" 486 11410 11438
 type(
   Ast.p_expr
 )
 ident(
-  def pexpr "typing.ml" 483 11344 11346 "typing.ml" 485 11481 11507
+  def pexpr "typing.ml" 487 11461 11463 "typing.ml" 489 11598 11624
 )
-"typing.ml" 482 11293 11299 "typing.ml" 482 11293 11322
+"typing.ml" 486 11410 11416 "typing.ml" 486 11410 11439
 type(
   Ast.is_rec * Ast.p_patt * Ast.p_expr
 )
-"typing.ml" 482 11293 11325 "typing.ml" 482 11293 11329
+"typing.ml" 486 11410 11442 "typing.ml" 486 11410 11446
 type(
   Ast.p_def
 )
 ident(
-  int_ref plet "typing.ml" 481 11270 11286 "typing.ml" 481 11270 11290
+  int_ref plet "typing.ml" 485 11373 11389 "typing.ml" 485 11373 11393
 )
-"typing.ml" 482 11293 11325 "typing.ml" 482 11293 11339
+"typing.ml" 486 11410 11442 "typing.ml" 486 11410 11456
 type(
   Ast.is_rec * Ast.p_patt * Ast.p_expr
 )
-"typing.ml" 483 11344 11350 "typing.ml" 483 11344 11364
+"typing.ml" 487 11461 11467 "typing.ml" 487 11461 11481
 type(
   int Exp_evt.t
 )
 ident(
-  def annotation_evt "typing.ml" 484 11408 11410 "typing.ml" 485 11481 11507
+  def annotation_evt "typing.ml" 488 11525 11527 "typing.ml" 489 11598 11624
 )
-"typing.ml" 483 11344 11367 "typing.ml" 483 11344 11382
+"typing.ml" 487 11461 11484 "typing.ml" 487 11461 11499
 type(
   Exp_evt.key -> int Exp_evt.t -> int Exp_evt.t
 )
 ident(
   int_ref annotation_pexp "typing.ml" 168 3172 3180 "typing.ml" 168 3172 3195
 )
-"typing.ml" 483 11344 11383 "typing.ml" 483 11344 11388
+"typing.ml" 487 11461 11500 "typing.ml" 487 11461 11505
 type(
   Exp_evt.key
 )
 ident(
-  int_ref pexpr "typing.ml" 482 11293 11316 "typing.ml" 482 11293 11321
+  int_ref pexpr "typing.ml" 486 11410 11433 "typing.ml" 486 11410 11438
 )
-"typing.ml" 483 11344 11389 "typing.ml" 483 11344 11404
+"typing.ml" 487 11461 11506 "typing.ml" 487 11461 11521
 type(
   int Exp_evt.t
 )
 ident(
   ext_ref Exp_evt.empty
 )
-"typing.ml" 483 11344 11367 "typing.ml" 483 11344 11404
+"typing.ml" 487 11461 11484 "typing.ml" 487 11461 11521
 call(
   stack
 )
 type(
   int Exp_evt.t
 )
-"typing.ml" 484 11408 11414 "typing.ml" 484 11408 11423
+"typing.ml" 488 11525 11531 "typing.ml" 488 11525 11540
 type(
   equation list
 )
 ident(
-  def equations "typing.ml" 485 11481 11486 "typing.ml" 485 11481 11507
+  def equations "typing.ml" 489 11598 11603 "typing.ml" 489 11598 11624
 )
-"typing.ml" 484 11408 11426 "typing.ml" 484 11408 11440
+"typing.ml" 488 11525 11543 "typing.ml" 488 11525 11557
 type(
   Exp_evt.key ->
   int Exp_evt.t -> equation list -> int Str_map.t -> equation list
@@ -6361,196 +6368,710 @@ type(
 ident(
   int_ref ecriture_equat "typing.ml" 269 5667 5675 "typing.ml" 269 5667 5689
 )
-"typing.ml" 484 11408 11441 "typing.ml" 484 11408 11446
+"typing.ml" 488 11525 11558 "typing.ml" 488 11525 11563
 type(
   Exp_evt.key
 )
 ident(
-  int_ref pexpr "typing.ml" 482 11293 11316 "typing.ml" 482 11293 11321
+  int_ref pexpr "typing.ml" 486 11410 11433 "typing.ml" 486 11410 11438
 )
-"typing.ml" 484 11408 11447 "typing.ml" 484 11408 11461
+"typing.ml" 488 11525 11564 "typing.ml" 488 11525 11578
 type(
   int Exp_evt.t
 )
 ident(
-  int_ref annotation_evt "typing.ml" 483 11344 11350 "typing.ml" 483 11344 11364
+  int_ref annotation_evt "typing.ml" 487 11461 11467 "typing.ml" 487 11461 11481
 )
-"typing.ml" 484 11408 11462 "typing.ml" 484 11408 11464
+"typing.ml" 488 11525 11579 "typing.ml" 488 11525 11581
 type(
   equation list
 )
-"typing.ml" 484 11408 11465 "typing.ml" 484 11408 11480
+"typing.ml" 488 11525 11582 "typing.ml" 488 11525 11597
 type(
   int Str_map.t
 )
 ident(
   ext_ref Str_map.empty
 )
-"typing.ml" 484 11408 11426 "typing.ml" 484 11408 11480
+"typing.ml" 488 11525 11543 "typing.ml" 488 11525 11597
 call(
   stack
 )
 type(
   equation list
 )
-"typing.ml" 485 11481 11486 "typing.ml" 485 11481 11497
+"typing.ml" 489 11598 11603 "typing.ml" 489 11598 11614
 type(
   equation list -> (int * Types.t) list
 )
 ident(
   int_ref unification "typing.ml" 454 10706 10710 "typing.ml" 454 10706 10721
 )
-"typing.ml" 485 11481 11498 "typing.ml" 485 11481 11507
+"typing.ml" 489 11598 11615 "typing.ml" 489 11598 11624
 type(
   equation list
 )
 ident(
-  int_ref equations "typing.ml" 484 11408 11414 "typing.ml" 484 11408 11423
+  int_ref equations "typing.ml" 488 11525 11531 "typing.ml" 488 11525 11540
 )
-"typing.ml" 485 11481 11486 "typing.ml" 485 11481 11507
+"typing.ml" 489 11598 11603 "typing.ml" 489 11598 11624
 call(
   tail
 )
 type(
   (int * Types.t) list
 )
-"typing.ml" 484 11408 11410 "typing.ml" 485 11481 11507
+"typing.ml" 488 11525 11527 "typing.ml" 489 11598 11624
 type(
   (int * Types.t) list
 )
-"typing.ml" 483 11344 11346 "typing.ml" 485 11481 11507
+"typing.ml" 487 11461 11463 "typing.ml" 489 11598 11624
 type(
   (int * Types.t) list
 )
-"typing.ml" 482 11293 11295 "typing.ml" 485 11481 11507
+"typing.ml" 486 11410 11412 "typing.ml" 489 11598 11624
 type(
   (int * Types.t) list
 )
-"typing.ml" 488 11513 11517 "typing.ml" 488 11513 11529
+"typing.ml" 492 11630 11634 "typing.ml" 492 11630 11646
 type(
-  Ast.p_def list -> (int * Types.t) list list
+  Ast.p_def list -> ('a -> (int * Types.t) list) list
 )
 ident(
-  def typage_plets "typing.ml" 515 11956 11956 "typing.ml" 1 0 -1
+  def typage_plets "typing.ml" 499 11763 11763 "typing.ml" 1 0 -1
 )
-"typing.ml" 488 11513 11530 "typing.ml" 488 11513 11535
+"typing.ml" 492 11630 11647 "typing.ml" 492 11630 11652
 type(
   Ast.p_def list
 )
 ident(
-  def plets "typing.ml" 489 11538 11540 "typing.ml" 489 11538 11585
+  def plets "typing.ml" 493 11655 11657 "typing.ml" 493 11655 11702
 )
-"typing.ml" 489 11538 11540 "typing.ml" 489 11538 11548
+"typing.ml" 493 11655 11657 "typing.ml" 493 11655 11665
 type(
-  (Ast.p_def -> (int * Types.t) list) ->
-  Ast.p_def list -> (int * Types.t) list list
+  (Ast.p_def -> 'a -> (int * Types.t) list) ->
+  Ast.p_def list -> ('a -> (int * Types.t) list) list
 )
 ident(
   ext_ref List.map
 )
-"typing.ml" 489 11538 11554 "typing.ml" 489 11538 11558
+"typing.ml" 493 11655 11671 "typing.ml" 493 11655 11675
 type(
   Ast.p_def
 )
 ident(
-  def plet "typing.ml" 489 11538 11562 "typing.ml" 489 11538 11578
+  def plet "typing.ml" 493 11655 11679 "typing.ml" 493 11655 11695
 )
-"typing.ml" 489 11538 11562 "typing.ml" 489 11538 11573
+"typing.ml" 493 11655 11679 "typing.ml" 493 11655 11690
 type(
-  Ast.p_def -> (int * Types.t) list
+  Ast.p_def -> 'a -> (int * Types.t) list
 )
 ident(
-  int_ref typage_pdef "typing.ml" 481 11270 11274 "typing.ml" 481 11270 11285
+  int_ref typage_pdef "typing.ml" 485 11373 11377 "typing.ml" 485 11373 11388
 )
-"typing.ml" 489 11538 11574 "typing.ml" 489 11538 11578
+"typing.ml" 493 11655 11691 "typing.ml" 493 11655 11695
 type(
   Ast.p_def
 )
 ident(
-  int_ref plet "typing.ml" 489 11538 11554 "typing.ml" 489 11538 11558
+  int_ref plet "typing.ml" 493 11655 11671 "typing.ml" 493 11655 11675
 )
-"typing.ml" 489 11538 11562 "typing.ml" 489 11538 11578
+"typing.ml" 493 11655 11679 "typing.ml" 493 11655 11695
 call(
   tail
 )
 type(
-  (int * Types.t) list
+  'a -> (int * Types.t) list
 )
-"typing.ml" 489 11538 11549 "typing.ml" 489 11538 11579
+"typing.ml" 493 11655 11666 "typing.ml" 493 11655 11696
 type(
-  Ast.p_def -> (int * Types.t) list
+  Ast.p_def -> 'a -> (int * Types.t) list
 )
-"typing.ml" 489 11538 11580 "typing.ml" 489 11538 11585
+"typing.ml" 493 11655 11697 "typing.ml" 493 11655 11702
 type(
   Ast.p_def list
 )
 ident(
-  int_ref plets "typing.ml" 488 11513 11530 "typing.ml" 488 11513 11535
+  int_ref plets "typing.ml" 492 11630 11647 "typing.ml" 492 11630 11652
 )
-"typing.ml" 489 11538 11540 "typing.ml" 489 11538 11585
+"typing.ml" 493 11655 11657 "typing.ml" 493 11655 11702
 call(
   tail
 )
 type(
-  (int * Types.t) list list
+  ('a -> (int * Types.t) list) list
 )
-"typing.ml" 515 11956 11960 "typing.ml" 515 11956 11983
+"typing.ml" 499 11763 11771 "typing.ml" 499 11763 11781
 type(
-  (int * 'a) list -> int Exp_evt.t -> unit
+  Types.t -> Types.t -> Types.t -> Types.t
 )
 ident(
-  def find_the_good_expr_type "typing.ml" 519 12219 12223 "typing.ml" 1 0 -1
+  def subst_in_t "typing.ml" 499 11763 11763 "typing.ml" 1 0 -1
 )
-"typing.ml" 515 11956 11984 "typing.ml" 515 11956 12003
+"typing.ml" 499 11763 11782 "typing.ml" 499 11763 11794
 type(
-  (int * 'a) list
+  Types.t
 )
 ident(
-  def liste_substitutions "typing.ml" 515 11956 12004 "typing.ml" 519 12219 12223
+  def t_expression "typing.ml" 499 11763 11795 "typing.ml" 525 12349 12403
 )
-"typing.ml" 515 11956 12004 "typing.ml" 515 11956 12017
+"typing.ml" 499 11763 11796 "typing.ml" 499 11763 11813
+ident(
+  def type_a_substituer "typing.ml" 499 11763 11815 "typing.ml" 525 12349 12403
+)
+"typing.ml" 499 11763 11795 "typing.ml" 499 11763 11814
+type(
+  Types.t
+)
+"typing.ml" 499 11763 11816 "typing.ml" 499 11763 11832
+ident(
+  def type_substituant "typing.ml" 500 11836 11838 "typing.ml" 525 12349 12403
+)
+"typing.ml" 499 11763 11815 "typing.ml" 499 11763 11833
+type(
+  Types.t
+)
+"typing.ml" 500 11836 11841 "typing.ml" 500 11836 11853
+type(
+  Types.t
+)
+ident(
+  int_ref t_expression "typing.ml" 499 11763 11782 "typing.ml" 499 11763 11794
+)
+"typing.ml" 500 11836 11854 "typing.ml" 500 11836 11855
+type(
+  Types.t -> Types.t -> bool
+)
+ident(
+  ext_ref Pervasives.( = )
+)
+"typing.ml" 500 11836 11856 "typing.ml" 500 11836 11873
+type(
+  Types.t
+)
+ident(
+  int_ref type_a_substituer "typing.ml" 499 11763 11795 "typing.ml" 499 11763 11814
+)
+"typing.ml" 500 11836 11841 "typing.ml" 500 11836 11873
+type(
+  bool
+)
+"typing.ml" 501 11874 11881 "typing.ml" 501 11874 11897
+type(
+  Types.t
+)
+ident(
+  int_ref type_substituant "typing.ml" 499 11763 11815 "typing.ml" 499 11763 11833
+)
+"typing.ml" 503 11905 11915 "typing.ml" 503 11905 11927
+type(
+  Types.t
+)
+ident(
+  int_ref t_expression "typing.ml" 499 11763 11782 "typing.ml" 499 11763 11794
+)
+"typing.ml" 504 11933 11939 "typing.ml" 504 11933 11943
+type(
+  Types.t
+)
+"typing.ml" 505 11945 11951 "typing.ml" 505 11945 11955
+type(
+  Types.t
+)
+"typing.ml" 504 11933 11939 "typing.ml" 505 11945 11955
+type(
+  Types.t
+)
+"typing.ml" 506 11956 11962 "typing.ml" 506 11956 11969
+type(
+  Types.t
+)
+"typing.ml" 504 11933 11939 "typing.ml" 506 11956 11969
+type(
+  Types.t
+)
+"typing.ml" 507 11970 11976 "typing.ml" 507 11970 11981
+type(
+  Types.t
+)
+"typing.ml" 504 11933 11939 "typing.ml" 507 11970 11981
+type(
+  Types.t
+)
+"typing.ml" 508 11982 11988 "typing.ml" 508 11982 11994
+type(
+  Types.t
+)
+"typing.ml" 504 11933 11939 "typing.ml" 508 11982 11994
+type(
+  Types.t
+)
+"typing.ml" 509 11995 12003 "typing.ml" 509 11995 12006
+type(
+  int
+)
+"typing.ml" 509 11995 12001 "typing.ml" 509 11995 12006
+type(
+  Types.t
+)
+"typing.ml" 504 11933 11939 "typing.ml" 509 11995 12006
+type(
+  Types.t
+)
+"typing.ml" 510 12007 12013 "typing.ml" 510 12007 12017
+type(
+  Types.t
+)
+"typing.ml" 504 11933 11939 "typing.ml" 510 12007 12017
+type(
+  Types.t
+)
+"typing.ml" 510 12007 12021 "typing.ml" 510 12007 12033
+type(
+  Types.t
+)
+ident(
+  int_ref t_expression "typing.ml" 499 11763 11782 "typing.ml" 499 11763 11794
+)
+"typing.ml" 512 12042 12055 "typing.ml" 512 12042 12060
+ident(
+  def t_lst "typing.ml" 513 12063 12072 "typing.ml" 517 12166 12173
+)
+"typing.ml" 512 12042 12053 "typing.ml" 512 12042 12062
+type(
+  Types.t list
+)
+"typing.ml" 512 12042 12048 "typing.ml" 512 12042 12062
+type(
+  Types.t
+)
+"typing.ml" 514 12079 12082 "typing.ml" 514 12079 12090
+type(
+  (Types.t -> Types.t) -> Types.t list -> Types.t list
+)
+ident(
+  ext_ref List.map
+)
+"typing.ml" 515 12091 12101 "typing.ml" 515 12091 12102
+type(
+  Types.t
+)
+ident(
+  def x "typing.ml" 515 12091 12106 "typing.ml" 515 12091 12153
+)
+"typing.ml" 515 12091 12106 "typing.ml" 515 12091 12116
+type(
+  Types.t -> Types.t -> Types.t -> Types.t
+)
+ident(
+  int_ref subst_in_t "typing.ml" 499 11763 11771 "typing.ml" 499 11763 11781
+)
+"typing.ml" 515 12091 12117 "typing.ml" 515 12091 12118
+type(
+  Types.t
+)
+ident(
+  int_ref x "typing.ml" 515 12091 12101 "typing.ml" 515 12091 12102
+)
+"typing.ml" 515 12091 12119 "typing.ml" 515 12091 12136
+type(
+  Types.t
+)
+ident(
+  int_ref type_a_substituer "typing.ml" 499 11763 11795 "typing.ml" 499 11763 11814
+)
+"typing.ml" 515 12091 12137 "typing.ml" 515 12091 12153
+type(
+  Types.t
+)
+ident(
+  int_ref type_substituant "typing.ml" 499 11763 11815 "typing.ml" 499 11763 11833
+)
+"typing.ml" 515 12091 12106 "typing.ml" 515 12091 12153
+call(
+  tail
+)
+type(
+  Types.t
+)
+"typing.ml" 515 12091 12096 "typing.ml" 515 12091 12154
+type(
+  Types.t -> Types.t
+)
+"typing.ml" 516 12155 12160 "typing.ml" 516 12155 12165
+type(
+  Types.t list
+)
+ident(
+  int_ref t_lst "typing.ml" 512 12042 12053 "typing.ml" 512 12042 12062
+)
+"typing.ml" 513 12063 12077 "typing.ml" 517 12166 12173
+call(
+  stack
+)
+type(
+  Types.t list
+)
+"typing.ml" 513 12063 12072 "typing.ml" 517 12166 12173
+type(
+  Types.t
+)
+"typing.ml" 519 12182 12193 "typing.ml" 519 12182 12194
+ident(
+  def t "typing.ml" 520 12196 12205 "typing.ml" 520 12196 12258
+)
+"typing.ml" 519 12182 12192 "typing.ml" 519 12182 12195
+type(
+  Types.t
+)
+"typing.ml" 519 12182 12188 "typing.ml" 519 12182 12195
+type(
+  Types.t
+)
+"typing.ml" 520 12196 12210 "typing.ml" 520 12196 12220
+type(
+  Types.t -> Types.t -> Types.t -> Types.t
+)
+ident(
+  int_ref subst_in_t "typing.ml" 499 11763 11771 "typing.ml" 499 11763 11781
+)
+"typing.ml" 520 12196 12221 "typing.ml" 520 12196 12222
+type(
+  Types.t
+)
+ident(
+  int_ref t "typing.ml" 519 12182 12192 "typing.ml" 519 12182 12195
+)
+"typing.ml" 520 12196 12223 "typing.ml" 520 12196 12240
+type(
+  Types.t
+)
+ident(
+  int_ref type_a_substituer "typing.ml" 499 11763 11795 "typing.ml" 499 11763 11814
+)
+"typing.ml" 520 12196 12241 "typing.ml" 520 12196 12257
+type(
+  Types.t
+)
+ident(
+  int_ref type_substituant "typing.ml" 499 11763 11815 "typing.ml" 499 11763 11833
+)
+"typing.ml" 520 12196 12209 "typing.ml" 520 12196 12258
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 520 12196 12205 "typing.ml" 520 12196 12258
+type(
+  Types.t
+)
+"typing.ml" 522 12267 12277 "typing.ml" 522 12267 12279
+type(
+  Types.t
+)
+ident(
+  def t1 "typing.ml" 523 12285 12289 "typing.ml" 525 12349 12403
+)
+"typing.ml" 522 12267 12281 "typing.ml" 522 12267 12283
+type(
+  Types.t
+)
+ident(
+  def tr "typing.ml" 523 12285 12289 "typing.ml" 525 12349 12403
+)
+"typing.ml" 522 12267 12276 "typing.ml" 522 12267 12284
+type(
+  Types.t * Types.t
+)
+"typing.ml" 522 12267 12273 "typing.ml" 522 12267 12284
+type(
+  Types.t
+)
+"typing.ml" 524 12294 12298 "typing.ml" 524 12294 12308
+type(
+  Types.t -> Types.t -> Types.t -> Types.t
+)
+ident(
+  int_ref subst_in_t "typing.ml" 499 11763 11771 "typing.ml" 499 11763 11781
+)
+"typing.ml" 524 12294 12309 "typing.ml" 524 12294 12311
+type(
+  Types.t
+)
+ident(
+  int_ref t1 "typing.ml" 522 12267 12277 "typing.ml" 522 12267 12279
+)
+"typing.ml" 524 12294 12312 "typing.ml" 524 12294 12329
+type(
+  Types.t
+)
+ident(
+  int_ref type_a_substituer "typing.ml" 499 11763 11795 "typing.ml" 499 11763 11814
+)
+"typing.ml" 524 12294 12330 "typing.ml" 524 12294 12346
+type(
+  Types.t
+)
+ident(
+  int_ref type_substituant "typing.ml" 499 11763 11815 "typing.ml" 499 11763 11833
+)
+"typing.ml" 524 12294 12297 "typing.ml" 524 12294 12347
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 525 12349 12353 "typing.ml" 525 12349 12363
+type(
+  Types.t -> Types.t -> Types.t -> Types.t
+)
+ident(
+  int_ref subst_in_t "typing.ml" 499 11763 11771 "typing.ml" 499 11763 11781
+)
+"typing.ml" 525 12349 12364 "typing.ml" 525 12349 12366
+type(
+  Types.t
+)
+ident(
+  int_ref tr "typing.ml" 522 12267 12281 "typing.ml" 522 12267 12283
+)
+"typing.ml" 525 12349 12367 "typing.ml" 525 12349 12384
+type(
+  Types.t
+)
+ident(
+  int_ref type_a_substituer "typing.ml" 499 11763 11795 "typing.ml" 499 11763 11814
+)
+"typing.ml" 525 12349 12385 "typing.ml" 525 12349 12401
+type(
+  Types.t
+)
+ident(
+  int_ref type_substituant "typing.ml" 499 11763 11815 "typing.ml" 499 11763 11833
+)
+"typing.ml" 525 12349 12352 "typing.ml" 525 12349 12402
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 523 12285 12292 "typing.ml" 525 12349 12403
+type(
+  Types.t * Types.t
+)
+"typing.ml" 523 12285 12289 "typing.ml" 525 12349 12403
+type(
+  Types.t
+)
+"typing.ml" 503 11905 11909 "typing.ml" 525 12349 12403
+type(
+  Types.t
+)
+"typing.ml" 500 11836 11838 "typing.ml" 525 12349 12403
+type(
+  Types.t
+)
+"typing.ml" 528 12408 12412 "typing.ml" 528 12408 12421
+type(
+  Types.t * Types.t -> ('a * Types.t) list -> ('a * Types.t) list
+)
+ident(
+  def apply_sub "typing.ml" 545 12877 12877 "typing.ml" 1 0 -1
+)
+"typing.ml" 528 12408 12422 "typing.ml" 528 12408 12425
+type(
+  Types.t * Types.t
+)
+ident(
+  def sub "typing.ml" 528 12408 12426 "typing.ml" 530 12458 12517
+)
+"typing.ml" 528 12408 12426 "typing.ml" 528 12408 12434
+type(
+  ('a * Types.t) list
+)
+ident(
+  def exptyp_l "typing.ml" 529 12437 12439 "typing.ml" 530 12458 12517
+)
+"typing.ml" 529 12437 12444 "typing.ml" 529 12437 12445
+type(
+  Types.t
+)
+ident(
+  def a "typing.ml" 530 12458 12460 "typing.ml" 530 12458 12517
+)
+"typing.ml" 529 12437 12446 "typing.ml" 529 12437 12447
+type(
+  Types.t
+)
+ident(
+  def b "typing.ml" 530 12458 12460 "typing.ml" 530 12458 12517
+)
+"typing.ml" 529 12437 12443 "typing.ml" 529 12437 12448
+type(
+  Types.t * Types.t
+)
+"typing.ml" 529 12437 12451 "typing.ml" 529 12437 12454
+type(
+  Types.t * Types.t
+)
+ident(
+  int_ref sub "typing.ml" 528 12408 12422 "typing.ml" 528 12408 12425
+)
+"typing.ml" 530 12458 12460 "typing.ml" 530 12458 12468
+type(
+  ('a * Types.t -> 'a * Types.t) ->
+  ('a * Types.t) list -> ('a * Types.t) list
+)
+ident(
+  ext_ref List.map
+)
+"typing.ml" 530 12458 12475 "typing.ml" 530 12458 12476
+type(
+  'a
+)
+ident(
+  def y "typing.ml" 530 12458 12484 "typing.ml" 530 12458 12507
+)
+"typing.ml" 530 12458 12478 "typing.ml" 530 12458 12479
+type(
+  Types.t
+)
+ident(
+  def x "typing.ml" 530 12458 12484 "typing.ml" 530 12458 12507
+)
+"typing.ml" 530 12458 12474 "typing.ml" 530 12458 12480
+type(
+  'a * Types.t
+)
+"typing.ml" 530 12458 12485 "typing.ml" 530 12458 12486
+type(
+  'a
+)
+ident(
+  int_ref y "typing.ml" 530 12458 12475 "typing.ml" 530 12458 12476
+)
+"typing.ml" 530 12458 12489 "typing.ml" 530 12458 12499
+type(
+  Types.t -> Types.t -> Types.t -> Types.t
+)
+ident(
+  int_ref subst_in_t "typing.ml" 499 11763 11771 "typing.ml" 499 11763 11781
+)
+"typing.ml" 530 12458 12500 "typing.ml" 530 12458 12501
+type(
+  Types.t
+)
+ident(
+  int_ref x "typing.ml" 530 12458 12478 "typing.ml" 530 12458 12479
+)
+"typing.ml" 530 12458 12502 "typing.ml" 530 12458 12503
+type(
+  Types.t
+)
+ident(
+  int_ref a "typing.ml" 529 12437 12444 "typing.ml" 529 12437 12445
+)
+"typing.ml" 530 12458 12504 "typing.ml" 530 12458 12505
+type(
+  Types.t
+)
+ident(
+  int_ref b "typing.ml" 529 12437 12446 "typing.ml" 529 12437 12447
+)
+"typing.ml" 530 12458 12488 "typing.ml" 530 12458 12506
+call(
+  stack
+)
+type(
+  Types.t
+)
+"typing.ml" 530 12458 12484 "typing.ml" 530 12458 12507
+type(
+  'a * Types.t
+)
+"typing.ml" 530 12458 12469 "typing.ml" 530 12458 12508
+type(
+  'a * Types.t -> 'a * Types.t
+)
+"typing.ml" 530 12458 12509 "typing.ml" 530 12458 12517
+type(
+  ('a * Types.t) list
+)
+ident(
+  int_ref exptyp_l "typing.ml" 528 12408 12426 "typing.ml" 528 12408 12434
+)
+"typing.ml" 530 12458 12460 "typing.ml" 530 12458 12517
+call(
+  tail
+)
+type(
+  ('a * Types.t) list
+)
+"typing.ml" 529 12437 12439 "typing.ml" 530 12458 12517
+type(
+  ('a * Types.t) list
+)
+"typing.ml" 545 12877 12881 "typing.ml" 545 12877 12904
+type(
+  (int * Types.t) list -> int Exp_evt.t -> (Exp_evt.key * Types.t) list
+)
+ident(
+  def find_the_good_expr_type "typing.ml" 564 13483 13483 "typing.ml" 1 0 -1
+)
+"typing.ml" 545 12877 12905 "typing.ml" 545 12877 12924
+type(
+  (int * Types.t) list
+)
+ident(
+  def liste_substitutions "typing.ml" 545 12877 12925 "typing.ml" 556 13277 13289
+)
+"typing.ml" 545 12877 12925 "typing.ml" 545 12877 12938
 type(
   int Exp_evt.t
 )
 ident(
-  def environnement "typing.ml" 516 12020 12022 "typing.ml" 519 12219 12223
+  def environnement "typing.ml" 546 12941 12943 "typing.ml" 556 13277 13289
 )
-"typing.ml" 516 12020 12026 "typing.ml" 516 12020 12036
+"typing.ml" 546 12941 12947 "typing.ml" 546 12941 12957
 type(
   (Exp_evt.key * int) list
 )
 ident(
-  def lst_expint "typing.ml" 517 12073 12075 "typing.ml" 519 12219 12223
+  def lst_expint "typing.ml" 547 12994 12996 "typing.ml" 556 13277 13289
 )
-"typing.ml" 516 12020 12039 "typing.ml" 516 12020 12055
+"typing.ml" 546 12941 12960 "typing.ml" 546 12941 12976
 type(
   int Exp_evt.t -> (Exp_evt.key * int) list
 )
 ident(
   ext_ref Exp_evt.bindings
 )
-"typing.ml" 516 12020 12056 "typing.ml" 516 12020 12069
+"typing.ml" 546 12941 12977 "typing.ml" 546 12941 12990
 type(
   int Exp_evt.t
 )
 ident(
-  int_ref environnement "typing.ml" 515 11956 12004 "typing.ml" 515 11956 12017
+  int_ref environnement "typing.ml" 545 12877 12925 "typing.ml" 545 12877 12938
 )
-"typing.ml" 516 12020 12039 "typing.ml" 516 12020 12069
+"typing.ml" 546 12941 12960 "typing.ml" 546 12941 12990
 call(
   stack
 )
 type(
   (Exp_evt.key * int) list
 )
-"typing.ml" 517 12073 12079 "typing.ml" 517 12073 12089
+"typing.ml" 547 12994 13000 "typing.ml" 547 12994 13010
 type(
   (Exp_evt.key * Types.t) list
 )
 ident(
-  def lst_exptyp "typing.ml" 518 12142 12144 "typing.ml" 519 12219 12223
+  def lst_exptyp "typing.ml" 548 13063 13065 "typing.ml" 556 13277 13289
 )
-"typing.ml" 517 12073 12092 "typing.ml" 517 12073 12100
+"typing.ml" 547 12994 13013 "typing.ml" 547 12994 13021
 type(
   (Exp_evt.key * int -> Exp_evt.key * Types.t) ->
   (Exp_evt.key * int) list -> (Exp_evt.key * Types.t) list
@@ -6558,149 +7079,709 @@ type(
 ident(
   ext_ref List.map
 )
-"typing.ml" 517 12073 12107 "typing.ml" 517 12073 12108
+"typing.ml" 547 12994 13028 "typing.ml" 547 12994 13029
 type(
   Exp_evt.key
 )
 ident(
-  def a "typing.ml" 517 12073 12116 "typing.ml" 517 12073 12126
+  def a "typing.ml" 547 12994 13037 "typing.ml" 547 12994 13047
 )
-"typing.ml" 517 12073 12110 "typing.ml" 517 12073 12111
+"typing.ml" 547 12994 13031 "typing.ml" 547 12994 13032
 type(
   int
 )
 ident(
-  def b "typing.ml" 517 12073 12116 "typing.ml" 517 12073 12126
+  def b "typing.ml" 547 12994 13037 "typing.ml" 547 12994 13047
 )
-"typing.ml" 517 12073 12106 "typing.ml" 517 12073 12112
+"typing.ml" 547 12994 13027 "typing.ml" 547 12994 13033
 type(
   Exp_evt.key * int
 )
-"typing.ml" 517 12073 12117 "typing.ml" 517 12073 12118
+"typing.ml" 547 12994 13038 "typing.ml" 547 12994 13039
 type(
   Exp_evt.key
 )
 ident(
-  int_ref a "typing.ml" 517 12073 12107 "typing.ml" 517 12073 12108
+  int_ref a "typing.ml" 547 12994 13028 "typing.ml" 547 12994 13029
 )
-"typing.ml" 517 12073 12122 "typing.ml" 517 12073 12125
+"typing.ml" 547 12994 13043 "typing.ml" 547 12994 13046
 type(
   int
 )
 ident(
-  int_ref b "typing.ml" 517 12073 12110 "typing.ml" 517 12073 12111
+  int_ref b "typing.ml" 547 12994 13031 "typing.ml" 547 12994 13032
 )
-"typing.ml" 517 12073 12120 "typing.ml" 517 12073 12125
+"typing.ml" 547 12994 13041 "typing.ml" 547 12994 13046
 type(
   Types.t
 )
-"typing.ml" 517 12073 12116 "typing.ml" 517 12073 12126
+"typing.ml" 547 12994 13037 "typing.ml" 547 12994 13047
 type(
   Exp_evt.key * Types.t
 )
-"typing.ml" 517 12073 12101 "typing.ml" 517 12073 12127
+"typing.ml" 547 12994 13022 "typing.ml" 547 12994 13048
 type(
   Exp_evt.key * int -> Exp_evt.key * Types.t
 )
-"typing.ml" 517 12073 12128 "typing.ml" 517 12073 12138
+"typing.ml" 547 12994 13049 "typing.ml" 547 12994 13059
 type(
   (Exp_evt.key * int) list
 )
 ident(
-  int_ref lst_expint "typing.ml" 516 12020 12026 "typing.ml" 516 12020 12036
+  int_ref lst_expint "typing.ml" 546 12941 12947 "typing.ml" 546 12941 12957
 )
-"typing.ml" 517 12073 12092 "typing.ml" 517 12073 12138
+"typing.ml" 547 12994 13013 "typing.ml" 547 12994 13059
 call(
   stack
 )
 type(
   (Exp_evt.key * Types.t) list
 )
-"typing.ml" 518 12142 12148 "typing.ml" 518 12142 12158
+"typing.ml" 548 13063 13069 "typing.ml" 548 13063 13079
 type(
-  (Types.t * 'a) list
+  (Types.t * Types.t) list
 )
 ident(
-  def lst_sub_tt "typing.ml" 519 12219 12221 "typing.ml" 519 12219 12223
+  def lst_sub_tt "typing.ml" 549 13140 13142 "typing.ml" 556 13277 13289
 )
-"typing.ml" 518 12142 12161 "typing.ml" 518 12142 12169
+"typing.ml" 548 13063 13082 "typing.ml" 548 13063 13090
 type(
-  (int * 'a -> Types.t * 'a) -> (int * 'a) list -> (Types.t * 'a) list
+  (int * Types.t -> Types.t * Types.t) ->
+  (int * Types.t) list -> (Types.t * Types.t) list
 )
 ident(
   ext_ref List.map
 )
-"typing.ml" 518 12142 12176 "typing.ml" 518 12142 12177
+"typing.ml" 548 13063 13097 "typing.ml" 548 13063 13098
 type(
   int
 )
 ident(
-  def a "typing.ml" 518 12142 12184 "typing.ml" 518 12142 12194
+  def a "typing.ml" 548 13063 13105 "typing.ml" 548 13063 13115
 )
-"typing.ml" 518 12142 12178 "typing.ml" 518 12142 12179
-type(
-  'a
-)
-ident(
-  def b "typing.ml" 518 12142 12184 "typing.ml" 518 12142 12194
-)
-"typing.ml" 518 12142 12175 "typing.ml" 518 12142 12180
-type(
-  int * 'a
-)
-"typing.ml" 518 12142 12187 "typing.ml" 518 12142 12190
-type(
-  int
-)
-ident(
-  int_ref a "typing.ml" 518 12142 12176 "typing.ml" 518 12142 12177
-)
-"typing.ml" 518 12142 12185 "typing.ml" 518 12142 12190
+"typing.ml" 548 13063 13099 "typing.ml" 548 13063 13100
 type(
   Types.t
 )
-"typing.ml" 518 12142 12192 "typing.ml" 518 12142 12193
+ident(
+  def b "typing.ml" 548 13063 13105 "typing.ml" 548 13063 13115
+)
+"typing.ml" 548 13063 13096 "typing.ml" 548 13063 13101
 type(
-  'a
+  int * Types.t
+)
+"typing.ml" 548 13063 13108 "typing.ml" 548 13063 13111
+type(
+  int
 )
 ident(
-  int_ref b "typing.ml" 518 12142 12178 "typing.ml" 518 12142 12179
+  int_ref a "typing.ml" 548 13063 13097 "typing.ml" 548 13063 13098
 )
-"typing.ml" 518 12142 12184 "typing.ml" 518 12142 12194
+"typing.ml" 548 13063 13106 "typing.ml" 548 13063 13111
 type(
-  Types.t * 'a
+  Types.t
 )
-"typing.ml" 518 12142 12170 "typing.ml" 518 12142 12195
+"typing.ml" 548 13063 13113 "typing.ml" 548 13063 13114
 type(
-  int * 'a -> Types.t * 'a
-)
-"typing.ml" 518 12142 12196 "typing.ml" 518 12142 12215
-type(
-  (int * 'a) list
+  Types.t
 )
 ident(
-  int_ref liste_substitutions "typing.ml" 515 11956 11984 "typing.ml" 515 11956 12003
+  int_ref b "typing.ml" 548 13063 13099 "typing.ml" 548 13063 13100
 )
-"typing.ml" 518 12142 12161 "typing.ml" 518 12142 12215
+"typing.ml" 548 13063 13105 "typing.ml" 548 13063 13115
+type(
+  Types.t * Types.t
+)
+"typing.ml" 548 13063 13091 "typing.ml" 548 13063 13116
+type(
+  int * Types.t -> Types.t * Types.t
+)
+"typing.ml" 548 13063 13117 "typing.ml" 548 13063 13136
+type(
+  (int * Types.t) list
+)
+ident(
+  int_ref liste_substitutions "typing.ml" 545 12877 12905 "typing.ml" 545 12877 12924
+)
+"typing.ml" 548 13063 13082 "typing.ml" 548 13063 13136
 call(
   stack
 )
 type(
-  (Types.t * 'a) list
+  (Types.t * Types.t) list
 )
-"typing.ml" 519 12219 12221 "typing.ml" 519 12219 12223
+"typing.ml" 549 13140 13146 "typing.ml" 549 13140 13156
+type(
+  (Exp_evt.key * Types.t) list
+)
+ident(
+  def new_exptyp "typing.ml" 556 13277 13279 "typing.ml" 556 13277 13289
+)
+"typing.ml" 550 13159 13163 "typing.ml" 550 13159 13177
+type(
+  ((Exp_evt.key * Types.t) list ->
+   Types.t * Types.t -> (Exp_evt.key * Types.t) list) ->
+  (Exp_evt.key * Types.t) list ->
+  (Types.t * Types.t) list -> (Exp_evt.key * Types.t) list
+)
+ident(
+  ext_ref List.fold_left
+)
+"typing.ml" 551 13178 13189 "typing.ml" 551 13178 13192
+type(
+  (Exp_evt.key * Types.t) list
+)
+ident(
+  def acc "typing.ml" 551 13178 13193 "typing.ml" 552 13209 13236
+)
+"typing.ml" 551 13178 13193 "typing.ml" 551 13178 13205
+type(
+  Types.t * Types.t
+)
+ident(
+  def substitution "typing.ml" 552 13209 13210 "typing.ml" 552 13209 13236
+)
+"typing.ml" 552 13209 13210 "typing.ml" 552 13209 13219
+type(
+  Types.t * Types.t ->
+  (Exp_evt.key * Types.t) list -> (Exp_evt.key * Types.t) list
+)
+ident(
+  int_ref apply_sub "typing.ml" 528 12408 12412 "typing.ml" 528 12408 12421
+)
+"typing.ml" 552 13209 13220 "typing.ml" 552 13209 13232
+type(
+  Types.t * Types.t
+)
+ident(
+  int_ref substitution "typing.ml" 551 13178 13193 "typing.ml" 551 13178 13205
+)
+"typing.ml" 552 13209 13233 "typing.ml" 552 13209 13236
+type(
+  (Exp_evt.key * Types.t) list
+)
+ident(
+  int_ref acc "typing.ml" 551 13178 13189 "typing.ml" 551 13178 13192
+)
+"typing.ml" 552 13209 13210 "typing.ml" 552 13209 13236
+call(
+  tail
+)
+type(
+  (Exp_evt.key * Types.t) list
+)
+"typing.ml" 551 13178 13184 "typing.ml" 552 13209 13237
+type(
+  (Exp_evt.key * Types.t) list ->
+  Types.t * Types.t -> (Exp_evt.key * Types.t) list
+)
+"typing.ml" 553 13238 13244 "typing.ml" 553 13238 13254
+type(
+  (Exp_evt.key * Types.t) list
+)
+ident(
+  int_ref lst_exptyp "typing.ml" 547 12994 13000 "typing.ml" 547 12994 13010
+)
+"typing.ml" 554 13255 13261 "typing.ml" 554 13255 13271
+type(
+  (Types.t * Types.t) list
+)
+ident(
+  int_ref lst_sub_tt "typing.ml" 548 13063 13069 "typing.ml" 548 13063 13079
+)
+"typing.ml" 550 13159 13163 "typing.ml" 554 13255 13271
+call(
+  tail
+)
+type(
+  (Exp_evt.key * Types.t) list
+)
+"typing.ml" 556 13277 13279 "typing.ml" 556 13277 13289
+type(
+  (Exp_evt.key * Types.t) list
+)
+ident(
+  int_ref new_exptyp "typing.ml" 549 13140 13146 "typing.ml" 549 13140 13156
+)
+"typing.ml" 549 13140 13142 "typing.ml" 556 13277 13289
+type(
+  (Exp_evt.key * Types.t) list
+)
+"typing.ml" 548 13063 13065 "typing.ml" 556 13277 13289
+type(
+  (Exp_evt.key * Types.t) list
+)
+"typing.ml" 547 12994 12996 "typing.ml" 556 13277 13289
+type(
+  (Exp_evt.key * Types.t) list
+)
+"typing.ml" 546 12941 12943 "typing.ml" 556 13277 13289
+type(
+  (Exp_evt.key * Types.t) list
+)
+"typing.ml" 564 13483 13487 "typing.ml" 564 13483 13498
+type(
+  Ast.p_def -> 'a -> unit
+)
+ident(
+  def typage_pdef "typing.ml" 576 13980 13980 "typing.ml" 1 0 -1
+)
+"typing.ml" 564 13483 13499 "typing.ml" 564 13483 13503
+type(
+  Ast.p_def
+)
+ident(
+  def plet "typing.ml" 564 13483 13504 "typing.ml" 573 13929 13975
+)
+"typing.ml" 564 13483 13504 "typing.ml" 564 13483 13517
+type(
+  'a
+)
+ident(
+  def environnement "typing.ml" 565 13520 13522 "typing.ml" 573 13929 13975
+)
+"typing.ml" 565 13520 13527 "typing.ml" 565 13520 13532
+type(
+  Ast.is_rec
+)
+ident(
+  def isrec "typing.ml" 566 13571 13573 "typing.ml" 573 13929 13975
+)
+"typing.ml" 565 13520 13534 "typing.ml" 565 13520 13541
+type(
+  Ast.p_patt
+)
+ident(
+  def pattern "typing.ml" 566 13571 13573 "typing.ml" 573 13929 13975
+)
+"typing.ml" 565 13520 13543 "typing.ml" 565 13520 13548
+type(
+  Ast.p_expr
+)
+ident(
+  def pexpr "typing.ml" 566 13571 13573 "typing.ml" 573 13929 13975
+)
+"typing.ml" 565 13520 13526 "typing.ml" 565 13520 13549
+type(
+  Ast.is_rec * Ast.p_patt * Ast.p_expr
+)
+"typing.ml" 565 13520 13552 "typing.ml" 565 13520 13556
+type(
+  Ast.p_def
+)
+ident(
+  int_ref plet "typing.ml" 564 13483 13499 "typing.ml" 564 13483 13503
+)
+"typing.ml" 565 13520 13552 "typing.ml" 565 13520 13566
+type(
+  Ast.is_rec * Ast.p_patt * Ast.p_expr
+)
+"typing.ml" 566 13571 13577 "typing.ml" 566 13571 13591
+type(
+  int Exp_evt.t
+)
+ident(
+  def annotation_evt "typing.ml" 567 13635 13637 "typing.ml" 573 13929 13975
+)
+"typing.ml" 566 13571 13594 "typing.ml" 566 13571 13609
+type(
+  Exp_evt.key -> int Exp_evt.t -> int Exp_evt.t
+)
+ident(
+  int_ref annotation_pexp "typing.ml" 168 3172 3180 "typing.ml" 168 3172 3195
+)
+"typing.ml" 566 13571 13610 "typing.ml" 566 13571 13615
+type(
+  Exp_evt.key
+)
+ident(
+  int_ref pexpr "typing.ml" 565 13520 13543 "typing.ml" 565 13520 13548
+)
+"typing.ml" 566 13571 13616 "typing.ml" 566 13571 13631
+type(
+  int Exp_evt.t
+)
+ident(
+  ext_ref Exp_evt.empty
+)
+"typing.ml" 566 13571 13594 "typing.ml" 566 13571 13631
+call(
+  stack
+)
+type(
+  int Exp_evt.t
+)
+"typing.ml" 567 13635 13641 "typing.ml" 567 13635 13650
+type(
+  equation list
+)
+ident(
+  def equations "typing.ml" 568 13711 13713 "typing.ml" 573 13929 13975
+)
+"typing.ml" 567 13635 13653 "typing.ml" 567 13635 13667
+type(
+  Exp_evt.key ->
+  int Exp_evt.t -> equation list -> int Str_map.t -> equation list
+)
+ident(
+  int_ref ecriture_equat "typing.ml" 269 5667 5675 "typing.ml" 269 5667 5689
+)
+"typing.ml" 567 13635 13668 "typing.ml" 567 13635 13673
+type(
+  Exp_evt.key
+)
+ident(
+  int_ref pexpr "typing.ml" 565 13520 13543 "typing.ml" 565 13520 13548
+)
+"typing.ml" 567 13635 13674 "typing.ml" 567 13635 13688
+type(
+  int Exp_evt.t
+)
+ident(
+  int_ref annotation_evt "typing.ml" 566 13571 13577 "typing.ml" 566 13571 13591
+)
+"typing.ml" 567 13635 13689 "typing.ml" 567 13635 13691
+type(
+  equation list
+)
+"typing.ml" 567 13635 13692 "typing.ml" 567 13635 13707
+type(
+  int Str_map.t
+)
+ident(
+  ext_ref Str_map.empty
+)
+"typing.ml" 567 13635 13653 "typing.ml" 567 13635 13707
+call(
+  stack
+)
+type(
+  equation list
+)
+"typing.ml" 568 13711 13717 "typing.ml" 568 13711 13727
+type(
+  (int * Types.t) list
+)
+ident(
+  def unified_eq "typing.ml" 569 13756 13758 "typing.ml" 573 13929 13975
+)
+"typing.ml" 568 13711 13730 "typing.ml" 568 13711 13741
+type(
+  equation list -> (int * Types.t) list
+)
+ident(
+  int_ref unification "typing.ml" 454 10706 10710 "typing.ml" 454 10706 10721
+)
+"typing.ml" 568 13711 13742 "typing.ml" 568 13711 13751
+type(
+  equation list
+)
+ident(
+  int_ref equations "typing.ml" 567 13635 13641 "typing.ml" 567 13635 13650
+)
+"typing.ml" 568 13711 13730 "typing.ml" 568 13711 13751
+call(
+  stack
+)
+type(
+  (int * Types.t) list
+)
+"typing.ml" 569 13756 13762 "typing.ml" 569 13756 13767
+type(
+  (Exp_evt.key * Types.t) list
+)
+ident(
+  def found "typing.ml" 570 13823 13825 "typing.ml" 573 13929 13975
+)
+"typing.ml" 569 13756 13770 "typing.ml" 569 13756 13793
+type(
+  (int * Types.t) list -> int Exp_evt.t -> (Exp_evt.key * Types.t) list
+)
+ident(
+  int_ref find_the_good_expr_type "typing.ml" 545 12877 12881 "typing.ml" 545 12877 12904
+)
+"typing.ml" 569 13756 13794 "typing.ml" 569 13756 13804
+type(
+  (int * Types.t) list
+)
+ident(
+  int_ref unified_eq "typing.ml" 568 13711 13717 "typing.ml" 568 13711 13727
+)
+"typing.ml" 569 13756 13805 "typing.ml" 569 13756 13819
+type(
+  int Exp_evt.t
+)
+ident(
+  int_ref annotation_evt "typing.ml" 566 13571 13577 "typing.ml" 566 13571 13591
+)
+"typing.ml" 569 13756 13770 "typing.ml" 569 13756 13819
+call(
+  stack
+)
+type(
+  (Exp_evt.key * Types.t) list
+)
+"typing.ml" 570 13823 13830 "typing.ml" 570 13823 13831
+type(
+  Exp_evt.key
+)
+"typing.ml" 570 13823 13833 "typing.ml" 570 13823 13834
+type(
+  Types.t
+)
+ident(
+  def t "typing.ml" 571 13892 13894 "typing.ml" 573 13929 13975
+)
+"typing.ml" 570 13823 13829 "typing.ml" 570 13823 13835
+type(
+  Exp_evt.key * Types.t
+)
+"typing.ml" 570 13823 13838 "typing.ml" 570 13823 13847
+type(
+  (Exp_evt.key * Types.t -> bool) ->
+  (Exp_evt.key * Types.t) list -> Exp_evt.key * Types.t
+)
+ident(
+  ext_ref List.find
+)
+"typing.ml" 570 13823 13854 "typing.ml" 570 13823 13857
+type(
+  Exp_evt.key
+)
+ident(
+  def exp "typing.ml" 570 13823 13865 "typing.ml" 570 13823 13876
+)
+"typing.ml" 570 13823 13859 "typing.ml" 570 13823 13860
+type(
+  Types.t
+)
+ident(
+  def t "typing.ml" 570 13823 13865 "typing.ml" 570 13823 13876
+)
+"typing.ml" 570 13823 13853 "typing.ml" 570 13823 13861
+type(
+  Exp_evt.key * Types.t
+)
+"typing.ml" 570 13823 13865 "typing.ml" 570 13823 13868
+type(
+  Exp_evt.key
+)
+ident(
+  int_ref exp "typing.ml" 570 13823 13854 "typing.ml" 570 13823 13857
+)
+"typing.ml" 570 13823 13869 "typing.ml" 570 13823 13870
+type(
+  Exp_evt.key -> Exp_evt.key -> bool
+)
+ident(
+  ext_ref Pervasives.( = )
+)
+"typing.ml" 570 13823 13871 "typing.ml" 570 13823 13876
+type(
+  Exp_evt.key
+)
+ident(
+  int_ref pexpr "typing.ml" 565 13520 13543 "typing.ml" 565 13520 13548
+)
+"typing.ml" 570 13823 13865 "typing.ml" 570 13823 13876
+type(
+  bool
+)
+"typing.ml" 570 13823 13848 "typing.ml" 570 13823 13877
+type(
+  Exp_evt.key * Types.t -> bool
+)
+"typing.ml" 570 13823 13878 "typing.ml" 570 13823 13883
+type(
+  (Exp_evt.key * Types.t) list
+)
+ident(
+  int_ref found "typing.ml" 569 13756 13762 "typing.ml" 569 13756 13767
+)
+"typing.ml" 570 13823 13838 "typing.ml" 570 13823 13883
+call(
+  stack
+)
+type(
+  Exp_evt.key * Types.t
+)
+"typing.ml" 571 13892 13894 "typing.ml" 571 13892 13907
+type(
+  (string -> unit, out_channel, unit) format -> string -> unit
+)
+ident(
+  ext_ref Printf.printf
+)
+"typing.ml" 571 13892 13908 "typing.ml" 571 13892 13914
+type(
+  (string -> unit, out_channel, unit) format
+)
+"typing.ml" 572 13915 13920 "typing.ml" 572 13915 13928
+type(
+  (int -> string) -> Types.t -> string
+)
+ident(
+  ext_ref Types.str_of_t
+)
+"typing.ml" 573 13929 13941 "typing.ml" 573 13929 13943
+type(
+  int
+)
+ident(
+  def id "typing.ml" 573 13929 13947 "typing.ml" 573 13929 13971
+)
+"typing.ml" 573 13929 13947 "typing.ml" 573 13929 13950
+type(
+  string
+)
+"typing.ml" 573 13929 13951 "typing.ml" 573 13929 13952
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"typing.ml" 573 13929 13954 "typing.ml" 573 13929 13967
+type(
+  int -> string
+)
+ident(
+  ext_ref Pervasives.string_of_int
+)
+"typing.ml" 573 13929 13968 "typing.ml" 573 13929 13970
+type(
+  int
+)
+ident(
+  int_ref id "typing.ml" 573 13929 13941 "typing.ml" 573 13929 13943
+)
+"typing.ml" 573 13929 13953 "typing.ml" 573 13929 13971
+call(
+  stack
+)
+type(
+  string
+)
+"typing.ml" 573 13929 13947 "typing.ml" 573 13929 13971
+call(
+  tail
+)
+type(
+  string
+)
+"typing.ml" 573 13929 13936 "typing.ml" 573 13929 13972
+type(
+  int -> string
+)
+"typing.ml" 573 13929 13973 "typing.ml" 573 13929 13974
+type(
+  Types.t
+)
+ident(
+  int_ref t "typing.ml" 570 13823 13833 "typing.ml" 570 13823 13834
+)
+"typing.ml" 572 13915 13919 "typing.ml" 573 13929 13975
+call(
+  stack
+)
+type(
+  string
+)
+"typing.ml" 571 13892 13894 "typing.ml" 573 13929 13975
+call(
+  tail
+)
 type(
   unit
 )
-"typing.ml" 518 12142 12144 "typing.ml" 519 12219 12223
+"typing.ml" 570 13823 13825 "typing.ml" 573 13929 13975
 type(
   unit
 )
-"typing.ml" 517 12073 12075 "typing.ml" 519 12219 12223
+"typing.ml" 569 13756 13758 "typing.ml" 573 13929 13975
 type(
   unit
 )
-"typing.ml" 516 12020 12022 "typing.ml" 519 12219 12223
+"typing.ml" 568 13711 13713 "typing.ml" 573 13929 13975
 type(
   unit
+)
+"typing.ml" 567 13635 13637 "typing.ml" 573 13929 13975
+type(
+  unit
+)
+"typing.ml" 566 13571 13573 "typing.ml" 573 13929 13975
+type(
+  unit
+)
+"typing.ml" 565 13520 13522 "typing.ml" 573 13929 13975
+type(
+  unit
+)
+"typing.ml" 576 13980 13984 "typing.ml" 576 13980 13996
+type(
+  Ast.p_def list -> ('a -> unit) list
+)
+ident(
+  def typage_plets "typing.ml" 577 14005 14052 "typing.ml" 1 0 -1
+)
+"typing.ml" 576 13980 13997 "typing.ml" 576 13980 14002
+type(
+  Ast.p_def list
+)
+ident(
+  def plets "typing.ml" 577 14005 14007 "typing.ml" 577 14005 14052
+)
+"typing.ml" 577 14005 14007 "typing.ml" 577 14005 14015
+type(
+  (Ast.p_def -> 'a -> unit) -> Ast.p_def list -> ('a -> unit) list
+)
+ident(
+  ext_ref List.map
+)
+"typing.ml" 577 14005 14021 "typing.ml" 577 14005 14025
+type(
+  Ast.p_def
+)
+ident(
+  def plet "typing.ml" 577 14005 14029 "typing.ml" 577 14005 14045
+)
+"typing.ml" 577 14005 14029 "typing.ml" 577 14005 14040
+type(
+  Ast.p_def -> 'a -> unit
+)
+ident(
+  int_ref typage_pdef "typing.ml" 564 13483 13487 "typing.ml" 564 13483 13498
+)
+"typing.ml" 577 14005 14041 "typing.ml" 577 14005 14045
+type(
+  Ast.p_def
+)
+ident(
+  int_ref plet "typing.ml" 577 14005 14021 "typing.ml" 577 14005 14025
+)
+"typing.ml" 577 14005 14029 "typing.ml" 577 14005 14045
+call(
+  tail
+)
+type(
+  'a -> unit
+)
+"typing.ml" 577 14005 14016 "typing.ml" 577 14005 14046
+type(
+  Ast.p_def -> 'a -> unit
+)
+"typing.ml" 577 14005 14047 "typing.ml" 577 14005 14052
+type(
+  Ast.p_def list
+)
+ident(
+  int_ref plets "typing.ml" 576 13980 13997 "typing.ml" 576 13980 14002
+)
+"typing.ml" 577 14005 14007 "typing.ml" 577 14005 14052
+call(
+  tail
+)
+type(
+  ('a -> unit) list
 )
