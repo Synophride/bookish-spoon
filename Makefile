@@ -58,6 +58,7 @@ all: $(EXE)
 
 CMO = 	parser.cmo \
 	lexer.cmo \
+	types.cmo \
 	typing.cmo \
 	interpretation.cmo \
 	top.cmo

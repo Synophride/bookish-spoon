@@ -1,8 +1,8 @@
-(* ***********
+(* ************
  * TYPAGE.ML
  * V 0.?
  * 28/02
- * ***********)
+ * ************)
 
 open Ast;;
 open Types;;
@@ -291,11 +291,13 @@ let rec ecriture_equat expr evt acc id_evt =
     -> let type_attendu = typage_attendu_binop op in
        let acc' = match type_attendu with
        | None ->
-	  let acc' = {old_typ = Id(Exp_evt.find exp1 evt);
-	   new_typ = Id(Exp_evt.find exp2 evt)}
-	  :: { old_typ = Id(Exp_evt.find expr evt);
-	       new_typ = Bool}
-	    :: acc in
+	  let acc' =
+	    {old_typ = Id(Exp_evt.find exp1 evt);
+	     new_typ = Id(Exp_evt.find exp2 evt)}
+	    :: { old_typ = Id(Exp_evt.find expr evt);
+		 new_typ = Bool}
+	    :: acc
+	  in
 	  let acc'' = ecriture_equat exp1 evt acc' id_evt in
 	  ecriture_equat exp2 evt acc'' id_evt
 	    
@@ -422,6 +424,7 @@ let substitution_lst equalist id t =
 
 (* renvoie une liste d'équations
  * peut lancer not_found
+ * tente d'unifier deux types  
  *)
 let rec try_to_unif t1 t2 =
   if (t1 = t2)
@@ -458,7 +461,62 @@ let unification lst_equations =
 	 match x.old_typ, x.new_typ with
 	 | Id(i), t 
 	 | t , Id(i)
-	   ->( substitution_lst s i t )
-	 | t1, t2 -> 
+	   ->	    
+	    let new_lst =
+	      if t = Id(i)
+	      then s
+	      else substitution_lst s i t
+	    in
+	    unif new_lst ( (i, t) :: acc )
+	      
+	 | t1, t2
+	   ->
+	    let new_shit_to_verify = try_to_unif t1 t2 in
+	    unif (List.rev_append new_shit_to_verify s) acc
        )
+  (* todo : vérifier le sens des équations *)
+  in List.rev (unif lst_equations [])
 ;;
+
+let typage_pdef plet =
+  let (isrec, pattern, pexpr) = plet.pdef_desc in 
+  let annotation_evt = annotation_pexp pexpr (Exp_evt.empty) in
+  let equations = ecriture_equat pexpr annotation_evt [] (Str_map.empty)
+  in unification equations 
+;;
+
+let typage_plets plets =
+  List.map (fun plet -> typage_pdef plet) plets
+;;
+
+
+
+
+
+
+
+
+
+
+
+
+(* on a:
+   - une liste de substitutions (int * type) list
+   - un environnement (expr * int) = une liste (expr * int)
+
+
+-> I. Transformation l2 = liste expr -> type
+-> II. Transformation de la l1 en (type * type)
+-> III. Application des substitutions de l1' vers l2' 
+-> IV. retrouvage du type originel après l'application des substitutions 
+-> ok 
+*)
+
+let find_the_good_expr_type liste_substitutions environnement =
+  let lst_expint = Exp_evt.bindings environnement in
+  let lst_exptyp = List.map (fun (a, b) -> (a, Id(b))) lst_expint in
+  let lst_sub_tt = List.map (fun (a,b) -> (Id(a), b)) liste_substitutions in
+  ()
+;;
+  
+
