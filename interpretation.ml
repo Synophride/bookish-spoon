@@ -83,7 +83,22 @@ fixme
 **)
 let str_of_binop =
   function
-  | _ -> " op "
+  | Beq -> " = "
+  | Bneq -> " != "
+  | Blt -> " < "
+  | Ble -> " <= "
+  | Bgt -> " > "
+  | Bge -> " >= "
+  | Badd -> " + "
+  | Badd_f -> " +. "
+  | Bsub -> " - "
+  | Bsub_f -> " -. "
+  | Bmul -> " * "
+  | Bmul_f -> " *. "
+  | Bdiv -> " / "
+  | Bdiv_f -> " /. "
+  | Band -> " && "
+  | Bor -> " || "
      
 ;;
 
