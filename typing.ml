@@ -205,7 +205,7 @@ and annotation_pdesc pdesc evt =
   | PE_let(isrec, pattern, exp1, exp2)
     ->
      if isrec
-     then failwith "mono"
+     then failwith "isrec non implémenté"
      else
        let evt' = annotation_pexp exp1 evt in
        annotation_pexp exp2 evt' 
@@ -252,9 +252,7 @@ let rec typage_pattern pattern id_evt=
   | PP_any -> Id( next_val () )
   | PP_ident(idt) -> Id(Ident_evt.find (idt) (id_evt))
   | PP_tuple(pattern_lst)
-    -> Tuple(List.map (fun x -> typage_pattern x id_evt) pattern_lst)
-     
-     
+    -> Tuple(List.map (fun x -> typage_pattern x id_evt) pattern_lst)     
 ;;
 
 (* ******* 
@@ -372,10 +370,32 @@ let rec ecriture_equat expr evt acc id_evt =
        ecriture_equat e2 evt acc'' id_evt'
 	 
   | PE_match(e1, r1, (p1, p2, r2))
-    -> failwith "todo"
-
+    ->
+     let acc' =
+       { old_typ = Id(Exp_evt.find expr evt);
+	 new_typ = Id(Exp_evt.find r1 evt)}
+       :: { old_typ = Id(Exp_evt.find expr evt);
+	    new_typ = Id(Exp_evt.find r2 evt)}
+       :: acc 
+     in
+     let acc'' = ecriture_equat e1 evt acc' id_evt in
+     let acc'''= ecriture_equat r1 evt acc'' id_evt in
+     let id_evt' = annotation_pattern p1 id_evt in
+     let type_p1 = typage_pattern p1 id_evt' in
+     let id_evt''= annotation_pattern p2 id_evt' in
+     let type_p2 = typage_pattern p1 id_evt'' in
+     let acc4 =
+       {old_typ = Id(Exp_evt.find e1 evt);
+	new_typ = type_p2}
+       :: {old_typ = type_p2;
+	   new_typ = List(type_p1)}
+       :: acc in
+     ecriture_equat r2 evt acc4 id_evt''
+	 
+       
   | PE_nil
-    -> failwith "todo"
+    -> {old_typ = Id(Exp_evt.find expr evt); 
+	new_typ = List(Id(next_val()))}::acc
 
   | PE_cons (e1, e2) ->
      let acc' =
@@ -559,21 +579,84 @@ let find_the_good_expr_type liste_substitutions environnement =
 (* reste à a. trouver le type de la bonne expr
    + généralisation/instanciation *)
 
+(* id = entier *)
+let rec get id liste_substituee liste_recherchee =
+  try
+    let (i, t) = List.find (fun (x, _) -> x=id) liste_substituee in
+    
+    if List.exists (fun x -> x = i) (liste_recherchee) then Id(id)
+    else stt t liste_substituee (i :: liste_recherchee )
+  with Not_found -> Id(id)
+and stt typ liste_sub l =
+  match typ with
+  | Unit
+  | Bool
+  | Integer
+  | Float
+  | String
+  | Char
+    -> typ
+
+  | Tuple(tl) -> Tuple(List.map (fun x -> stt x liste_sub l) tl) (* au moins deux éléments *)
+  | List(t) -> List(stt t liste_sub l)
+  | Fun (t, t') -> Fun(stt t liste_sub l, stt t' liste_sub l)
+  | Id(i) -> get i liste_sub l
+;;
 (* environnement expr -> int ? *)
 (* ou environnement identificateur qu'il faudrait metre à jour *)
+(* renvoie l'environnement mis à jour *)
+let rec lst_patterns_types patt t acc =
+  match patt.ppatt_desc with
+  | PP_any -> acc
+  | PP_ident(i) -> (i, t) :: acc 
+  | PP_tuple(pattlst)
+    ->
+     (match t with
+      | Tuple(tlst)
+	-> List.fold_left2
+	 (fun acc pattern typ -> lst_patterns_types pattern typ acc)
+	 acc
+	 pattlst
+	 tlst
+      | _ -> failwith "mauvas typage"
+     )
+       
+;;
 let typage_pdef plet environnement =
-  let (isrec, pattern, pexpr) = plet.pdef_desc in 
+  
+  let (isrec, pattern, pexpr) = plet.pdef_desc in
   let annotation_evt = annotation_pexp pexpr (Exp_evt.empty) in
-  let equations = ecriture_equat pexpr annotation_evt [] (Str_map.empty) in
-  let unified_eq = unification equations in 
+  let binds = (Str_map.bindings environnement) in
+  let equatypes = List.map (fun (x, y) -> y ) binds in
+  let equatruc =
+    List.fold_left
+      (fun acc (x, y)  -> Str_map.add x
+	(match y.old_typ with | Id(x) -> x | _ -> failwith "") acc)
+      Str_map.empty
+      binds  in
+  let equations = ecriture_equat pexpr annotation_evt equatypes (equatruc) in
+  let unified_eq = unification equations in
   let found = find_the_good_expr_type unified_eq annotation_evt in
-  let (_, t) = List.find (fun (exp, t) -> exp = pexpr) found in     
-  Printf.printf "%s\n"
-    (str_of_t
-       (fun id -> "'" ^ (string_of_int id)) t)
+  let typ = get (Exp_evt.find pexpr annotation_evt) unified_eq [] in
+  let tuple_list = lst_patterns_types pattern typ [] in
+  let new_evt = List.fold_left
+    (fun acc (id, t)
+    -> let _ =
+	 Printf.printf "%s : %s \n" id  (str_of_t (fun x -> "'" ^ (string_of_int x)) t )  in
+       Str_map.add (id) {old_typ = Id(next_val ()); new_typ = t} environnement )
+    environnement
+    tuple_list
+  in
+  new_evt
 ;;
 
-let typage_plets plets =
-  List.map (fun plet -> typage_pdef plet) plets
+let typage_plets plets e =
+  List.fold_left (fun acc x -> typage_pdef x acc) e plets 
 ;;
 
+(* ***********
+ * ident -> int : Str_map
+ *   Environnement contenant les entiers
+ * int -> contraintes de base sur cet entier = (int ?= type)
+ * 
+ *********** *)

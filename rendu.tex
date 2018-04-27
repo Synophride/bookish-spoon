@@ -1,0 +1,61 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+
+\author{Yves Sabourin, Julien Guyot}
+
+\title{Mini ML : implémentation d'un typeur et d'un intérpreteur}
+
+\begin{document}
+\section{introduction}
+Nous avons choisi le projet d'implémentation du typeur, et de
+l'interprète de Mini-ML.
+
+Nous avons, en plus des fichiers donnés, créé les fichiers .ml
+suivants :
+\begin{itemize}
+\item[types.ml] Comme son nom l'indique, il contient la définition des
+  types de MiniML. Il contient aussi une fonction ``str\_of\_t'', qui
+  affiche la chaîne de caractères associée à un type donné/
+\item[interpretation.ml] Contient l'interpréteur, qui a pour but
+  d'interpréter des  expressions
+\item[typing.ml] Contient les fonctions nécessaires au typage d'une
+  expression donnée. Nous reviendrons plus tard sur son
+  fonctionnement, ce typage est monomorphe.
+  De plus, les erreurs de typage sont peu à pas gérées (une exception
+  ``failure'' quand on voit une erreur)
+\end[itemize]
+
+
+\section{Typage}
+
+Le principe du typage est le suivant :
+\begin{enumerate}
+\item Annotation de toutes les sous-expressions de l'expression que
+  l'on veut typer par un identifiant (qui est un entier). Cela est
+  géré par la méthode annotation\_pexp, prenant en paramètre
+  l'expression à typer, et l'environnement dans lequel on se trouve
+  
+\item Écriture des contraintes : Le typage d'une expression peut être
+  vu comme le respect de certaines contraintes (par exemple, si on
+  voit ``a+b'', les contraintes à respecter seraient que a et b soient
+  des entiers). \\
+  Ainsi, la fonction ecriture\_equat ``note'' les contraintes, qui
+  sont de type ``equation'', afin de connaitre les contraintes à
+  respecter.
+\item Résolution des équations-contraintes, par unification. On
+  obtient une liste de substitutions. Cela est géré par la fonction
+  unification
+\item Substitution du type de l'expression qu'on cherchait à typer :
+  on obtient dont le type de l'expression.
+\end{enumerate}
+
+Comme mentionné plus tôt, nous n'avons pas réussi à implémenter le
+typage polymorphe. Cela est principalement dû au fait que 
+
+\section{Interprétation}
+
+L'interprétation fut moins difficile à implémenter
+
+
+\end{document}

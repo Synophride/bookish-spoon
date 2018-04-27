@@ -84,6 +84,7 @@ fixme
 let str_of_binop =
   function
   | _ -> " op "
+     
 ;;
 
 (** Affiche une expression sous forme de Strign **)
@@ -537,11 +538,6 @@ let plets_interp lets environnement =
     (environnement, [])
     lets
 ;;
-
-
-
-
-(*  print_evt evt; *)
 
 
 
